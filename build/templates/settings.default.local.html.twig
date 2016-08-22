@@ -1,0 +1,29 @@
+
+/**
+ * Load local development override configuration, if available.
+ *
+ * Use settings.local.php to override variables on secondary (staging,
+ * development, etc) installations of this site. Typically used to disable
+ * caching, JavaScript/CSS compression, re-routing of outgoing emails, and
+ * other things that should not happen on development and testing sites.
+ *
+ * Keep this code block at the end of this file to take full effect.
+ */
+if (file_exists(__DIR__ . '/../settings.local.php')) {
+include_once __DIR__ . '/../settings.local.php';
+}
+
+{#  DevelMailLog settings, for email send debug.
+/**
+ * DevelMail Log config.
+ */
+$config['system.mail']['interface']['default'] = 'devel_mail_log';
+$config['devel.settings']['debug_mail_directory'] = 'public://emails_storage';
+$config['devel.settings']['debug_mail_file_format'] = 'devel-mail-%to-%subject-%datetime.mail.txt';
+#}
+
+{# Changing The Storage Location of the Sync Directory #}
+/**
+* CONFIG_SYNC_DIRECTORY config.
+*/
+$config_directories[CONFIG_SYNC_DIRECTORY] = '{{ site_configuration.config_dir }}';
