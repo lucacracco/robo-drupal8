@@ -25,7 +25,7 @@ Usage
 
 ## Installation
 
-Use the trait (according to your used version) in your RoboFile:
+Use the trait in your RoboFile:
 
 ```php
 class RoboFile extends \Robo\Tasks
@@ -164,4 +164,4 @@ Contact
 =======
 
 For issues, questions or tips go to:
-[https://github.com/lucacracco/robo-drupal8(https://github.com/lucacracco/robo-drupal8)
+[https://github.com/lucacracco/robo-drupal8](https://github.com/lucacracco/robo-drupal8)
