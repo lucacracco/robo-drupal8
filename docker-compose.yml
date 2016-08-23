@@ -18,7 +18,7 @@ services:
       ports:
           - "3306:3306"
       volumes:
-          - "./docker-conf/mysql.cnf:/etc/mysql/conf.d/custom.cnf"
+          - "./example/docker-conf/mysql.cnf:/etc/mysql/conf.d/custom.cnf"
       environment:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: drupal
@@ -34,8 +34,8 @@ services:
           - mysql
           - mailcatcher
       volumes:
-          - "./docker-conf/php.ini:/usr/local/etc/php/conf.d/php.ini"
-          - "./docker-conf/apache2-vhosts.conf:/etc/apache2/sites-enabled/apache2-vhosts.conf"
+          - "./example/docker-conf/php.ini:/usr/local/etc/php/conf.d/php.ini"
+          - "./example/docker-conf/apache2-vhosts.conf:/etc/apache2/sites-enabled/apache2-vhosts.conf"
       volumes_from:
           - app
 

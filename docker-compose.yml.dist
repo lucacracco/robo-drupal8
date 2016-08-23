@@ -1,0 +1,45 @@
+version: '2'
+
+services:
+  app:
+      image: lucacracco/php:7.0-apache-dev
+      volumes:
+          - ".:/var/www/html"
+      command: "true"
+
+  data:
+      image: mysql:latest
+      command: "true"
+
+  mysql:
+      image: mysql:latest
+      volumes_from:
+          - data
+      ports:
+          - "3306:3306"
+      volumes:
+          - "./example/docker-conf/mysql.cnf:/etc/mysql/conf.d/custom.cnf"
+      environment:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: drupal
+          MYSQL_USER: drupal
+          MYSQL_PASSWORD: drupal
+
+  web:
+      image: lucacracco/php:7.0-apache-drupal-dev
+      ports:
+          - "80:80"
+          - "22:22"
+      links:
+          - mysql
+          - mailcatcher
+      volumes:
+          - "./example/docker-conf/php.ini:/usr/local/etc/php/conf.d/php.ini"
+          - "./example/docker-conf/apache2-vhosts.conf:/etc/apache2/sites-enabled/apache2-vhosts.conf"
+      volumes_from:
+          - app
+
+  mailcatcher:
+      image: helder/mailcatcher
+      ports:
+          - "1080:80"

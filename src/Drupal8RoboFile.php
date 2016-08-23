@@ -1,11 +1,13 @@
 <?php
 
+namespace LucaCracco\Robo\Task\Drupal8;
+
 /**
  * This is project's console commands configuration for Robo task runner.
  *
  * @see http://robo.li/
  */
-class RoboFile extends \Robo\Tasks {
+abstract class Drupal8RoboFile extends \Robo\Tasks {
 
   use \LucaCracco\Robo\Task\Drupal8\loadTasks;
 
@@ -47,7 +49,7 @@ class RoboFile extends \Robo\Tasks {
   public function buildNew($opts = self::OPTS) {
 
     $parameter = $this->getInfoSite($opts['site'], $opts['environment']);
-    $stack = $this->taskDrupal8Stack($parameter['environment'], $parameter['sub_dir'], $parameter['path_properties'])
+    $drupal8_stack = $this->taskDrupal8Stack($parameter['environment'], $parameter['sub_dir'], $parameter['path_properties'])
       ->backupDatabase()
       ->setupInstallation()
       ->install()
@@ -58,12 +60,14 @@ class RoboFile extends \Robo\Tasks {
       ->installModules();
 
     if ($parameter['environment'] == 'local') {
-      $stack->installModules('dev');
+      $drupal8_stack->installModules('dev');
     }
 
-    $stack
+    $drupal8_stack
       ->getInfoSite()
       ->run();
+
+    return $drupal8_stack;
   }
 
   /**
@@ -78,7 +82,7 @@ class RoboFile extends \Robo\Tasks {
   public function buildConf($opts = self::OPTS) {
 
     $parameter = $this->getInfoSite($opts['site'], $opts['environment']);
-    $stack = $this->taskDrupal8Stack($parameter['environment'], $parameter['sub_dir'], $parameter['path_properties'])
+    $drupal8_stack = $this->taskDrupal8Stack($parameter['environment'], $parameter['sub_dir'], $parameter['path_properties'])
       ->backupDatabase()
       ->setupInstallation()
       ->installFromConfig()
@@ -88,12 +92,14 @@ class RoboFile extends \Robo\Tasks {
       ->rebuildCache();
 
     if ($parameter['environment'] == 'local') {
-      $stack->installModules('dev');
+      $drupal8_stack->installModules('dev');
     }
 
-    $stack
+    $drupal8_stack
       ->getInfoSite()
       ->run();
+
+    return $drupal8_stack;
   }
 
   /**
@@ -108,7 +114,7 @@ class RoboFile extends \Robo\Tasks {
   public function buildFromDatabase($opts = self::OPTS) {
 
     $parameter = $this->getInfoSite($opts['site'], $opts['environment']);
-    $stack = $this->taskDrupal8Stack($parameter['environment'], $parameter['sub_dir'], $parameter['path_properties'])
+    $drupal8_stack = $this->taskDrupal8Stack($parameter['environment'], $parameter['sub_dir'], $parameter['path_properties'])
       ->backupDatabase()
       ->setupInstallation()
       ->configureSettings()
@@ -118,12 +124,14 @@ class RoboFile extends \Robo\Tasks {
       ->rebuildCache();
 
     if ($parameter['environment'] == 'local') {
-      $stack->installModules('dev');
+      $drupal8_stack->installModules('dev');
     }
 
-    $stack
+    $drupal8_stack
       ->getInfoSite()
       ->run();
+
+    return $drupal8_stack;
   }
 
   /**
@@ -282,7 +290,7 @@ class RoboFile extends \Robo\Tasks {
    * @return array
    *   Array contains a single site or all site.
    */
-  private function getInfoSite($site = NULL, $environment = 'local') {
+  protected function getInfoSite($site = NULL, $environment = 'local') {
     if (in_array($site, $this->subDir)) {
       return [
         'environment' => $environment,

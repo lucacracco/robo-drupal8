@@ -1,7 +1,7 @@
 # Enviroment
 environment: local
 # Base Path
-base_path: /var/www/html
+base_path: /var/www/html/example
 # Path to drush
 drush_path: drush
 # Domani used

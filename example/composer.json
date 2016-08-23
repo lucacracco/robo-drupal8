@@ -65,7 +65,7 @@
   "autoload": {
     "psr-4": {
       "Drupal\\Core\\Composer\\": "core/lib/Drupal/Core/Composer",
-      "LucaCracco\\Robo\\Task\\Drupal8\\": "./scripts/robo/lucacracco/robo-drupal8/src/"
+      "LucaCracco\\Robo\\Task\\Drupal8\\": "../src/"
     }
   },
   "scripts": {

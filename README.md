@@ -14,11 +14,11 @@ The implementation uses [Robo Drush Extension](https://github.com/boedah/robo-dr
 
 ## Table of contents
 
-- [Installation](#installation)
-- [My RoboFile](#my robofile)
 - [Usage](#usage)
+- [My Robofile](#my-robofile)
+- [Configuration project](#configuration-project)
 - [Examples](#examples)
-
+- [Complete example](#complete-example)
 
 Usage
 =====
@@ -42,12 +42,12 @@ When load/use the `taskDrupal8Stack` (Stack Task) or `taskDrupal8Functionality` 
 * Match to the sites that you want to start, useful for multi-site. In the case of a single installation to use/leave 'default'.
 * Path where to find the [configuration files](#configuration-project).
 
-See example in repository of `RoboFile.php`.
+See example in repository of [RoboFile.php](src/RoboFile.php).
 
 
 ## My Robofile
 
-I have included in the repository an example of `RoboFile` that I used and still use in various projects, including multi site.
+I have included in the repository an example of [RoboFile.php](src/RoboFile.php) that I used and still use in various projects, including multi site.
 
 The file is not complete and is constantly updated.
 
@@ -139,9 +139,10 @@ In the store I also included a concrete example of use: you'll find it in the [e
 Use [Docker](https://www.docker.com/) (my custom image) but you can change with any other amp stack system.
 
 ### Install
-Execute the task `buildNew` from [RoboFile.php](/RoboFile.php) after download dependencies with [Composer](https://getcomposer.org/).
+Execute the task `buildNew` from [RoboFile.php](example/RoboFile.php) after download dependencies with [Composer](https://getcomposer.org/).
 
 ```bash
+# In dir 'example'
 # Use composer for download dependencies
 composer install --prefer-dist
 # Start installation with Robo
