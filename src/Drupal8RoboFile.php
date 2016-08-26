@@ -56,6 +56,7 @@ abstract class Drupal8RoboFile extends \Robo\Tasks {
       ->configureSettings()
       ->protectSite()
       ->coreCron()
+      ->entityUpdates()
       ->rebuildCache()
       ->installModules();
 
@@ -89,6 +90,7 @@ abstract class Drupal8RoboFile extends \Robo\Tasks {
       ->configureSettings()
       ->protectSite()
       ->coreCron()
+      ->entityUpdates()
       ->rebuildCache();
 
     if ($parameter['environment'] == 'local') {
@@ -116,7 +118,6 @@ abstract class Drupal8RoboFile extends \Robo\Tasks {
     $parameter = $this->getInfoSite($opts['site'], $opts['environment']);
     $drupal8_stack = $this->taskDrupal8Stack($parameter['environment'], $parameter['sub_dir'], $parameter['path_properties'])
       ->backupDatabase()
-      ->setupInstallation()
       ->configureSettings()
       ->importDatabase()
       ->protectSite()
