@@ -32,6 +32,7 @@ use Robo\Task\StackBasedTask;
  * @method migrateGroup()
  * @method migrateStatus()
  * @method migrateRollback()
+ * @method exec()
  */
 class Drupal8Stack extends StackBasedTask {
 

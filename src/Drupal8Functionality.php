@@ -16,6 +16,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
+use Unish\commandCase;
 
 /**
  * Class Drupal8Functionality.
@@ -489,6 +490,19 @@ class Drupal8Functionality {
         ->exec('migrate-rollback')
         ->run();
     }
+  }
+
+  /**
+   * Exec command.
+   *
+   * @param string $command
+   *   Command to execute.
+   */
+  public function exec($command) {
+    $this->say('Exec command');
+    $this->getDrushWithUri()
+      ->exec($command)
+      ->run();
   }
 
   /**
