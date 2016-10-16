@@ -101,6 +101,7 @@ class Drupal8Functionality {
       ->accountName($properties['account']['name'])
       ->accountPass($properties['account']['pass'])
       ->mysqlDbUrl($properties['database']['url'])
+      ->locale($properties['site_configuration']['locale'])
       ->sitesSubdir($properties['site_configuration']['sub_dir'])
       ->siteInstall($properties['site_configuration']['profile'])
       ->run();
