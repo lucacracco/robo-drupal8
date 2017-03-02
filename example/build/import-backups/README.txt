@@ -1,1 +1,0 @@
-This folder contains the dump of database for import.

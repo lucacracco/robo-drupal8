@@ -1,1 +1,0 @@
-This folder contains the dump of database before the execution of the build.
