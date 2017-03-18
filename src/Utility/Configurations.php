@@ -2,12 +2,16 @@
 
 namespace Lucacracco\Drupal8\Robo\Utility;
 
+use Lucacracco\Drupal8\Robo\Common\GlobalsCache;
+
 /**
  * A helper class for configurations.
  *
  * @see https://packagist.org/packages/hassankhan/config
  */
 class Configurations {
+
+  use GlobalsCache;
 
   /**
    * Configuration object.
@@ -23,7 +27,7 @@ class Configurations {
    *   The configurations object.
    */
   public static function configurations() {
-    return static::configurationsCache();
+    return static::globalCacheVariable('__ROBO_DRUPAL8_CONFIG__');
   }
 
   /**
@@ -38,7 +42,7 @@ class Configurations {
    * @return mixed|null
    */
   public static function get($key, $default_value = NULL) {
-    $conf = static::configurationsCache();
+    $conf = static::globalCacheVariable('__ROBO_DRUPAL8_CONFIG__');
     return $conf->get($key, $default_value);
   }
 
@@ -51,9 +55,9 @@ class Configurations {
    *   A new value
    */
   public static function set($key, $value) {
-    $conf = static::configurationsCache();
+    $conf = static::globalCacheVariable('__ROBO_DRUPAL8_CONFIG__');
     $conf->set($key, $value);
-    static::configurationsCache($conf);
+    static::globalCacheVariable('__ROBO_DRUPAL8_CONFIG__', $conf);
   }
 
   /**
@@ -69,7 +73,7 @@ class Configurations {
   public static function init($config_dir, $configurations_override = []) {
     $configurations = static::loadConfiguration($config_dir, $configurations_override);
     static::validationConfiguration($configurations);
-    static::configurationsCache($configurations);
+    static::globalCacheVariable('__ROBO_DRUPAL8_CONFIG__', $configurations);
   }
 
   /**
@@ -116,35 +120,6 @@ class Configurations {
         throw new \Exception("\"{$key}\" not found in configuration.");
       }
     }
-  }
-
-  /**
-   * Cache configurations in global variable.
-   *
-   * @param \Noodlehaus\Config $conf
-   *   The config object to cache.
-   *
-   * @return \Noodlehaus\Config
-   *   The cached configurations.
-   *
-   * @throws \Exception
-   */
-  protected static function configurationsCache($conf = NULL) {
-    $cid = '__ROBO_DRUPAL8_CONFIG__';
-
-    if (isset($conf) && !empty($conf)) {
-      if (isset($GLOBALS[$cid]) && !empty($GLOBALS[$cid])) {
-        throw new \Exception(__CLASS__ . ' - Is already initialized.');
-      }
-
-      $GLOBALS[$cid] = $conf;
-    }
-
-    if (!isset($GLOBALS[$cid]) || empty($GLOBALS[$cid])) {
-      throw new \Exception(__CLASS__ . ' - Not initialized.');
-    }
-
-    return $GLOBALS[$cid];
   }
 
 }

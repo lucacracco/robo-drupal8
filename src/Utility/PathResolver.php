@@ -2,12 +2,15 @@
 
 namespace Lucacracco\Drupal8\Robo\Utility;
 
+use Lucacracco\Drupal8\Robo\Common\GlobalsCache;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * A helper class for path resolving.
  */
 class PathResolver {
+
+  use GlobalsCache;
 
   /**
    * The path to the local (Defaults to linux path).
@@ -77,7 +80,7 @@ class PathResolver {
    */
   public static function drush() {
     $default = static::root() . '/vendor/bin/drush';
-    return Configurations::get('drush_path' , $default);
+    return Configurations::get('drush_path', $default);
   }
 
   /**
@@ -111,7 +114,7 @@ class PathResolver {
    *   The root path to use.
    */
   public static function init($root) {
-    static::rootCache($root);
+    static::globalCacheVariable('__ROOT__', $root);
   }
 
   /**
@@ -121,7 +124,7 @@ class PathResolver {
    *   The path to the project root.
    */
   public static function root() {
-    return static::rootCache();
+    return static::globalCacheVariable('__ROOT__');
   }
 
   /**
@@ -174,35 +177,6 @@ class PathResolver {
   public static function existDir($path) {
     $fs = new Filesystem();
     return $fs->exists($path);
-  }
-
-  /**
-   * Cache root path in global variable.
-   *
-   * @param null|string $root
-   *   The root path to cache.
-   *
-   * @return string
-   *   The cached root path.
-   *
-   * @throws \Exception
-   */
-  protected static function rootCache($root = NULL) {
-    $cid = '__ROOT__';
-
-    if (isset($root) && !empty($root)) {
-      if (isset($GLOBALS[$cid]) && !empty($GLOBALS[$cid])) {
-        throw new \Exception(__CLASS__ . ' - Is already initialized.');
-      }
-
-      $GLOBALS[$cid] = $root;
-    }
-
-    if (!isset($GLOBALS[$cid]) || empty($GLOBALS[$cid])) {
-      throw new \Exception(__CLASS__ . ' - Not initialized.');
-    }
-
-    return $GLOBALS[$cid];
   }
 
 }

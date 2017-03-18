@@ -38,15 +38,15 @@ class Install extends SiteTask {
       'DrushInstall.buildNew' => $this->collectionBuilder()
         ->taskDrushInstall()
         ->buildNew(),
-//      'SiteSettings.configure' => $this->collectionBuilder()
-//        ->taskSiteSettings()
-//        ->updateSettings(),
+      'SiteSettings.configure' => $this->collectionBuilder()
+        ->taskSiteSettings()
+        ->updateSettings(),
       // Ensure 'config' and 'locale' module.
-//      'Install.enableExtensions' => $this->collectionBuilder()
-//        ->taskDrushEnableExtension(['config', 'locale']),
-//      // Update translations.
-//      'Install.localeUpdate' => $this->collectionBuilder()
-//        ->taskDrushLocaleUpdate(),
+      'Install.enableExtensions' => $this->collectionBuilder()
+        ->taskDrushEnableExtension(['config', 'locale']),
+      // Update translations.
+      'Install.localeUpdate' => $this->collectionBuilder()
+        ->taskDrushLocaleUpdate(),
       // Rebuild caches.
       'Install.cacheRebuild' => $this->collectionBuilder()
         ->taskDrushCacheRebuild(),

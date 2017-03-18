@@ -3,9 +3,9 @@
 namespace Lucacracco\Drupal8\Robo;
 
 use Lucacracco\Drupal8\Robo\Utility\Configurations;
+use Lucacracco\Drupal8\Robo\Utility\Environment;
 use Robo\Exception\TaskException;
 use Robo\Result;
-use Lucacracco\Drupal8\Robo\Utility\Drupal;
 use Lucacracco\Drupal8\Robo\Utility\PathResolver;
 
 /**
@@ -24,28 +24,30 @@ class RoboFileBase extends \Robo\Tasks {
   use \Lucacracco\Drupal8\Robo\Task\FileSystem\loadTasks;
   use \Lucacracco\Drupal8\Robo\Task\Site\loadTasks;
 
-  /**
-   * Constructor.
-   */
-  public function __construct() {
-
-    // Initialize path base.
-    PathResolver::init('.');
-
-    // Configurations override.
-    $configuration_overrides = [
-      'site_configuration.name' => 'Pippo',
-    ];
-
-    // Initialize configurations for Drupal8 project.
-    Configurations::init(
-      [
-        PathResolver::root() . '/build/local.default.yml.dist',
-//        '?'. PathResolver::root() . '/build/local.default.yml',
-      ],
-      $configuration_overrides
-    );
-  }
+//  /**
+//   * Constructor.
+//   */
+//  public function __construct() {
+//
+//    // Initialize path base.
+//    PathResolver::init('.');
+//
+//    \Lucacracco\Drupal8\Robo\Utility\Environment::setEnvironment('pippo');
+//
+//    // Configurations override.
+//    $configuration_overrides = [
+//      'site_configuration.name' => 'Pippo',
+//    ];
+//
+//    // Initialize configurations for Drupal8 project.
+//    Configurations::init(
+//      [
+//        PathResolver::root() . '/build/_default.yml.dist',
+//        '?'. PathResolver::root() . '/build/default.yml',
+//      ],
+//      $configuration_overrides
+//    );
+//  }
 
   public function testFunction() {
     $collection = $this->collectionBuilder();
@@ -56,11 +58,22 @@ class RoboFileBase extends \Robo\Tasks {
 //    $collection->addTask($this->taskSiteInstall()->buildNew());
 //    $collection->addTask($this->taskDrushCacheRebuild());
 
+
 //    $modules_dev = Configurations::get('modules_dev');
 //    $collection->addTask($this->taskDrushCacheRebuild());
 //    $collection->addTask($this->taskDrushUninstallExtension($modules_dev));
 //    $collection->addTask($this->taskDrushCacheRebuild());
 //    $collection->addTask($this->taskDrushEnableExtension($modules_dev));
+
+
+    $this->yell(Environment::detect());
+
+    $collection->addTask($this->taskSiteInitialize()->setNeedsBuild(Environment::needsBuild())->composerInstall());
+
+//    $collection->addTask(
+//      $this->taskSiteStatus()
+//    );
+
     return $collection->run();
 
   }
@@ -74,6 +87,10 @@ class RoboFileBase extends \Robo\Tasks {
    */
   public function buildNew() {
     $collection = $this->collectionBuilder();
+    $collection->addTask(
+      $this->taskSiteInitialize()
+        ->composerInstall()
+    );
     $collection->addTask($this->taskSiteInstall()->buildNew());
     return $collection->run();
   }

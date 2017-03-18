@@ -29,9 +29,14 @@ class MaintenanceMode extends SiteTask {
    * {@inheritdoc}
    */
   public function run() {
-    return $this->collectionBuilder()
-      ->taskDrushStateSet('system.maintenance_mode', $this->status ? 1 : 0, 'integer')
-      ->run();
+    $this->collection->addCode(function () {
+      $message = 'Set maintenance mode ' . ($this->status ? 'on' : 'off');
+      $this->printTaskInfo($message);
+    });
+    $this->collection->add(
+      $this->collectionBuilder()
+        ->taskDrushStateSet('system.maintenance_mode', $this->status ? 1 : 0, 'integer')
+    );
+    return parent::run();
   }
-
 }

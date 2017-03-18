@@ -2,99 +2,97 @@
 
 namespace Lucacracco\Drupal8\Robo\Utility;
 
+use Lucacracco\Drupal8\Robo\Common\GlobalsCache;
+
 /**
  * A helper class for environments.
  */
 class Environment {
 
-  /**
-   * Environment: local.
-   */
-  const LOCAL = 'local';
+  const ENVIRONMENT = "__ENVIRONMENT__";
+  const IS_PROD = "__IS_PRODUCTION__";
+  const NEED_BUILD = "__NEED_BUILD__";
+
+  use GlobalsCache;
 
   /**
-   * Environment: travis.
-   */
-  const TRAVIS = 'travis';
-
-  /**
-   * @var string Environment
-   */
-  private static $environment;
-
-  /**
-   * Sets the environment statically
+   * Sets the environment.
    *
    * @param string $environment
-   *  The environment
+   *  The environment.
    */
-  public static function set($environment) {
-    self::$environment = $environment;
+  public static function setEnvironment($environment) {
+    static::globalCacheVariable(self::ENVIRONMENT, $environment);
   }
 
   /**
-   * Gets the statically saved environment
+   * Gets the saved environment.
    *
-   * @return string The environment
+   * @return string
+   *   The environment.
    */
-  public static function get() {
-    return Configurations::get('environment');
+  public static function getEnvironment() {
+    return static::globalCacheVariable(self::ENVIRONMENT);
   }
 
   /**
    * Detect environment identifier from environment variable.
    *
-   * @return string|null
+   * @param string $variable_environment
+   *   The variable to read for detect environment.
+   *
+   * @return null|string
    *   The environment identifier on success, otherwise NULL.
    */
-  public static function detect() {
-    $environment = getenv('VARIABLE_SITE_ENVIRONMENT');
-    if ($environment !== NULL) {
-      static::set($environment);
-    }
-    return $environment ?: NULL;
+  public static function detect($variable_environment = 'VARIABLE_SITE_ENVIRONMENT') {
+
+    return self::getFromAll(self::ENVIRONMENT, 'no-environment-set');
   }
 
   /**
    * Is Production environment?
    *
-   * @param string $environment
-   *   An environment string.
-   *
    * @return bool
    *   Whether the environment is an production server or not.
    */
-  public static function isProduction($environment) {
-    return $environment && !in_array($environment, [
-        static::LOCAL,
-        static::TRAVIS
-      ]);
-  }
-
-  /**
-   * Is valid environment?
-   *
-   * @param string $environment
-   *   An environment string.
-   *
-   * @return bool
-   *   Whether the environment is valid or not.
-   */
-  public static function isValid($environment) {
-    return $environment;
+  public static function isProduction() {
+    return self::getFromAll(self::IS_PROD, FALSE);
   }
 
   /**
    * Needs building?
    *
-   * @param $environment
-   *   An environment string.
-   *
    * @return bool
    *   Whether the environment has to perform builds (e.g. run 'composer install').
    */
-  public static function needsBuild($environment) {
-    return static::isValid($environment) && !file_exists(PathResolver::root() . '/vendor/autoload.php');
+  public static function needsBuild() {
+    return self::getFromAll(self::NEED_BUILD, FALSE);
+  }
+
+  /**
+   * Search and retrieve data from GLOBALS, ENVIRONMENT VARIABLES, CONFIGURATION FILE.
+   *
+   * @param $name
+   * @param null $default_return
+   * @return mixed|null|string
+   */
+  protected static function getFromAll($name, $default_return = NULL, $variable_environment = NULL) {
+
+    if (isset($GLOBALS[$name]) && !empty($GLOBALS[$name])) {
+      return $GLOBALS[$name];
+    }
+    elseif ($env = getenv($name) && !isset($variable_environment)) {
+      return $env;
+    }
+    elseif (isset($variable_environment) && $env = getenv($variable_environment)) {
+      return $env;
+    }
+    elseif ($conf = Configurations::get($name, FALSE)) {
+      return $conf;
+    }
+    else {
+      return $default_return;
+    }
   }
 
 }

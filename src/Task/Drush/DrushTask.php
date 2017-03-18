@@ -23,34 +23,12 @@ abstract class DrushTask extends BaseTask implements BuilderAwareInterface {
    * @var \Robo\Collection\Collection
    */
   protected $collection;
-  /**
-   * Custom Drush stack.
-   *
-   * @var \Lucacracco\Drupal8\Robo\Stack\CustomDrushStack
-   */
-  protected $drushStack = NULL;
 
   /**
    * DrushTask constructor.
-   *
-   * @param null|string $uri
-   *   Target site
    */
-  public function __construct($uri = NULL) {
+  public function __construct() {
     $this->collection = new Collection();
-    if (isset($uri)) {
-      $this->uri($uri);
-    }
-  }
-
-  /**
-   * Set custom uri for multisite.
-   *
-   * @param string $uri
-   *   Target a site.
-   */
-  public function uri($uri) {
-    $this->drushStack($uri);
   }
 
   /**

@@ -5,6 +5,7 @@ namespace Lucacracco\Drupal8\Robo\Stack;
 use Boedah\Robo\Task\Drush\DrushStack;
 use Robo\Exception\TaskException;
 use Robo\Result;
+use Symfony\Component\Process\Process;
 
 /**
  * Class CustomDrushStack.
@@ -89,14 +90,14 @@ class CustomDrushStack extends DrushStack {
       throw new TaskException($this, 'You must add at least one command');
     }
     if (!$this->stopOnFail) {
-      $this->printTaskInfo('{command}', ['command' => $this->getCommand()]);
+//      $this->printTaskInfo('{command}', ['command' => $this->getCommand()]);
       $result = $this->executeCommand($this->getCommand());
 
       /*
        * Reset commands so as not to execute a command already previously done.
        */
-      $this->exec = [];
-      $this->arguments = '';
+//      $this->exec = [];
+//      $this->arguments = '';
 
       return $result;
     }
@@ -151,6 +152,32 @@ class CustomDrushStack extends DrushStack {
    */
   public function optionListForNextCommand($option, $value = []) {
     return parent::optionList($option, $value);
+  }
+
+  /**
+   * @param string $command
+   *
+   * @return \Robo\Result
+   */
+  protected function executeCommand($command)
+  {
+    $process = new Process($command);
+    $process->setTimeout(null);
+    if ($this->workingDirectory) {
+      $process->setWorkingDirectory($this->workingDirectory);
+    }
+    $this->getExecTimer()->start();
+    if ($this->isPrinted) {
+      $process->run(function ($type, $buffer) {
+        print $buffer;
+      });
+    } else {
+      $process->run();
+    }
+    $this->getExecTimer()->stop();
+
+//    return new Result($this, $process->getExitCode(), $process->getOutput(), ['time' => $this->getExecTimer()->elapsed()]);
+    return new Result($this, $process->getExitCode(), $process->getOutput());
   }
 
 }

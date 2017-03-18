@@ -13,6 +13,38 @@ use Lucacracco\Drupal8\Robo\Utility\PathResolver;
 trait CustomDrushStack {
 
   /**
+   * Custom Drush stack.
+   *
+   * @var \Lucacracco\Drupal8\Robo\Stack\CustomDrushStack
+   */
+  protected $drushStack = NULL;
+
+  /**
+   * @return mixed
+   */
+  protected function getDrupalUri() {
+    return $this->drushStack->getUri();
+  }
+
+  /**
+   * @param mixed $drupalUri
+   * @return $this
+   */
+  protected function setDrupalUri($drupalUri) {
+    $this->drushStack->uri($drupalUri);
+    return $this;
+  }
+
+  /**
+   * @param mixed $drupalRootDirectory
+   * @return $this
+   */
+  protected function setDrupalRootDirectory($drupalRootDirectory) {
+    $this->drushStack->drupalRootDirectory($drupalRootDirectory);
+    return $this;
+  }
+
+  /**
    * DrushStack used.
    *
    * @param string|null $drupal_site_uri
@@ -21,32 +53,19 @@ trait CustomDrushStack {
    * @return \Lucacracco\Drupal8\Robo\Stack\CustomDrushStack
    *   DrushStack with URI configured.
    */
-  public function drushStack($drupal_site_uri = NULL) {
+  protected function drushStack($drupal_site_uri = 'default') {
 
     // Init drush.
-    $drush_stack = static::drushStackCache();
-    if (!isset($drush_stack)) {
-      $drush_stack = $this->getDrushStack(PathResolver::drush(), PathResolver::docroot());
+    if (!isset($this->drushStack)) {
+      $this->drushStack = $this->getDrushStack(PathResolver::drush(), PathResolver::docroot());
     }
 
-    // Override.
-    if (isset($drupal_site_uri)) {
-      $drush_stack->uri($drupal_site_uri);
-    }
-    else {
-      if ($drush_stack->getUri() === NULL) {
-        // Load from configurations.
-        $drupal_site_uri_conf = Configurations::get('site_configuration.uri');
-        if (isset($drupal_site_uri_conf)) {
-          $drush_stack->uri($drupal_site_uri_conf);
-        }
-      }
+    // Override uri.
+    if ($this->drushStack->getUri() != $drupal_site_uri) {
+      $this->setDrupalUri($drupal_site_uri);
     }
 
-    // Save in cache.
-    static::drushStackCache($drush_stack);
-
-    return $drush_stack;
+    return $this->drushStack;
   }
 
   /**
@@ -72,28 +91,6 @@ trait CustomDrushStack {
     $task_drush_stack->drupalRootDirectory($drupal_root_directory);
 
     return $task_drush_stack;
-  }
-
-  /**
-   * Cache DrushStack in global variable.
-   *
-   * @param \Lucacracco\Drupal8\Robo\Stack\CustomDrushStack $drush_stack
-   *   The DrushStack.
-   * @return \Lucacracco\Drupal8\Robo\Stack\CustomDrushStack|null
-   *   The cached DrushStack.
-   */
-  protected static function drushStackCache($drush_stack = NULL) {
-    $cid = '__ROBO_DRUSH_STACK__';
-
-    if (isset($drush_stack) && !empty($drush_stack)) {
-      $GLOBALS[$cid] = $drush_stack;
-    }
-
-    if (!isset($GLOBALS[$cid])) {
-      return NULL;
-    }
-
-    return $GLOBALS[$cid];
   }
 
 }

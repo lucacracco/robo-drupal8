@@ -19,7 +19,7 @@ class Install extends DrushTask {
     $configurationsDatabase = Configurations::get('databases.default');
 
     $this->collection->add(
-      $this->drushStack(NULL)
+      $this->drushStack()
       ->argForNextCommand('--site-name='.$configurationsSite['name'])
       ->argForNextCommand('--site-mail='.$configurationsSite['mail'])
       ->argForNextCommand('--account-mail='.$configurationsAdmin['mail'])
@@ -28,7 +28,7 @@ class Install extends DrushTask {
       ->argForNextCommand('--db-url='.$configurationsDatabase['url'])
       ->argForNextCommand('--locale='.$configurationsSite['locale'])
       ->argForNextCommand('--sites-subdir='.$configurationsSite['sub_dir'])
-      ->drush('site-install')
+      ->drush('site-install '.$configurationsSite['profile'])
     );
 
     return $this;

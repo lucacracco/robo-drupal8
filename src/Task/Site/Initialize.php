@@ -2,7 +2,6 @@
 
 namespace Lucacracco\Drupal8\Robo\Task\Site;
 
-use Lucacracco\Drupal8\Robo\Utility\Configurations;
 use Lucacracco\Drupal8\Robo\Utility\Environment;
 use Lucacracco\Drupal8\Robo\Utility\PathResolver;
 
@@ -12,25 +11,26 @@ use Lucacracco\Drupal8\Robo\Utility\PathResolver;
 class Initialize extends SiteTask {
 
   /**
+   * Directory.
+   *
+   * @var string
+   */
+  protected $dir;
+
+  /**
    * Need build project.
    *
    * @var boolean
    */
-  protected $needsBuild;
+  protected $needsBuild = FALSE;
 
   /**
    * Initialize constructor.
-   *
-   * @param bool $needs_build
    */
-  public function __construct($needs_build = NULL) {
+  public function __construct() {
     parent::__construct();
-    if (isset($needs_build)) {
-      $this->needsBuild = $needs_build;
-    }
-    else {
-      $this->needsBuild = Environment::get();
-    }
+    $this->dir = PathResolver::docroot();
+    $this->needsBuild = Environment::getEnvironment();
   }
 
   /**
@@ -41,10 +41,15 @@ class Initialize extends SiteTask {
   }
 
   /**
+   * Set need build.
+   *
    * @param bool $needsBuild
+   *
+   * @return $this
    */
-  public function setNeedsBuild(bool $needsBuild) {
+  public function setNeedsBuild(bool $needsBuild = TRUE) {
     $this->needsBuild = $needsBuild;
+    return $this;
   }
 
   /**
@@ -59,14 +64,13 @@ class Initialize extends SiteTask {
   /**
    * Return task collection for check and install composer.
    *
-   * @param string $dir
+   * @param string|null $dir
    *
-   * @return \Robo\Collection\Collection
-   *   The task collection.
+   * @return $this
    */
-  public function composerInstall($dir) {
+  public function composerInstall($dir = NULL) {
     if ($this->skip()) {
-      return $this->collection;
+      return $this;
     }
 
     $this->collection->add(
@@ -78,7 +82,7 @@ class Initialize extends SiteTask {
         ->option('prefer-dist')
     );
 
-    return $this->collection;
+    return $this;
   }
 
 }

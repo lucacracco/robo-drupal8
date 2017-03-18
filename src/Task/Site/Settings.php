@@ -115,16 +115,4 @@ class Settings extends SiteTask {
     return $db_spec;
   }
 
-  /**
-   * Function to check configuration.
-   *
-   * TODO: implement controll.
-   *
-   * @return bool
-   */
-  protected function configurationValid() {
-    return TRUE;
-  }
-
-
 }
