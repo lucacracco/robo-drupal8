@@ -36,6 +36,26 @@ class Environment {
   }
 
   /**
+   * Sets production variable.
+   *
+   * @param boolean $production
+   *  The environment.
+   */
+  public static function setProduction($production) {
+    static::globalCacheVariable(self::IS_PROD, $production);
+  }
+
+  /**
+   * Sets need build  variable.
+   *
+   * @param boolean $need_build
+   *  The environment.
+   */
+  public static function setNeedBuild($need_build) {
+    static::globalCacheVariable(self::NEED_BUILD, $need_build);
+  }
+
+  /**
    * Detect environment identifier from environment variable.
    *
    * @param string $variable_environment

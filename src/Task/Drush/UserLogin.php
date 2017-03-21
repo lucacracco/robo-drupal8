@@ -34,7 +34,7 @@ class UserLogin extends DrushTask {
    * {@inheritdoc}
    */
   public function run() {
-    $this->yell('Login URL', 20);
+    $this->printTaskInfo('Login URL');
 
     return $this->drushStack()
       ->argForNextCommand(escapeshellarg($this->user))

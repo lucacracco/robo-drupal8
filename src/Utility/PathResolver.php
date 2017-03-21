@@ -47,16 +47,15 @@ class PathResolver {
   /**
    * Return database dump path.
    *
-   * TODO: remove this functions, not used (but first check everywhere!).
-   *
    * @return string
-   *   The path to the database dump file.
-   *
-   * @deprecated
+   *   The suggestions path.
    */
-  public static function databaseDump($name = NULL) {
-    // TODO: database name!
-    return static::root() . '/database/project.sql';
+  public static function suggestionPathDump() {
+    // TODO: create if not exist?!
+    $folder = Configurations::get('backups_folder', '.');
+    $name = $database_name = date("Y") . date("m") . date("d") . '_' . date("H") . date("i") . date("s") . '.sql';
+    $surname = Environment::getEnvironment();
+    return $folder . DIRECTORY_SEPARATOR . $surname . '_' . $name;
   }
 
   /**

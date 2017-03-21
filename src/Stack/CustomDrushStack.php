@@ -24,7 +24,6 @@ class CustomDrushStack extends DrushStack {
    * @var string
    */
   protected $drupalRoot;
-
   /**
    * Drupal site uri.
    * We need to save this, since it needs to be the first argument.
@@ -36,8 +35,15 @@ class CustomDrushStack extends DrushStack {
   /**
    * {@inheritdoc}
    */
+  public function siteAlias($alias) {
+    $this->siteAlias = $alias;
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function drupalRootDirectory($drupalRootDirectory) {
-    $this->printTaskInfo('Drupal root: <info>' . $drupalRootDirectory . '</info>');
     $this->drupalRoot = $drupalRootDirectory;
     return $this;
   }
@@ -46,18 +52,8 @@ class CustomDrushStack extends DrushStack {
    * {@inheritdoc}
    */
   public function uri($uri) {
-    $this->printTaskInfo('URI: <info>' . $uri . '</info>');
     $this->drupalUri = $uri;
     return $this;
-  }
-
-  /**
-   * Get Uri used.
-   *
-   * @return string
-   */
-  public function getUri() {
-    return $this->drupalUri;
   }
 
   /**
@@ -132,6 +128,41 @@ class CustomDrushStack extends DrushStack {
   }
 
   /**
+   * @param string $command
+   *
+   * @return \Robo\Result
+   */
+  protected function executeCommand($command) {
+    $process = new Process($command);
+    $process->setTimeout(NULL);
+    if ($this->workingDirectory) {
+      $process->setWorkingDirectory($this->workingDirectory);
+    }
+    $this->getExecTimer()->start();
+    if ($this->isPrinted) {
+      $process->run(function ($type, $buffer) {
+        print $buffer;
+      });
+    }
+    else {
+      $process->run();
+    }
+    $this->getExecTimer()->stop();
+
+//    return new Result($this, $process->getExitCode(), $process->getOutput(), ['time' => $this->getExecTimer()->elapsed()]);
+    return new Result($this, $process->getExitCode(), $process->getOutput());
+  }
+
+  /**
+   * Get Uri used.
+   *
+   * @return string
+   */
+  public function getUri() {
+    return $this->drupalUri;
+  }
+
+  /**
    * Pass option to executable used in the next invocation of drush.
    *
    * Options are prefixed with `--` , value can be provided in second parameter.
@@ -152,32 +183,6 @@ class CustomDrushStack extends DrushStack {
    */
   public function optionListForNextCommand($option, $value = []) {
     return parent::optionList($option, $value);
-  }
-
-  /**
-   * @param string $command
-   *
-   * @return \Robo\Result
-   */
-  protected function executeCommand($command)
-  {
-    $process = new Process($command);
-    $process->setTimeout(null);
-    if ($this->workingDirectory) {
-      $process->setWorkingDirectory($this->workingDirectory);
-    }
-    $this->getExecTimer()->start();
-    if ($this->isPrinted) {
-      $process->run(function ($type, $buffer) {
-        print $buffer;
-      });
-    } else {
-      $process->run();
-    }
-    $this->getExecTimer()->stop();
-
-//    return new Result($this, $process->getExitCode(), $process->getOutput(), ['time' => $this->getExecTimer()->elapsed()]);
-    return new Result($this, $process->getExitCode(), $process->getOutput());
   }
 
 }

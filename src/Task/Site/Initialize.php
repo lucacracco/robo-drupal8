@@ -26,6 +26,8 @@ class Initialize extends SiteTask {
 
   /**
    * Initialize constructor.
+   *
+   * Retrieve data from configuration.
    */
   public function __construct() {
     parent::__construct();
