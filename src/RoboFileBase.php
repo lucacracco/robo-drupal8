@@ -2,10 +2,8 @@
 
 namespace Lucacracco\Drupal8\Robo;
 
-use Lucacracco\Drupal8\Robo\Utility\Configurations;
 use Robo\Exception\TaskException;
 use Robo\Result;
-use Lucacracco\Drupal8\Robo\Utility\PathResolver;
 
 /**
  * Console commands configuration base for Robo task runner.
@@ -23,46 +21,13 @@ class RoboFileBase extends \Robo\Tasks {
   use CollectionTasks;
 
   /**
-   * Constructor.
-   */
-  public function __construct() {
-
-    /*
-     * Example code for init project.
-     */
-
-    /*
-    \Lucacracco\Drupal8\Robo\Utility\Environment::setEnvironment('local');
-
-    // Configurations override.
-    $configuration_overrides = [
-      'site_configuration.name' => 'Pippo',
-    ];
-
-    // Initialize configurations for Drupal8 project.
-    Configurations::init(
-      [
-        PathResolver::root() . '/build/_default.yml.dist',
-        '?'. PathResolver::root() . '/build/default.yml',
-      ],
-      $configuration_overrides
-    );
-    */
-  }
-
-  /**
    * Build a new site.
    *
    * @return \Robo\Result
    *   The command result.
    */
   public function buildNew() {
-    $collection = $this->collectionBuilder();
-    $collection->addCode(
-      function () {
-        $this->databaseExport(PathResolver::suggestionPathDump()
-        );
-      });
+    $collection = $this->collectionBuildNew();
     $collection->addTask($this->taskDrushUserLogin());
     return $collection->run();
   }
