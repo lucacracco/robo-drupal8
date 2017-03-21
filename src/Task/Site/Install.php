@@ -59,31 +59,32 @@ class Install extends SiteTask {
 
     $task_list = [
       // Composer install for first time.
-      'SiteInitialize.composer' => $this->collectionBuilder()
+      'SiteInitialize.composerInstall' => $this->collectionBuilder()
         ->taskSiteInitialize()
-        ->composer(),
+        ->setNeedsBuild(TRUE)
+        ->composerInstall(PathResolver::root()),
       // Setup filesystem.
       'SiteSetupFileSystem.clear_init' => $this->collectionBuilder()
         ->taskSiteSetupFileSystem()
         ->clear()
         ->init(),
       // Install site.
-      'DrushSiteInstall.buildNewSite' => $this->collectionBuilder()
-        ->taskDrushSiteInstall()
-        ->buildNewSite(),
-      'SiteSettings.updateSettings' => $this->collectionBuilder()
+      'DrushInstall.buildNew' => $this->collectionBuilder()
+        ->taskDrushInstall()
+        ->buildProfile("minimal"),
+      'SiteSettings.configure' => $this->collectionBuilder()
         ->taskSiteSettings()
         ->updateSettings(),
       'DrushConfigImport' => $this->collectionBuilder()
         ->taskDrushConfigImport(),
       // Ensure 'config' and 'locale' module.
-      'DrushEnableExtension' => $this->collectionBuilder()
+      'Install.enableExtensions' => $this->collectionBuilder()
         ->taskDrushEnableExtension(['config', 'locale']),
       // Update translations.
-      'DrushLocaleUpdate' => $this->collectionBuilder()
+      'Install.localeUpdate' => $this->collectionBuilder()
         ->taskDrushLocaleUpdate(),
       // Rebuild caches.
-      'DrushCacheRebuild' => $this->collectionBuilder()
+      'Install.cacheRebuild' => $this->collectionBuilder()
         ->taskDrushCacheRebuild(),
     ];
 

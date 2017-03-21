@@ -23,7 +23,7 @@ class ConfigImport extends ConfigExport {
    * @param bool $partial
    *   Default FALSE.
    */
-  public function setPartial(bool $partial = FALSE) {
+  public function setPartial($partial = FALSE) {
     $this->partial = $partial;
   }
 
@@ -43,7 +43,7 @@ class ConfigImport extends ConfigExport {
     }
     $this->collection->add(
       $this->drushStack()
-        ->drush('config-export')
+        ->drush('config-import')
     );
     return parent::run();
   }
