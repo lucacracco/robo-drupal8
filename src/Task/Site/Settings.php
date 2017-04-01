@@ -18,17 +18,17 @@ class Settings extends SiteTask {
   public function updateSettings() {
 
     $path_settings = PathResolver::siteDirectory() . '/settings.php';
-    $databases = Configurations::get('databases');
+    $databases = Configurations::get('drupal.databases');
     $conf = Configurations::configurations();
     $settings = [];
 
     foreach ($databases as $database_key => $database_info) {
       foreach ($this->convertDatabaseFromDatabaseUrl($database_info) as $key => $value) {
-        $settings['databases.' . $database_key . '.' . $key] = $value;
+        $settings['drupal.databases.' . $database_key . '.' . $key] = $value;
       }
       // Insert manual the info of 'prefix' and 'namespace' because is not found in url.
-      $settings['databases.' . $database_key . '.prefix'] = $database_info['prefix'];
-      $settings['databases.' . $database_key . '.namespace'] = $database_info['namespace'];
+      $settings['drupal.databases.' . $database_key . '.prefix'] = $database_info['prefix'];
+      $settings['drupal.databases.' . $database_key . '.namespace'] = $database_info['namespace'];
     }
 
     // Save configurations new.
@@ -36,7 +36,7 @@ class Settings extends SiteTask {
       $conf->set($key, $value);
     }
 
-    $template_name = $conf->get('site_configuration.tpl_settings');
+    $template_name = $conf->get('drupal.site.tpl_settings');
     $twig_loader = new \Twig_Loader_Filesystem(PathResolver::templatesFolder());
     $twig = new \Twig_Environment($twig_loader);
     $settings_rendered = $twig->render($template_name, $conf->all());
@@ -88,7 +88,7 @@ class Settings extends SiteTask {
       $url = parse_url($db_url_default);
       if ($url) {
         // Fill in defaults to prevent notices.
-        $url += [
+        $url += array(
           'scheme' => NULL,
           'user' => NULL,
           'pass' => NULL,
@@ -97,9 +97,9 @@ class Settings extends SiteTask {
           'path' => NULL,
           'prefix' => '',
           'namespace' => '',
-        ];
+        );
         $url = (object) array_map('urldecode', $url);
-        $db_spec = [
+        $db_spec = array(
           'driver' => $url->scheme == 'mysqli' ? 'mysql' : $url->scheme,
           'username' => $url->user,
           'password' => $url->pass,
@@ -108,7 +108,7 @@ class Settings extends SiteTask {
           'database' => ltrim($url->path, '/'),
           'prefix' => $url->prefix,
           'namespace' => $url->namespace,
-        ];
+        );
       }
     }
 

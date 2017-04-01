@@ -145,4 +145,16 @@ trait loadTasks {
     return $this->task(UserLogin::class, $user);
   }
 
+  /**
+   * Display one-time login URL.
+   *
+   * @param string $uuid
+   *   System Site Uuid.
+   *
+   * @return SystemSiteUuid
+   */
+  protected function taskDrushSystemSiteUuid($uuid = NULL) {
+    return $this->task(SystemSiteUuid::class, $uuid);
+  }
+
 }

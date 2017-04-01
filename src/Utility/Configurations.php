@@ -111,9 +111,12 @@ class Configurations {
    */
   public static function validationConfiguration($conf) {
     $keys = [
-      'environment',
-      'drush_path',
-      'drupal_root_directory',
+      'project.environment',
+      'project.base_path',
+      'project.drush_path',
+      'project.backups_dir',
+      'project.templates_dir',
+      'drupal.root',
     ];
     foreach ($keys as $key) {
       if (!$conf->has($key)) {

@@ -2,6 +2,7 @@
 
 namespace Lucacracco\Drupal8\Robo;
 
+use Lucacracco\Drupal8\Robo\Utility\Configurations;
 use Robo\Exception\TaskException;
 use Robo\Result;
 
@@ -79,7 +80,8 @@ class RoboFileBase extends \Robo\Tasks {
    *   The command result.
    */
   public function configurationExport() {
-    $collection = $this->collectionConfigurationExport();
+    $modules_dev = Configurations::get('drupal.site.modules_dev');
+    $collection = $this->collectionConfigurationExport($modules_dev);
     return $collection->run();
   }
 
@@ -90,7 +92,8 @@ class RoboFileBase extends \Robo\Tasks {
    *   The command result.
    */
   public function configurationImport() {
-    $collection = $this->collectionConfigurationImport();
+    $modules_dev = Configurations::get('drupal.site.modules_dev');
+    $collection = $this->collectionConfigurationImport($modules_dev);
     return $collection->run();
   }
 

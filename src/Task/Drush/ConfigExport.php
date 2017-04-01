@@ -29,7 +29,7 @@ class ConfigExport extends DrushTask {
    *
    * @return $this
    */
-  public function setDestination(string $destination) {
+  public function setDestination($destination) {
     $this->destination = $destination;
     return $this;
   }

@@ -14,9 +14,9 @@ class Install extends DrushTask {
    * Build a new site.
    */
   public function buildNew() {
-    $configurationsSite = Configurations::get('site_configuration');
-    $configurationsAdmin = Configurations::get('account');
-    $configurationsDatabase = Configurations::get('databases.default');
+    $configurationsSite = Configurations::get('drupal.site');
+    $configurationsAdmin = Configurations::get('drupal.site.admin');
+    $configurationsDatabase = Configurations::get('drupal.databases.default');
 
     $this->collection->add(
       $this->drushStack()
@@ -38,9 +38,9 @@ class Install extends DrushTask {
    * Build a new site.
    */
   public function buildProfile($profile) {
-    $configurationsSite = Configurations::get('site_configuration');
-    $configurationsAdmin = Configurations::get('account');
-    $configurationsDatabase = Configurations::get('databases.default');
+    $configurationsSite = Configurations::get('drupal.site');
+    $configurationsAdmin = Configurations::get('drupal.site.admin');
+    $configurationsDatabase = Configurations::get('drupal.databases.default');
 
     $this->collection->add(
       $this->drushStack()

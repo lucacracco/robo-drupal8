@@ -39,4 +39,5 @@ class MaintenanceMode extends SiteTask {
     );
     return parent::run();
   }
+
 }

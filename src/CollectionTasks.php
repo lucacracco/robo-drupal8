@@ -36,16 +36,6 @@ trait CollectionTasks {
     return $collection;
   }
 
-  /**
-   * Build a site from configuration files using profile 'config_installer'.
-   *
-   * @return \Robo\Collection\CollectionBuilder
-   */
-  protected function collectionBuildConfProfile() {
-    $collection = $this->collectionBuilder();
-    $collection->addTask($this->taskSiteInstall()->buildConfProfile());
-    return $collection;
-  }
 
   /**
    * Build an existing site by importing the database.

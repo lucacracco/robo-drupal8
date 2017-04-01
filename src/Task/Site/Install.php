@@ -2,8 +2,9 @@
 
 namespace Lucacracco\Drupal8\Robo\Task\Site;
 
+use Lucacracco\Drupal8\Robo\Utility\Configurations;
 use Lucacracco\Drupal8\Robo\Utility\PathResolver;
-use Robo\Result;
+use Psy\Configuration;
 
 /**
  * Robo task base: Install site.
@@ -22,6 +23,11 @@ class Install extends SiteTask {
     }
   }
 
+  /**
+   * Build new.
+   *
+   * @return $this
+   */
   public function buildNew() {
     $task_list = [
       // Composer install for first time.
@@ -41,6 +47,8 @@ class Install extends SiteTask {
       'SiteSettings.configure' => $this->collectionBuilder()
         ->taskSiteSettings()
         ->updateSettings(),
+      'DrushSystemSiteUuid' => $this->collectionBuilder()
+        ->taskDrushSystemSiteUuid(Configurations::get('drupal.site.uuid')),
       // Ensure 'config' and 'locale' module.
       'Install.enableExtensions' => $this->collectionBuilder()
         ->taskDrushEnableExtension(['config', 'locale']),
@@ -55,7 +63,12 @@ class Install extends SiteTask {
     return $this;
   }
 
-  public function buildConf() {
+  /**
+   * Build site from configurations folder.
+   *
+   * @return $this
+   */
+  public function buildConf($profile = "minimal") {
 
     $task_list = [
       // Composer install for first time.
@@ -71,10 +84,12 @@ class Install extends SiteTask {
       // Install site.
       'DrushInstall.buildNew' => $this->collectionBuilder()
         ->taskDrushInstall()
-        ->buildProfile("minimal"),
+        ->buildProfile($profile),
       'SiteSettings.configure' => $this->collectionBuilder()
         ->taskSiteSettings()
         ->updateSettings(),
+      'DrushSystemSiteUuid' => $this->collectionBuilder()
+        ->taskDrushSystemSiteUuid(Configurations::get('drupal.site.uuid')),
       'DrushConfigImport' => $this->collectionBuilder()
         ->taskDrushConfigImport(),
       // Ensure 'config' and 'locale' module.
@@ -93,58 +108,5 @@ class Install extends SiteTask {
 
     return $this;
   }
-
-
-//  /**
-//   * Return task collection for this task.
-//   *
-//   * @return \Robo\Collection\Collection
-//   *   The task collection.
-//   */
-//  public function collection() {
-//    $collection = new Collection();
-//    $dump = PathResolver::databaseDump();
-//
-//    // No database dump file present -> perform initial installation, export
-//    // configuration and create database dump file.
-//    if (!file_exists($dump)) {
-//      $collection->add([
-//        // Install Drupal site.
-//        'Install.siteInstall' => new SiteInstall(),
-//      ]);
-//
-//      // Set up file system.
-//      $collection->add((new SetupFileSystem($this->environment))->collection());
-//
-//      $collection->add([
-//        // Ensure 'config' and 'locale' module.
-//        'Install.enableExtensions' => new EnableExtension(['config', 'locale']),
-//        // Update translations.
-//        'Install.localeUpdate' => new LocaleUpdate(),
-//        // Rebuild caches.
-//        'Install.cacheRebuild' => new CacheRebuild(),
-//        // Export configuration.
-//        'Install.configExport' => new ConfigExport(),
-//        // Export database dump file.
-//        'Install.databaseDumpExport' => new Export($dump),
-//      ]);
-//    }
-//
-//    // Database dump file already exists -> import it and update database with
-//    // latest exported configuration (if any).
-//    else {
-//      $collection->add([
-//        // Drop all tables.
-//        'Install.sqlDrop' => new SqlDrop(),
-//        // Import database dump.
-//        'Install.databaseDumpImport' => new Import($dump)
-//      ]);
-//
-//      // Perform site update tasks
-//      $collection->add((new Update($this->environment))->collection());
-//    }
-//
-//    return $collection;
-//  }
 
 }

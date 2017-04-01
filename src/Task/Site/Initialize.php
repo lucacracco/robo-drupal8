@@ -38,7 +38,7 @@ class Initialize extends SiteTask {
   /**
    * @return bool
    */
-  public function isNeedsBuild(): bool {
+  public function isNeedsBuild() {
     return $this->needsBuild;
   }
 
@@ -49,7 +49,7 @@ class Initialize extends SiteTask {
    *
    * @return $this
    */
-  public function setNeedsBuild(bool $needsBuild = TRUE) {
+  public function setNeedsBuild($needsBuild = TRUE) {
     $this->needsBuild = $needsBuild;
     return $this;
   }

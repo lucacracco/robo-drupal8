@@ -32,7 +32,7 @@ class Environment {
    *   The environment.
    */
   public static function getEnvironment() {
-    return static::globalCacheVariable(self::ENVIRONMENT);
+    return static::detect();
   }
 
   /**
@@ -42,7 +42,7 @@ class Environment {
    *  The environment.
    */
   public static function setProduction($production) {
-    static::globalCacheVariable(self::IS_PROD, $production);
+    static::globalCacheVariable(self::IS_PROD, ($production) ? 'true' : 'false');
   }
 
   /**
@@ -52,7 +52,7 @@ class Environment {
    *  The environment.
    */
   public static function setNeedBuild($need_build) {
-    static::globalCacheVariable(self::NEED_BUILD, $need_build);
+    static::globalCacheVariable(self::NEED_BUILD, ($need_build) ? 'true' : 'false');
   }
 
   /**
@@ -65,8 +65,7 @@ class Environment {
    *   The environment identifier on success, otherwise NULL.
    */
   public static function detect($variable_environment = 'VARIABLE_SITE_ENVIRONMENT') {
-
-    return self::getFromAll(self::ENVIRONMENT, 'no-environment-set');
+    return self::getFromAll(self::ENVIRONMENT, 'no-environment-set', $variable_environment);
   }
 
   /**
