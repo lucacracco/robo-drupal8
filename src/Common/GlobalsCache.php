@@ -27,14 +27,14 @@ trait GlobalsCache {
 
     if (isset($data) && !empty($data)) {
       if (isset($GLOBALS[$cid]) && !empty($GLOBALS[$cid])) {
-        throw new \Exception(__CLASS__ . ' - Is already initialized.');
+        throw new \Exception("Global Variable \"{$cid}\" is already initialized.");
       }
 
       $GLOBALS[$cid] = $data;
     }
 
     if (!isset($GLOBALS[$cid]) || empty($GLOBALS[$cid])) {
-      throw new \Exception(__CLASS__ . ' - Not initialized.');
+      throw new \Exception("Global Variable \"{$cid}\" is not initialized.");
     }
 
     return $GLOBALS[$cid];

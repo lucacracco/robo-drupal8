@@ -33,7 +33,6 @@ class Install extends SiteTask {
       // Composer install for first time.
       'SiteInitialize.composerInstall' => $this->collectionBuilder()
         ->taskSiteInitialize()
-        ->setNeedsBuild(TRUE)
         ->composerInstall(PathResolver::root()),
       // Setup filesystem.
       'SiteSetupFileSystem.clear_init' => $this->collectionBuilder()
@@ -49,12 +48,6 @@ class Install extends SiteTask {
         ->updateSettings(),
       'DrushSystemSiteUuid' => $this->collectionBuilder()
         ->taskDrushSystemSiteUuid(Configurations::get('drupal.site.uuid')),
-      // Ensure 'config' and 'locale' module.
-      'Install.enableExtensions' => $this->collectionBuilder()
-        ->taskDrushEnableExtension(['config', 'locale']),
-      // Update translations.
-      'Install.localeUpdate' => $this->collectionBuilder()
-        ->taskDrushLocaleUpdate(),
       // Rebuild caches.
       'Install.cacheRebuild' => $this->collectionBuilder()
         ->taskDrushCacheRebuild(),
@@ -66,15 +59,19 @@ class Install extends SiteTask {
   /**
    * Build site from configurations folder.
    *
+   * @param string $profile
+   *   Name of profile to use.
+   * @param array $profile_settings
+   *   Configurations inline to command.
+   *
    * @return $this
    */
-  public function buildConf($profile = "minimal") {
+  public function buildConf($profile = "minimal", $profile_settings = []) {
 
     $task_list = [
       // Composer install for first time.
       'SiteInitialize.composerInstall' => $this->collectionBuilder()
         ->taskSiteInitialize()
-        ->setNeedsBuild(TRUE)
         ->composerInstall(PathResolver::root()),
       // Setup filesystem.
       'SiteSetupFileSystem.clear_init' => $this->collectionBuilder()
@@ -84,7 +81,7 @@ class Install extends SiteTask {
       // Install site.
       'DrushInstall.buildNew' => $this->collectionBuilder()
         ->taskDrushInstall()
-        ->buildProfile($profile),
+        ->buildProfile($profile, $profile_settings),
       'SiteSettings.configure' => $this->collectionBuilder()
         ->taskSiteSettings()
         ->updateSettings(),
@@ -92,12 +89,6 @@ class Install extends SiteTask {
         ->taskDrushSystemSiteUuid(Configurations::get('drupal.site.uuid')),
       'DrushConfigImport' => $this->collectionBuilder()
         ->taskDrushConfigImport(),
-      // Ensure 'config' and 'locale' module.
-      'Install.enableExtensions' => $this->collectionBuilder()
-        ->taskDrushEnableExtension(['config', 'locale']),
-      // Update translations.
-      'Install.localeUpdate' => $this->collectionBuilder()
-        ->taskDrushLocaleUpdate(),
       // Rebuild caches.
       'Install.cacheRebuild' => $this->collectionBuilder()
         ->taskDrushCacheRebuild(),
@@ -106,6 +97,44 @@ class Install extends SiteTask {
     // Initialize site.
     $this->collection->addTaskList($task_list);
 
+    return $this;
+  }
+
+  /**
+   * Build site from backup.
+   *
+   * @param string $path_dump
+   *   Path of dump to import. TODO: no check if exist.
+   *
+   * @return $this
+   */
+  public function buildFromDatabase($path_dump) {
+    $task_list = [
+      // Composer install for first time.
+      'SiteInitialize.composerInstall' => $this->collectionBuilder()
+        ->taskSiteInitialize()
+        ->composerInstall(PathResolver::root()),
+      // Setup filesystem.
+      'SiteSetupFileSystem.clear_init' => $this->collectionBuilder()
+        ->taskSiteSetupFileSystem()
+        ->clear()
+        ->init(),
+      // Install site.
+      'DrushInstall.buildNew' => $this->collectionBuilder()
+        ->taskDrushInstall()
+        ->buildProfile('minimal'),
+      'SiteSettings.configure' => $this->collectionBuilder()
+        ->taskSiteSettings()
+        ->updateSettings(),
+      'DatabaseDump.import' => $this->collectionBuilder()
+        ->taskDatabaseDumpImport($path_dump),
+      'DrushSystemSiteUuid' => $this->collectionBuilder()
+        ->taskDrushSystemSiteUuid(Configurations::get('drupal.site.uuid')),
+      // Rebuild caches.
+      'Install.cacheRebuild' => $this->collectionBuilder()
+        ->taskDrushCacheRebuild(),
+    ];
+    $this->collection->addTaskList($task_list);
     return $this;
   }
 

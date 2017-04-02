@@ -5,7 +5,7 @@ namespace Lucacracco\Drupal8\Robo\Task\Drush;
 /**
  * Robo task: Import Drupal configuration.
  */
-class ConfigImport extends ConfigExport {
+class ConfigImport extends DrushTask {
 
   /**
    * Allows for partial config imports from the source directory.

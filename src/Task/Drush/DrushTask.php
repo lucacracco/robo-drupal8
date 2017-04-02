@@ -36,6 +36,13 @@ abstract class DrushTask extends BaseTask implements BuilderAwareInterface {
    */
   public function run() {
     $this->printTaskInfo($this->getPrintedTaskName());
+    // TODO: remove after complete "TODO" in \Robo\Collection\Collection:getCommand()
+    if (count($this->collection->taskNames()) > 1) {
+      $this->printTaskDebug("Command: getCommand() does not work on arbitrary collections of tasks.");
+    }
+    else {
+      $this->printTaskDebug("Command: " . $this->collection->getCommand());
+    }
     $this->startTimer();
     $return = $this->collection->run();
     $this->stopTimer();

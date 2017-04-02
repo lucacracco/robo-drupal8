@@ -3,8 +3,9 @@
 namespace Lucacracco\Drupal8\Robo;
 
 use Lucacracco\Drupal8\Robo\Utility\Configurations;
+use Lucacracco\Drupal8\Robo\Utility\Environment;
+use Robo\Collection\Collection;
 use Robo\Exception\TaskException;
-use Robo\Result;
 
 /**
  * Console commands configuration base for Robo task runner.
@@ -19,42 +20,61 @@ class RoboFileBase extends \Robo\Tasks {
   use \Lucacracco\Drupal8\Robo\Task\Drush\loadTasks;
   use \Lucacracco\Drupal8\Robo\Stack\loadTasks;
   use \Lucacracco\Drupal8\Robo\Task\Site\loadTasks;
-  use CollectionTasks;
-
-  /**
-   * Build a new site.
-   *
-   * @return \Robo\Result
-   *   The command result.
-   */
-  public function buildNew() {
-    $collection = $this->collectionBuildNew();
-    $collection->addTask($this->taskDrushUserLogin());
-    return $collection->run();
-  }
 
   /**
    * Build a site from configurations dir.
    *
-   * @return \Robo\Result
-   *   The command result.
+   * @return \Robo\Collection\Collection
+   *   The command collection.
    */
   public function buildConf() {
-    $collection = $this->collectionBuildConf();
-    $collection->addTask($this->taskDrushUserLogin());
-    return $collection->run();
+    $collection = new Collection();
+
+    // If installed, create dump.
+    if ($this->isInstalled()) {
+      $collection->add($this->taskDatabaseDumpExport($this->getPathDump()));
+    }
+
+    // Build site.
+    $collection->add($this->taskSiteInstall()->buildConf());
+
+    // Create a url for login.
+    $collection->add($this->taskDrushUserLogin(), 'UserLogin');
+
+    return $collection;
   }
 
   /**
    * Build a site from configuration files using profile 'config_installer'.
    *
-   * @return \Robo\Result
-   *   The command result.
+   * @return \Robo\Collection\Collection
+   *   The command collection.
    */
-  public function buildConfProfile() {
-    $collection = $this->collectionBuildConfProfile();
-    $collection->addTask($this->taskDrushUserLogin());
-    return $collection->run();
+  public function buildConfigInstaller() {
+    $collection = new Collection();
+
+    // If installed, create dump.
+    if ($this->isInstalled()) {
+      $collection->add($this->taskDatabaseDumpExport($this->getPathDump()));
+    }
+
+    // TODO: check profile is found.
+
+    // Build site.
+    $config_subdir = Configurations::get('drupal.site.config_dir');
+    $collection->add($this->taskSiteInstall()
+      ->buildConf(
+        'config_installer',
+        [
+          "config_installer_sync_configure_form.sync_directory=\"{$config_subdir}\"",
+        ]
+      )
+    );
+
+    // Create a url for login.
+    $collection->add($this->taskDrushUserLogin(), 'UserLogin');
+
+    return $collection;
   }
 
   /**
@@ -64,113 +84,80 @@ class RoboFileBase extends \Robo\Tasks {
    *   Options.
    * @option $dbname|d Database name
    *
-   * @return Result
-   *   The command result.
+   * @return \Robo\Collection\Collection
+   *   The command collection.
    */
   public function buildFromDatabase($opts = ['dbname|d' => NULL]) {
-    $collection = $this->collectionBuildFromDatabase($opts['dbname']);
-    $collection->addTask($this->taskDrushUserLogin());
-    return $collection->run();
+    $collection = new Collection();
+
+    // If installed, create dump.
+    if ($this->isInstalled()) {
+      $collection->add($this->taskDatabaseDumpExport($this->getPathDump()));
+    }
+
+    // Build site.
+    $collection->add($this->taskSiteInstall()
+      ->buildFromDatabase($opts['dbname']));
+
+    // Create a url for login.
+    $collection->add($this->taskDrushUserLogin(), 'UserLogin');
+
+    return $collection;
+  }
+
+  /**
+   * Build a new site.
+   *
+   * @return \Robo\Collection\Collection
+   *   The command collection.
+   */
+  public function buildNew() {
+    $collection = new Collection();
+
+    // If installed, create dump.
+    if ($this->isInstalled()) {
+      $collection->add($this->taskDatabaseDumpExport($this->getPathDump()));
+    }
+
+    // Build new site.
+    $collection->add($this->taskSiteInstall()->buildNew());
+
+    // Create a url for login.
+    $collection->add($this->taskDrushUserLogin(), 'UserLogin');
+
+    return $collection;
   }
 
   /**
    * Export configuration.
    *
-   * @return Result
-   *   The command result.
+   * @return \Robo\Collection\Collection
+   *   The command collection.
    */
   public function configurationExport() {
+    $collection = new Collection();
     $modules_dev = Configurations::get('drupal.site.modules_dev');
-    $collection = $this->collectionConfigurationExport($modules_dev);
-    return $collection->run();
+    $collection->add($this->taskDrushUninstallExtension($modules_dev));
+    $collection->add($this->taskDrushCacheRebuild());
+    $collection->add($this->taskDrushConfigExport());
+    $collection->add($this->taskDrushEnableExtension($modules_dev));
+    return $collection;
   }
 
   /**
    * Import configuration.
    *
-   * @return Result
-   *   The command result.
+   * @return \Robo\Collection\Collection
+   *   The command collection.
    */
   public function configurationImport() {
+    $collection = new Collection();
     $modules_dev = Configurations::get('drupal.site.modules_dev');
-    $collection = $this->collectionConfigurationImport($modules_dev);
-    return $collection->run();
-  }
-
-  /**
-   * Rebuild Cache.
-   *
-   * @return Result
-   *   The command result.
-   */
-  public function siteRebuildCache() {
-    $collection = $this->collectionBuilder();
-    $collection->addTask($this->taskDrushCacheRebuild());
-    return $collection->run();
-  }
-
-  /**
-   * Set site in maintenance.
-   *
-   * @param bool $mode
-   *   Value of maintenance.
-   *
-   * @return \Robo\Result
-   */
-  public function siteMaintenanceMode($mode = TRUE) {
-    $collection = $this->collectionBuilder();
-    $collection->addTask($this->taskSiteMaintenanceMode($mode));
-    return $collection->run();
-  }
-
-  /**
-   * Update Translations of drupal.
-   *
-   * @return Result
-   *   The command result.
-   */
-  public function updateTranslations() {
-    $collection = $this->collectionBuilder();
-    $collection->addTask($this->taskDrushLocaleUpdate());
-    $collection->addTask($this->taskDrushCacheRebuild());
-    return $collection->run();
-  }
-
-  /**
-   * Update database pending of drupal.
-   *
-   * @return Result
-   *   The command result.
-   */
-  public function updateDatabase() {
-    $collection = $this->collectionBuilder();
-    $collection->addTask($this->taskDrushApplyDatabaseUpdates());
-    $collection->addTask($this->taskDrushCacheRebuild());
-    return $collection->run();
-  }
-
-  /**
-   * Index items for all enabled search indexes.
-   *
-   * @return Result
-   *   The command result.
-   *
-   * @throws \Robo\Exception\TaskException
-   */
-  public function searchapiIndex() {
-    throw new TaskException($this, 'Not yet implemented');
-  }
-
-  /**
-   * Clear all search indexes and mark them for reindexing.
-   *
-   * @return Result
-   *   The command result.
-   *
-   * @throws \Robo\Exception\TaskException
-   */
-  public function searchapiClear() {
-    throw new TaskException($this, 'Not yet implemented');
+    $collection->add($this->taskDrushUninstallExtension($modules_dev));
+    $collection->add($this->taskDrushCacheRebuild());
+    $collection->add($this->taskDrushConfigImport());
+    $collection->add($this->taskDrushEnableExtension($modules_dev));
+    return $collection;
   }
 
   /**
@@ -179,15 +166,20 @@ class RoboFileBase extends \Robo\Tasks {
    * @param string $file_path
    *   File path to save dump.
    *
-   * @return \Robo\Result
-   *   The command result.
+   * @return \Robo\Collection\Collection
+   *   The command collection.
    *
    * @throws \Robo\Exception\TaskException
-   *   If drupal site isn't bootstrapped.
    */
   public function databaseExport($file_path) {
-    $collection = $this->collectionDatabaseExport($file_path);
-    return $collection->run();
+    $collection = new Collection();
+    if (!$this->isInstalled()) {
+      throw new TaskException($this, 'Site not installed.');
+    }
+    $file_path = isset($file_path) ?: $this->getPathDump();
+    $collection->add($this->taskDrushCacheRebuild());
+    $collection->add($this->taskDatabaseDumpExport($file_path));
+    return $collection;
   }
 
   /**
@@ -196,15 +188,72 @@ class RoboFileBase extends \Robo\Tasks {
    * @param string $file_path
    *   File .sql to load.
    *
-   * @return \Robo\Result
-   *   The command result.
+   * @return \Robo\Collection\Collection
+   *   The command collection.
    *
    * @throws \Robo\Exception\TaskException
    *   If file not exist or drupal.
    */
   public function databaseImport($file_path) {
-    $collection = $this->collectionDatabaseImport($file_path);
-    return $collection->run();
+    $collection = new Collection();
+    if (!$this->isInstalled()) {
+      throw new TaskException($this, 'Site not installed.');
+    }
+    $file_path = isset($file_path) ?: $this->getPathDump();
+    $collection->add($this->taskDatabaseDumpImport($file_path));
+    $collection->add($this->taskDrushCacheRebuild());
+    return $collection;
+  }
+
+  /**
+   * Clear all search indexes and mark them for reindexing.
+   *
+   * @return \Robo\Collection\Collection
+   *   The command collection.
+   *
+   * @throws \Robo\Exception\TaskException
+   */
+  public function searchapiClear() {
+    throw new TaskException($this, 'Not yet implemented');
+  }
+
+  /**
+   * Index items for all enabled search indexes.
+   *
+   * @return \Robo\Collection\Collection
+   *   The command collection.
+   *
+   * @throws \Robo\Exception\TaskException
+   */
+  public function searchapiIndex() {
+    throw new TaskException($this, 'Not yet implemented');
+  }
+
+  /**
+   * Set site in maintenance.
+   *
+   * @param bool $mode
+   *   Value of maintenance.
+   *
+   * @return \Robo\Collection\Collection
+   *   The command collection.
+   */
+  public function siteMaintenanceMode($mode = TRUE) {
+    $collection = new Collection();
+    $collection->add($this->taskSiteMaintenanceMode($mode));
+    return $collection;
+  }
+
+  /**
+   * Rebuild Cache.
+   *
+   * @return \Robo\Collection\Collection
+   *   The command collection.
+   */
+  public function siteRebuildCache() {
+    $collection = new Collection();
+    $collection->add($this->taskDrushCacheRebuild());
+    return $collection;
   }
 
   /**
@@ -213,14 +262,55 @@ class RoboFileBase extends \Robo\Tasks {
    * @param int $uid
    *   Drupal user id.
    *
-   * @return \Robo\Result
+   * @return \Robo\Collection\Collection
+   *   The command collection.
    */
   public function siteUserLogin($uid = 1) {
-    $collection = $this->collectionBuilder();
-    $collection->addTask(
+    $collection = new Collection();
+    $collection->add(
       $this->taskDrushUserLogin($uid)
     );
-    return $collection->run();
+    return $collection;
+  }
+
+  /**
+   * Update database pending of drupal.
+   *
+   * @return \Robo\Collection\Collection
+   *   The command collection.
+   */
+  public function updateDatabase() {
+    $collection = new Collection();
+    $collection->add($this->taskDrushApplyDatabaseUpdates());
+    $collection->add($this->taskDrushCacheRebuild());
+    return $collection;
+  }
+
+  /**
+   * Update Translations of drupal.
+   *
+   * @return \Robo\Collection\Collection
+   *   The command collection.
+   */
+  public function updateTranslations() {
+    $collection = new Collection();
+    $collection->add($this->taskDrushLocaleUpdate());
+    $collection->add($this->taskDrushCacheRebuild());
+    return $collection;
+  }
+
+  /**
+   * Return a path for dump database.
+   *
+   * @return string
+   */
+  public static function getPathDump() {
+    $dir = Configurations::get('project.backups_dir', './');
+    $environment = Environment::getEnvironment();
+    $uri = Configurations::get('drupal.site.uri', 'default');
+    $date = date('Ymd_His');
+    $dump_name = "{$uri}.{$environment}.{$date}.sql";
+    return $dir . DIRECTORY_SEPARATOR . $dump_name;
   }
 
 }

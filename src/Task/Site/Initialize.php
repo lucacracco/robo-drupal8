@@ -32,7 +32,7 @@ class Initialize extends SiteTask {
   public function __construct() {
     parent::__construct();
     $this->dir = PathResolver::docroot();
-    $this->needsBuild = Environment::getEnvironment();
+    $this->needsBuild = Environment::needsBuild();
   }
 
   /**

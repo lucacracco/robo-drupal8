@@ -50,9 +50,15 @@ class Dump extends BaseTask implements BuilderAwareInterface {
    * Export database.
    */
   public function export() {
+    $file_path = $this->filePath;
+    $this->collection->addCode(
+      function () use ($file_path) {
+        $this->printTaskInfo("Export Dump in " . $file_path);
+      }
+    );
     $this->collection->add(
       $this->drushStack()
-        ->argForNextCommand(' > ' . escapeshellarg($this->filePath))
+        ->argForNextCommand(' > ' . escapeshellarg($file_path))
         ->argForNextCommand('ordered-dump')
         ->argForNextCommand('extra=--skip-comments')
         ->argForNextCommand('structure-tables-list=' . escapeshellarg(implode(',', $this->getStructureOnlyTableList())))

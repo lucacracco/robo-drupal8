@@ -37,7 +37,7 @@ class Install extends DrushTask {
   /**
    * Build a new site.
    */
-  public function buildProfile($profile) {
+  public function buildProfile($profile, $settings = []) {
     $configurationsSite = Configurations::get('drupal.site');
     $configurationsAdmin = Configurations::get('drupal.site.admin');
     $configurationsDatabase = Configurations::get('drupal.databases.default');
@@ -52,7 +52,7 @@ class Install extends DrushTask {
         ->argForNextCommand('--db-url=' . $configurationsDatabase['url'])
         ->argForNextCommand('--locale=' . $configurationsSite['locale'])
         ->argForNextCommand('--sites-subdir=' . $configurationsSite['sub_dir'])
-        ->drush('site-install ' . $profile)
+        ->drush('site-install ' . $profile . " " . implode(' ', $settings))
     );
 
     return $this;
