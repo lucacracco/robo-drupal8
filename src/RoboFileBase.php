@@ -4,6 +4,7 @@ namespace Lucacracco\Drupal8\Robo;
 
 use Lucacracco\Drupal8\Robo\Utility\Configurations;
 use Lucacracco\Drupal8\Robo\Utility\Environment;
+use Lucacracco\Drupal8\Robo\Utility\PathResolver;
 use Robo\Collection\Collection;
 use Robo\Exception\TaskException;
 
@@ -22,12 +23,42 @@ class RoboFileBase extends \Robo\Tasks {
   use \Lucacracco\Drupal8\Robo\Task\Site\loadTasks;
 
   /**
+   * Options arguments for command line.
+   */
+  const OPTS = [
+    'site|s' => 'default',
+  ];
+
+  /**
+   * Init configuration file.
+   *
+   * @param string $site
+   */
+  protected function init($site = 'default') {
+    // Initialize path base.
+    PathResolver::init('.');
+
+    // Initialize configurations for Drupal8 project.
+    Configurations::init(
+      [
+        PathResolver::root() . "/build/{$site}.yml.dist",
+        '?' . PathResolver::root() . "/build/{$site}.yml",
+      ]
+    );
+
+    // Save environment indication.
+    Environment::setEnvironment(Configurations::get("project.environment"));
+  }
+
+  /**
    * Build a site from configurations dir.
    *
    * @return \Robo\Collection\Collection
    *   The command collection.
    */
-  public function buildConf() {
+  public function buildConf($opts = self::OPTS) {
+    $this->init($opts['site']);
+
     $collection = new Collection();
 
     // If installed, create dump.
@@ -50,7 +81,9 @@ class RoboFileBase extends \Robo\Tasks {
    * @return \Robo\Collection\Collection
    *   The command collection.
    */
-  public function buildConfigInstaller() {
+  public function buildConfigInstaller($opts = self::OPTS) {
+    $this->init($opts['site']);
+
     $collection = new Collection();
 
     // If installed, create dump.
@@ -111,7 +144,9 @@ class RoboFileBase extends \Robo\Tasks {
    * @return \Robo\Collection\Collection
    *   The command collection.
    */
-  public function buildNew() {
+  public function buildNew($opts = self::OPTS) {
+    $this->init($opts['site']);
+
     $collection = new Collection();
 
     // If installed, create dump.
@@ -134,7 +169,8 @@ class RoboFileBase extends \Robo\Tasks {
    * @return \Robo\Collection\Collection
    *   The command collection.
    */
-  public function configurationExport() {
+  public function configurationExport($opts = self::OPTS) {
+    $this->init($opts['site']);
     $collection = new Collection();
     $modules_dev = Configurations::get('drupal.site.modules_dev');
     $collection->add($this->taskDrushUninstallExtension($modules_dev));
@@ -150,7 +186,8 @@ class RoboFileBase extends \Robo\Tasks {
    * @return \Robo\Collection\Collection
    *   The command collection.
    */
-  public function configurationImport() {
+  public function configurationImport($opts = self::OPTS) {
+    $this->init($opts['site']);
     $collection = new Collection();
     $modules_dev = Configurations::get('drupal.site.modules_dev');
     $collection->add($this->taskDrushUninstallExtension($modules_dev));
@@ -250,7 +287,8 @@ class RoboFileBase extends \Robo\Tasks {
    * @return \Robo\Collection\Collection
    *   The command collection.
    */
-  public function siteRebuildCache() {
+  public function rebuildCache($opts = self::OPTS) {
+    $this->init($opts['site']);
     $collection = new Collection();
     $collection->add($this->taskDrushCacheRebuild());
     return $collection;
