@@ -1,12 +1,15 @@
 {
   "name": "lucacracco/robo-drupal8",
-  "description": "Robo Tasks for Drupal8 with configurations file.",
   "type": "robo-tasks",
+  "description": "Robo Tasks for Drupal8 with configurations file.",
+  "keywords": ["robo","drupal", "drupal8"],
+  "homepage": "https://github.com/lucacracco/robo-drupal8",
   "license": "GPL-2.0+",
   "authors": [
     {
       "name": "Luca Cracco",
-      "email": "craccoluca@gmail.com"
+      "email": "craccoluca@gmail.com",
+      "role": "Developer"
     }
   ],
   "autoload": {
