@@ -58,7 +58,7 @@ class Dump extends BaseTask implements BuilderAwareInterface {
     );
     $this->collection->add(
       $this->drushStack()
-        ->argForNextCommand(' > ' . escapeshellarg($file_path))
+        ->argForNextCommand(' > ' . escapeshellarg($file_path) . ' ')
         ->argForNextCommand('ordered-dump')
         ->argForNextCommand('extra=--skip-comments')
         ->argForNextCommand('structure-tables-list=' . escapeshellarg(implode(',', $this->getStructureOnlyTableList())))

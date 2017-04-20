@@ -22,8 +22,7 @@ trait Drupal {
    */
   protected function isInstalled() {
     $status = $this->getSiteStatus();
-
-    return static::statusIsBootstrapped($status);
+    return $this->statusIsBootstrapped($status);
   }
 
   /**

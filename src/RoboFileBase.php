@@ -2,7 +2,6 @@
 
 namespace Lucacracco\Drupal8\Robo;
 
-use Lucacracco\Drupal8\Robo\Utility\Configurations;
 use Lucacracco\Drupal8\Robo\Utility\Environment;
 use Lucacracco\Drupal8\Robo\Utility\PathResolver;
 use Robo\Collection\Collection;
@@ -23,41 +22,12 @@ class RoboFileBase extends \Robo\Tasks {
   use \Lucacracco\Drupal8\Robo\Task\Site\loadTasks;
 
   /**
-   * Options arguments for command line.
-   */
-  const OPTS = [
-    'site|s' => 'default',
-  ];
-
-  /**
-   * Init configuration file.
-   *
-   * @param string $site
-   */
-  protected function init($site = 'default') {
-    // Initialize path base.
-    PathResolver::init('.');
-
-    // Initialize configurations for Drupal8 project.
-    Configurations::init(
-      [
-        PathResolver::root() . "/build/{$site}.yml.dist",
-        '?' . PathResolver::root() . "/build/{$site}.yml",
-      ]
-    );
-
-    // Save environment indication.
-    Environment::setEnvironment(Configurations::get("project.environment"));
-  }
-
-  /**
    * Build a site from configurations dir.
    *
    * @return \Robo\Collection\Collection
    *   The command collection.
    */
-  public function buildConf($opts = self::OPTS) {
-    $this->init($opts['site']);
+  public function buildConf() {
 
     $collection = new Collection();
 
@@ -81,8 +51,7 @@ class RoboFileBase extends \Robo\Tasks {
    * @return \Robo\Collection\Collection
    *   The command collection.
    */
-  public function buildConfigInstaller($opts = self::OPTS) {
-    $this->init($opts['site']);
+  public function buildConfigInstaller() {
 
     $collection = new Collection();
 
@@ -144,21 +113,20 @@ class RoboFileBase extends \Robo\Tasks {
    * @return \Robo\Collection\Collection
    *   The command collection.
    */
-  public function buildNew($opts = self::OPTS) {
-    $this->init($opts['site']);
+  public function buildNew() {
 
     $collection = new Collection();
 
     // If installed, create dump.
     if ($this->isInstalled()) {
-      $collection->add($this->taskDatabaseDumpExport($this->getPathDump()));
+      $collection->add($this->taskDatabaseDumpExport(PathResolver::suggestionPathDump()));
     }
 
     // Build new site.
     $collection->add($this->taskSiteInstall()->buildNew());
 
     // Create a url for login.
-    $collection->add($this->taskDrushUserLogin(), 'UserLogin');
+//    $collection->add($this->taskDrushUserLogin(), 'UserLogin');
 
     return $collection;
   }
@@ -169,8 +137,7 @@ class RoboFileBase extends \Robo\Tasks {
    * @return \Robo\Collection\Collection
    *   The command collection.
    */
-  public function configurationExport($opts = self::OPTS) {
-    $this->init($opts['site']);
+  public function configurationExport() {
     $collection = new Collection();
     $modules_dev = Configurations::get('drupal.site.modules_dev');
     $collection->add($this->taskDrushUninstallExtension($modules_dev));
@@ -186,8 +153,7 @@ class RoboFileBase extends \Robo\Tasks {
    * @return \Robo\Collection\Collection
    *   The command collection.
    */
-  public function configurationImport($opts = self::OPTS) {
-    $this->init($opts['site']);
+  public function configurationImport() {
     $collection = new Collection();
     $modules_dev = Configurations::get('drupal.site.modules_dev');
     $collection->add($this->taskDrushUninstallExtension($modules_dev));
@@ -287,8 +253,7 @@ class RoboFileBase extends \Robo\Tasks {
    * @return \Robo\Collection\Collection
    *   The command collection.
    */
-  public function rebuildCache($opts = self::OPTS) {
-    $this->init($opts['site']);
+  public function rebuildCache() {
     $collection = new Collection();
     $collection->add($this->taskDrushCacheRebuild());
     return $collection;
@@ -335,20 +300,6 @@ class RoboFileBase extends \Robo\Tasks {
     $collection->add($this->taskDrushLocaleUpdate());
     $collection->add($this->taskDrushCacheRebuild());
     return $collection;
-  }
-
-  /**
-   * Return a path for dump database.
-   *
-   * @return string
-   */
-  public static function getPathDump() {
-    $dir = Configurations::get('project.backups_dir', './');
-    $environment = Environment::getEnvironment();
-    $uri = Configurations::get('drupal.site.uri', 'default');
-    $date = date('Ymd_His');
-    $dump_name = "{$uri}.{$environment}.{$date}.sql";
-    return $dir . DIRECTORY_SEPARATOR . $dump_name;
   }
 
 }

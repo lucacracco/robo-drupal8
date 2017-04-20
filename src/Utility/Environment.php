@@ -2,27 +2,26 @@
 
 namespace Lucacracco\Drupal8\Robo\Utility;
 
-use Lucacracco\Drupal8\Robo\Common\GlobalsCache;
-
 /**
  * A helper class for environments.
  */
 class Environment {
 
-  const ENVIRONMENT = "__ENVIRONMENT__";
-  const IS_PROD = "__IS_PRODUCTION__";
-  const NEED_BUILD = "__NEED_BUILD__";
-
-  use GlobalsCache;
+  const ENVIRONMENT = "project.environment";
+  const IS_PROD = "project.is_prod";
+  const NEED_BUILD = "project.need_build";
 
   /**
-   * Sets the environment.
+   * Detect environment identifier from environment variable.
    *
-   * @param string $environment
-   *  The environment.
+   * @param string $variable_environment
+   *   The variable to read from environment.
+   *
+   * @return null|string
+   *   The environment identifier on success, otherwise NULL.
    */
-  public static function setEnvironment($environment) {
-    static::globalCacheVariable(self::ENVIRONMENT, $environment);
+  public static function detect($variable_environment = NULL) {
+    return self::getFromEnvironment(self::ENVIRONMENT, $variable_environment);
   }
 
   /**
@@ -36,82 +35,49 @@ class Environment {
   }
 
   /**
-   * Sets production variable.
-   *
-   * @param boolean $production
-   *  The environment.
-   */
-  public static function setProduction($production) {
-    static::globalCacheVariable(self::IS_PROD, ($production) ? 'true' : 'false');
-  }
-
-  /**
-   * Sets need build  variable.
-   *
-   * @param boolean $need_build
-   *  The environment.
-   */
-  public static function setNeedBuild($need_build) {
-    static::globalCacheVariable(self::NEED_BUILD, ($need_build) ? 'true' : 'false');
-  }
-
-  /**
-   * Detect environment identifier from environment variable.
+   * Is Production environment?
    *
    * @param string $variable_environment
-   *   The variable to read for detect environment.
-   *
-   * @return null|string
-   *   The environment identifier on success, otherwise NULL.
-   */
-  public static function detect($variable_environment = 'VARIABLE_SITE_ENVIRONMENT') {
-    return self::getFromAll(self::ENVIRONMENT, 'no-environment-set', $variable_environment);
-  }
-
-  /**
-   * Is Production environment?
+   *   The variable to read from environment.
    *
    * @return bool
    *   Whether the environment is an production server or not.
    */
-  public static function isProduction() {
-    return self::getFromAll(self::IS_PROD, FALSE);
+  public static function isProduction($variable_environment = NULL) {
+    return self::getFromEnvironment(self::IS_PROD, $variable_environment);
   }
 
   /**
    * Needs building?
    *
+   * @param string $variable_environment
+   *   The variable to read from environment.
+   *
    * @return bool
    *   Whether the environment has to perform builds (e.g. run 'composer install').
    */
-  public static function needsBuild() {
-    return self::getFromAll(self::NEED_BUILD, FALSE);
+  public static function needsBuild($variable_environment = NULL) {
+    return self::getFromEnvironment(self::NEED_BUILD, $variable_environment);
   }
 
   /**
-   * Search and retrieve data from GLOBALS, ENVIRONMENT VARIABLES, CONFIGURATION FILE.
+   * Search and retrieve data ENVIRONMENT VARIABLES (use getenv()) or CONFIGURATION FILE.
    *
    * @param $name
-   * @param null $default_return
+   * @param $variable_environment
+   *
    * @return mixed|null|string
    */
-  protected static function getFromAll($name, $default_return = NULL, $variable_environment = NULL) {
+  protected static function getFromEnvironment($name, $variable_environment = NULL) {
 
-    if (isset($GLOBALS[$name]) && !empty($GLOBALS[$name])) {
-      return $GLOBALS[$name];
+    if (isset($variable_environment)) {
+      $value_found = getenv($variable_environment);
+      if (isset($value_found)) {
+        return $value_found;
+      }
     }
-    elseif ($env = getenv($name) && !isset($variable_environment)) {
-      return $env;
-    }
-    elseif (isset($variable_environment) && $env = getenv($variable_environment)) {
-      return $env;
-    }
-    elseif ($conf = Configurations::get($name, FALSE)) {
-      return $conf;
-    }
-    else {
-      return $default_return;
-    }
+
+    return \Robo\Robo::config()->get($name, NULL);
   }
 
 }

@@ -20,8 +20,7 @@
   "require": {
     "php": ">=5.5.0",
     "consolidation/Robo": "~1",
-    "boedah/robo-drush": "^3.0",
-    "hassankhan/config": "^0.10"
+    "boedah/robo-drush": "^3.0"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.4",

@@ -24,6 +24,7 @@ class CustomDrushStack extends DrushStack {
    * @var string
    */
   protected $drupalRoot;
+
   /**
    * Drupal site uri.
    * We need to save this, since it needs to be the first argument.
@@ -31,6 +32,38 @@ class CustomDrushStack extends DrushStack {
    * @var string
    */
   protected $drupalUri;
+
+  /**
+   * Get Uri used.
+   *
+   * @return string
+   */
+  public function getUri() {
+    return $this->drupalUri;
+  }
+
+  /**
+   * Pass option to executable used in the next invocation of drush.
+   *
+   * Options are prefixed with `--` , value can be provided in second parameter.
+   * Option values are automatically escaped.
+   *
+   * {@inheritdoc}
+   */
+  public function optionForNextCommand($option, $value = NULL) {
+    return parent::option($option, $value);
+  }
+
+  /**
+   * Pass multiple options to executable used in the next invocation of drush.
+   *
+   * Value can be a string or array. Option values are automatically escaped.
+   *
+   * {@inheritdoc}
+   */
+  public function optionListForNextCommand($option, $value = []) {
+    return parent::optionList($option, $value);
+  }
 
   /**
    * {@inheritdoc}
@@ -86,7 +119,9 @@ class CustomDrushStack extends DrushStack {
       throw new TaskException($this, 'You must add at least one command');
     }
     if (!$this->stopOnFail) {
-//      $this->printTaskInfo('{command}', ['command' => $this->getCommand()]);
+
+      // TODO: converto from "printTaskInfo" to "printTaskDebug".
+      $this->printTaskInfo('{command}', ['command' => $this->getCommand()]);
       $result = $this->executeCommand($this->getCommand());
 
       /*
@@ -151,38 +186,6 @@ class CustomDrushStack extends DrushStack {
 
 //    return new Result($this, $process->getExitCode(), $process->getOutput(), ['time' => $this->getExecTimer()->elapsed()]);
     return new Result($this, $process->getExitCode(), $process->getOutput());
-  }
-
-  /**
-   * Get Uri used.
-   *
-   * @return string
-   */
-  public function getUri() {
-    return $this->drupalUri;
-  }
-
-  /**
-   * Pass option to executable used in the next invocation of drush.
-   *
-   * Options are prefixed with `--` , value can be provided in second parameter.
-   * Option values are automatically escaped.
-   *
-   * {@inheritdoc}
-   */
-  public function optionForNextCommand($option, $value = NULL) {
-    return parent::option($option, $value);
-  }
-
-  /**
-   * Pass multiple options to executable used in the next invocation of drush.
-   *
-   * Value can be a string or array. Option values are automatically escaped.
-   *
-   * {@inheritdoc}
-   */
-  public function optionListForNextCommand($option, $value = []) {
-    return parent::optionList($option, $value);
   }
 
 }
