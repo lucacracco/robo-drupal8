@@ -55,10 +55,12 @@ trait CustomDrushStack {
    */
   protected function drushStack($drupal_site_uri = 'default') {
 
-    // Init drush.
+    // Init drushPath.
     if (!isset($this->drushStack)) {
-      $this->drushStack = $this->getDrushStack(PathResolver::drush(), PathResolver::docroot());
+      $this->drushStack = $this->getDrushStack(PathResolver::drushPath(), PathResolver::docroot());
     }
+
+    // TODO: override from configuration.
 
     // Override uri.
     if ($this->drushStack->getUri() != $drupal_site_uri) {
@@ -81,7 +83,7 @@ trait CustomDrushStack {
    * @return \Lucacracco\Drupal8\Robo\Stack\CustomDrushStack
    *   DrushStack.
    */
-  protected function getDrushStack($drush_path = "drush", $drupal_root_directory = "web") {
+  protected function getDrushStack($drush_path = "drushPath", $drupal_root_directory = "web") {
 
     /** @var \Lucacracco\Drupal8\Robo\Stack\CustomDrushStack $task_drush_stack */
     $task_drush_stack = $this->collectionBuilder()

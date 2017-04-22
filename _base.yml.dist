@@ -1,0 +1,59 @@
+# Project configuration
+# --------------------
+
+project:
+
+  # The project name.
+  name: myproject
+
+  # Environment.
+  environment: environment
+
+  # Paths
+  path: ./
+  drush_path: ./vendor/bin/drushPath
+
+  # Directories of project.
+  backups_dir: ./build/backups
+  templates_dir: ./build/templates
+
+# Drupal configuration
+# --------------------
+
+drupal:
+
+  # Files and directories of Drupal installation.
+  root: ./web
+
+  # Databases Configuration.
+  databases:
+    default:
+      url: 'mysql://drupal:drupal@mysql:3306/drupal'
+      prefix: ''
+      namespace: 'Drupal\\Core\\Database\\Driver\\mysql'
+      driver: 'mysql'
+
+  # Site configurations.
+  site:
+    # Use https://www.guidgenerator.com/online-guid-generator.aspx for generate UUID.
+    uuid: 97339455-aa2b-46aa-8057-b75d2fe408d9
+    mail: site@example.it
+    name: 'Site Examples'
+    locale: en
+    profile: standard
+    uri: default
+    sub_dir: default
+    config_dir: '../config/default'
+    tpl_settings: default.settings.php.twig
+    base_url: 'http://localhost'
+
+    # These data will be used for the first user during installation.
+    admin:
+      mail: admin@example.com
+      name: admin
+      pass: admin
+
+    # Modules Development that will be installed. (use only environment local).
+    modules_dev:
+      - field_ui
+      - views_ui

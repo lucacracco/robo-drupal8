@@ -2,6 +2,8 @@
 
 namespace Lucacracco\Drupal8\Robo\Task\Drush;
 
+use Lucacracco\Drupal8\Robo\Config;
+
 /**
  * Class loadTasks.
  *
@@ -12,55 +14,77 @@ trait loadTasks {
   /**
    * Apply database updates.
    *
-   * @return ApplyDatabaseUpdates
+   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   *   The configurations contains path for drushPath, drupal root, and more..
+   *
+   * @return \Lucacracco\Drupal8\Robo\Task\Drush\DrushTasks
    */
-  protected function taskDrushApplyDatabaseUpdates() {
-    return $this->task(ApplyDatabaseUpdates::class);
+  protected function taskDrushApplyDatabaseUpdates(Config $config = NULL) {
+    return $this->task(DrushTasks::class, $config)->applyDatabaseUpdates();
   }
 
   /**
    * Apply entity schema updates.
    *
-   * @return ApplyEntitySchemaUpdates
+   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   *   The configurations contains path for drushPath, drupal root, and more..
+   *
+   * @return DrushTasks
    */
-  protected function taskDrushEntitySchemaUpdates() {
-    return $this->task(ApplyEntitySchemaUpdates::class);
+  protected function taskDrushEntitySchemaUpdates(Config $config = NULL) {
+    return $this->task(DrushTasks::class, $config)->applyEntitySchemaUpdates();
   }
 
   /**
    * Rebuild caches.
    *
-   * @return CacheRebuild
+   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   *   The configurations contains path for drushPath, drupal root, and more..
+   *
+   * @return DrushTasks
    */
-  protected function taskDrushCacheRebuild() {
-    return $this->task(CacheRebuild::class);
+  protected function taskDrushCacheRebuild(Config $config = NULL) {
+    return $this->task(DrushTasks::class, $config)->cacheRebuild();
   }
 
   /**
    * Status site.
    *
-   * @return Status
+   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   *   The configurations contains path for drushPath, drupal root, and more..
+   *
+   * @return DrushTasks
    */
-  protected function taskDrushStatus() {
-    return $this->task(Status::class);
+  protected function taskDrushCoreStatus(Config $config = NULL) {
+    return $this->task(DrushTasks::class, $config)->coreStatus();
   }
 
   /**
    * Import configuration.
    *
-   * @return ConfigImport
+   * @param bool $partial
+   * @param array $skip_modules
+   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   *   The configurations contains path for drushPath, drupal root, and more..
+   *
+   * @return \Lucacracco\Drupal8\Robo\Task\Drush\DrushTasks
    */
-  protected function taskDrushConfigImport() {
-    return $this->task(ConfigImport::class);
+  protected function taskDrushConfigImport($partial = FALSE, $skip_modules = [], Config $config = NULL) {
+    return $this->task(DrushTasks::class, $config)->configImport($partial, $skip_modules);
   }
 
   /**
    * Export configuration.
    *
-   * @return ConfigExport
+   * @param $destination
+   * @param array $skip_modules
+   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   *   The configurations contains path for drushPath, drupal root, and more..
+   *
+   * @return \Lucacracco\Drupal8\Robo\Task\Drush\DrushTasks
    */
-  protected function taskDrushConfigExport() {
-    return $this->task(ConfigExport::class);
+  protected function taskDrushConfigExport($destination, $skip_modules = [], Config $config = NULL) {
+    return $this->task(DrushTasks::class, $config)->configExport($destination, $skip_modules);
   }
 
   /**
@@ -68,11 +92,15 @@ trait loadTasks {
    *
    * @param array $extensions
    *   An array of names for extensions to enable.
+   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   *   The configurations contains path for drushPath, drupal root, and more..
    *
-   * @return EnableExtension
+   *
+   * @return DrushTasks
    */
-  protected function taskDrushEnableExtension(array $extensions) {
-    return $this->task(EnableExtension::class, $extensions);
+  protected function taskDrushEnableExtension(array $extensions, Config $config = NULL) {
+    return $this->task(DrushTasks::class, $config)
+      ->enableExtensions($extensions);
   }
 
   /**
@@ -80,38 +108,49 @@ trait loadTasks {
    *
    * @param array $extensions
    *   An array of names for extensions to uninstall.
+   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   *   The configurations contains path for drushPath, drupal root, and more..
    *
-   * @return UninstallExtension
+   * @return DrushTasks
    */
-  protected function taskDrushUninstallExtension(array $extensions) {
-    return $this->task(UninstallExtension::class, $extensions);
+  protected function taskDrushUninstallExtension(array $extensions, Config $config = NULL) {
+    return $this->task(DrushTasks::class, $config)
+      ->uninstallExtensions($extensions);
   }
 
   /**
    * Update localizations.
    *
-   * @return LocaleUpdate
+   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   *   The configurations contains path for drushPath, drupal root, and more..
+   *
+   * @return DrushTasks
    */
-  protected function taskDrushLocaleUpdate() {
-    return $this->task(LocaleUpdate::class);
+  protected function taskDrushLocaleUpdate(Config $config = NULL) {
+    return $this->task(DrushTasks::class, $config)->localeUpdate();
   }
 
   /**
    * Install Drupal site.
    *
-   * @return Install
-   */
-  protected function taskDrushInstall() {
-    return $this->task(Install::class);
-  }
-
-  /**
-   * Drop all database tables.
+   * @param $site_name
+   * @param $site_mail
+   * @param $account_mail
+   * @param $account_name
+   * @param $account_pass
+   * @param $db_url
+   * @param string $locale
+   * @param string $site_sub_dir
+   * @param string $profile
+   * @param array $settings
+   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   *   The configurations contains path for drushPath, drupal root, and more..
    *
-   * @return SqlDrop
+   * @return DrushTasks
    */
-  protected function taskDrushSqlDrop() {
-    return $this->task(SqlDrop::class);
+  protected function taskDrushInstall($site_name, $site_mail, $account_mail, $account_name, $account_pass, $db_url, $locale = "en", $site_sub_dir = "default", $profile = "standard", $settings = [], Config $config = NULL) {
+    return $this->task(DrushTasks::class, $config)
+      ->install($site_name, $site_mail, $account_mail, $account_name, $account_pass, $db_url, $locale, $site_sub_dir, $profile, $settings);
   }
 
   /**
@@ -125,11 +164,14 @@ trait loadTasks {
    *   The type for the value. Use 'auto' to detect format from value. Other
    *   recognized values are 'string', 'integer', 'float' or 'boolean' for
    *   corresponding primitive type, or 'json', 'yaml' for complex types.
+   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   *   The configurations contains path for drushPath, drupal root, and more..
    *
-   * @return StateSet
+   * @return DrushTasks
    */
-  protected function taskDrushStateSet($key, $value, $format = 'auto') {
-    return $this->task(StateSet::class, $key, $value, $format);
+  protected function taskDrushStateSet($key, $value, $format = 'auto', Config $config = NULL) {
+    return $this->task(DrushTasks::class, $config)
+      ->stateSet($key, $value, $format);
   }
 
   /**
@@ -138,23 +180,59 @@ trait loadTasks {
    * @param int|string $user
    *   An optional uid, user name, or email address for the user to log in
    *   (defaults to user ID '1').
+   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   *   The configurations contains path for drushPath, drupal root, and more..
    *
-   * @return UserLogin
+   * @return DrushTasks
    */
-  protected function taskDrushUserLogin($user = 1) {
-    return $this->task(UserLogin::class, $user);
+  protected function taskDrushUserLogin($user = 1, Config $config = NULL) {
+    return $this->task(DrushTasks::class, $config)->userLogin($user);
   }
 
   /**
-   * Display one-time login URL.
+   * Export database dump.
    *
-   * @param string $uuid
-   *   System Site Uuid.
+   * @param string $file_path
+   *   The file path of the database dump.
+   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   *   The configurations contains path for drushPath, drupal root, and more..
    *
-   * @return SystemSiteUuid
+   * @return DrushTasks
    */
-  protected function taskDrushSystemSiteUuid($uuid = NULL) {
-    return $this->task(SystemSiteUuid::class, $uuid);
+  protected function taskDrushDumpExport($file_path, Config $config = NULL) {
+    return $this->task(DrushTasks::class, $config)->export($file_path);
   }
 
+  /**
+   * Import database dump.
+   *
+   * @param string $file_path
+   *   The file path of the database dump.
+   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   *   The configurations contains path for drushPath, drupal root, and more..
+   *
+   * @return DrushTasks
+   */
+  protected function taskDrushDumpImport($file_path, Config $config = NULL) {
+    return $this->task(DrushTasks::class, $config)->import($file_path);
+  }
+
+  /**
+   * Set Config.
+   *
+   * @param string $config_name
+   *   The config object name, for example "system.site".
+   * @param string $key
+   *   The config key, for example "page.front".
+   * @param $value
+   *    The value to assign to the config key. Use '-' to read from STDIN.
+   *
+   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   *   The configurations contains path for drushPath, drupal root, and more..
+   *
+   * @return DrushTasks
+   */
+  protected function taskDrushSetConfig($config_name, $key, $value, Config $config = NULL) {
+    return $this->task(DrushTasks::class, $config)->setConfig($config_name, $key, $value);
+  }
 }

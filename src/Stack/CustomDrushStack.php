@@ -43,7 +43,7 @@ class CustomDrushStack extends DrushStack {
   }
 
   /**
-   * Pass option to executable used in the next invocation of drush.
+   * Pass option to executable used in the next invocation of drushPath.
    *
    * Options are prefixed with `--` , value can be provided in second parameter.
    * Option values are automatically escaped.
@@ -55,7 +55,7 @@ class CustomDrushStack extends DrushStack {
   }
 
   /**
-   * Pass multiple options to executable used in the next invocation of drush.
+   * Pass multiple options to executable used in the next invocation of drushPath.
    *
    * Value can be a string or array. Option values are automatically escaped.
    *
@@ -145,7 +145,7 @@ class CustomDrushStack extends DrushStack {
   }
 
   /**
-   * Add an argument used in the next invocation of drush.
+   * Add an argument used in the next invocation of drushPath.
    *
    * {@inheritdoc}
    */
@@ -154,7 +154,7 @@ class CustomDrushStack extends DrushStack {
   }
 
   /**
-   * Add multiple arguments used in the next invocation of drush.
+   * Add multiple arguments used in the next invocation of drushPath.
    *
    * {@inheritdoc}
    */

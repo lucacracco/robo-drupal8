@@ -12,6 +12,28 @@ class Environment {
   const NEED_BUILD = "project.need_build";
 
   /**
+   * @var \Robo\Config\Config
+   */
+  protected static $conf;
+
+  /**
+   * @return \Robo\Config\Config
+   */
+  public static function getConf() {
+    if (!isset(self::$conf)) {
+      self::$conf = \Robo\Robo::config();
+    }
+    return self::$conf;
+  }
+
+  /**
+   * @param \Robo\Config\Config $conf
+   */
+  public static function setConf($conf) {
+    self::$conf = $conf;
+  }
+
+  /**
    * Detect environment identifier from environment variable.
    *
    * @param string $variable_environment
@@ -77,7 +99,7 @@ class Environment {
       }
     }
 
-    return \Robo\Robo::config()->get($name, NULL);
+    return self::getConf()->get($name, NULL);
   }
 
 }

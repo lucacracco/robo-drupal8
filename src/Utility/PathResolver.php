@@ -6,15 +6,32 @@ use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * A helper class for path resolving.
+ *
+ * Configuration for paths loaded from Application (\Robo\Robo::config()).
  */
 class PathResolver {
 
   /**
-   * The path to the local (Defaults to linux path).
-   *
-   * @var string
+   * @var \Robo\Config\Config
    */
-  protected static $localPath = '/var/www/html';
+  protected static $conf;
+
+  /**
+   * @return \Robo\Config\Config
+   */
+  public static function getConf() {
+    if (!isset(self::$conf)) {
+      self::$conf = \Robo\Robo::config();
+    }
+    return self::$conf;
+  }
+
+  /**
+   * @param \Robo\Config\Config $conf
+   */
+  public static function setConf($conf) {
+    self::$conf = $conf;
+  }
 
   /**
    * Return absolute path.
@@ -39,32 +56,14 @@ class PathResolver {
   }
 
   /**
-   * Return path exported configuration.
-   *
-   * @return string
-   *   The path to the exported Drupal configuration files.
-   *
-   * @throws \Exception
-   *   If not found configurations 'config_sync' dir in configuration file.
-   */
-  public static function config() {
-    $config_dir = \Robo\Robo::config()->get('drupal.site.config_dir');
-    if (!isset($config_dir)) {
-      // TODO: load from status/report site.
-      throw new \Exception("Not found config_sync dir in configuration file.");
-    }
-    return static::root() . '/' . $config_dir;
-  }
-
-  /**
-   * Return docroot path.
+   * Return docroot path. Es. web.
    *
    * @return string
    *   The path to the Drupal docroot.
    */
   public static function docroot() {
-    $default = static::root() . '/web';
-    return self::absolute(\Robo\Robo::config()->get('drupal.root', $default));
+    $default = static::getProjectPath() . DIRECTORY_SEPARATOR . 'web';
+    return self::absolute(self::$conf->get('drupal.root', $default));
   }
 
   /**
@@ -75,9 +74,9 @@ class PathResolver {
    * @return string
    *   The path to the Drush binary.
    */
-  public static function drush() {
-    $default = static::root() . '/vendor/bin/drush';
-    return self::absolute(\Robo\Robo::config()
+  public static function drushPath() {
+    $default = static::getProjectPath() . '/vendor/bin/drushPath';
+    return self::absolute(self::$conf
       ->get('project.drush_path', $default));
   }
 
@@ -95,31 +94,12 @@ class PathResolver {
   }
 
   /**
+   * Return a path of project.
+   *
    * @return string The path to local
    */
-  public static function getBasePath() {
-    return \Robo\Robo::config()->get('project.base_path', self::$localPath);
-  }
-
-  /**
-   * Initialize path resolver.
-   *
-   * @param string $root
-   *   The root path to use.
-   */
-  public static function init($root) {
-    $base_path = self::absolute($root);
-    \Robo\Robo::config()->set('project.base_path', $base_path);
-  }
-
-  /**
-   * Return root path.
-   *
-   * @return string
-   *   The path to the project root.
-   */
-  public static function root() {
-    return self::absolute(\Robo\Robo::config()->get('project.base_path'));
+  public static function getProjectPath() {
+    return self::$conf->get('project.path', '/var/www/html');
   }
 
   /**
@@ -132,11 +112,11 @@ class PathResolver {
    */
   public static function siteDirectory() {
     // Read from configuration.
-    $sub_dir = \Robo\Robo::config()->get('drupal.site.sub_dir', 'default');
+    $sub_dir = self::$conf->get('drupal.site.sub_dir', 'default');
     if (static::existDir($sub_dir)) {
       throw new \Exception("Site Directory not found.");
     }
-    return static::docroot() . '/sites/' . $sub_dir;
+    return static::docroot() . DIRECTORY_SEPARATOR . 'sites' . DIRECTORY_SEPARATOR . $sub_dir;
   }
 
   /**
@@ -146,37 +126,13 @@ class PathResolver {
    *   The suggestions path.
    */
   public static function suggestionPathDump() {
-    $dir = \Robo\Robo::config()->get('project.backups_dir', './');
+    $dir = self::$conf->get('project.backups_dir', './');
     $environment = Environment::getEnvironment();
-    $uri = \Robo\Robo::config()->get('drupal.site.uri', 'default');
+    $uri = self::$conf->get('drupal.site.uri', 'default');
     $date = date('Ymd_His');
     $dump_name = "{$uri}.{$environment}.{$date}.sql";
     $path = $dir . DIRECTORY_SEPARATOR . $dump_name;
     return $path;
-  }
-
-  /**
-   * Return a path for templates twig.
-   *
-   * TODO: check if a directory.
-   *
-   * @return string
-   *   The path to the directory.
-   *
-   * @throws \Exception
-   *   If not found configuration 'templates_folder' in configurations file.
-   */
-  public static function templatesFolder() {
-    // Read from configuration.
-    $templates_folder = \Robo\Robo::config()->get('project.templates_dir');
-    if (isset($templates_folder) &&
-      static::existDir($templates_folder)
-    ) {
-      return $templates_folder;
-    }
-    else {
-      throw new \Exception("Not found 'project.templates_dir' dir in configurations file.");
-    }
   }
 
 }

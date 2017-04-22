@@ -11,13 +11,13 @@ trait loadTasks {
   /**
    * Get Custom Drush Stack.
    *
-   * @param string $pathToDrush
-   *   Path drush.
+   * @param string $path_to_drush
+   *   Path drushPath.
    *
    * @return CustomDrushStack
    */
-  protected function taskCustomDrushStack($pathToDrush = 'drush') {
-    return $this->task(CustomDrushStack::class, $pathToDrush);
+  protected function taskCustomDrushStack($path_to_drush = 'drushPath') {
+    return $this->task(CustomDrushStack::class, $path_to_drush);
   }
 
 }

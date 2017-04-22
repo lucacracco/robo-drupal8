@@ -2,24 +2,82 @@
 
 namespace Lucacracco\Drupal8\Robo\Task\Site;
 
+use Lucacracco\Drupal8\Robo\Config;
+
 trait loadTasks {
 
   /**
    * Initialize site.
    *
-   * @return Initialize
+   * @param string $dir
+   *   Directory to found composer.json.
+   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   *   The configurations contains path for drushPath, drupal root, and more..
+   *
+   * @return \Lucacracco\Drupal8\Robo\Task\Site\SiteTasks
    */
-  protected function taskSiteInitialize() {
-    return $this->task(Initialize::class);
+  protected function taskSiteComposerInstall($dir, Config $config = NULL) {
+    return $this->task(SiteTasks::class, $config)->composerInstall($dir);
   }
 
   /**
-   * Install site.
+   * Install new site.
    *
-   * @return Install
+   * @param array $settings
+   *   Contains settings to include in installation.
+   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   *   The configurations contains path for drushPath, drupal root, and more..
+   *
+   * @return \Lucacracco\Drupal8\Robo\Task\Site\SiteTasks
    */
-  protected function taskSiteInstall() {
-    return $this->task(Install::class);
+  protected function taskSiteBuildNew($settings = [], Config $config = NULL) {
+    return $this->task(SiteTasks::class, $config)->buildNew($settings);
+  }
+
+  /**
+   * Install from configurations directory.
+   *
+   * @param array $settings
+   *   Contains settings to include in installation.
+   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   *   The configurations contains path for drushPath, drupal root, and more..
+   *
+   * @return \Lucacracco\Drupal8\Robo\Task\Site\SiteTasks
+   */
+  protected function taskSiteBuildConf($settings = [], Config $config = NULL) {
+    return $this->task(SiteTasks::class, $config)->buildConf($settings);
+  }
+
+  /**
+   * Install from configurations directory used 'config_installer'.
+   *
+   * @param array $settings
+   *   Contains settings to include in installation.
+   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   *   The configurations contains path for drushPath, drupal root, and more..
+   *
+   * @return \Lucacracco\Drupal8\Robo\Task\Site\SiteTasks
+   */
+  protected function taskSiteBuildConfigInstaller($settings = [], Config $config = NULL) {
+    return $this->task(SiteTasks::class, $config)
+      ->buildConfigInstaller($settings);
+  }
+
+  /**
+   * Install from configurations directory used 'config_installer'.
+   *
+   * @param string $dump
+   *   Path of dump to load.
+   * @param array $settings
+   *   Contains settings to include in installation.
+   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   *   The configurations contains path for drushPath, drupal root, and more..
+   *
+   * @return \Lucacracco\Drupal8\Robo\Task\Site\SiteTasks
+   */
+  protected function taskSiteBuildFromDatabase($dump, $settings = [], Config $config = NULL) {
+    return $this->task(SiteTasks::class, $config)
+      ->buildFromDatabase($dump, $settings);
   }
 
   /**
@@ -27,47 +85,49 @@ trait loadTasks {
    *
    * @param bool $status
    *   Whether to enable or disable maintenance mode.
+   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   *   The configurations contains path for drushPath, drupal root, and more..
    *
-   * @return MaintenanceMode
+   * @return \Lucacracco\Drupal8\Robo\Task\Site\SiteTasks
    */
-  protected function taskSiteMaintenanceMode($status) {
-    return $this->task(MaintenanceMode::class, $status);
-  }
-
-  /**
-   * Set up file system.
-   *
-   * @return SetupFileSystem
-   */
-  protected function taskSiteSetupFileSystem() {
-    return $this->task(SetupFileSystem::class);
+  protected function taskSiteMaintenanceMode($status, Config $config = NULL) {
+    return $this->task(SiteTasks::class, $config)->maintenanceMode($status);
   }
 
   /**
    * Update site.
    *
-   * @return Update
+   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   *   The configurations contains path for drushPath, drupal root, and more..
+   *
+   * @return \Lucacracco\Drupal8\Robo\Task\Site\SiteTasks
    */
-  protected function taskSiteUpdate() {
-    return $this->task(Update::class);
+  protected function taskSiteUpdate(Config $config = NULL) {
+    return $this->task(SiteTasks::class, $config)->updateAll();
   }
 
   /**
    * Status site.
    *
-   * @return Status
+   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   *   The configurations contains path for drushPath, drupal root, and more..
+   *
+   * @return \Lucacracco\Drupal8\Robo\Task\Site\SiteTasks
    */
-  protected function taskSiteStatus() {
-    return $this->task(Status::class);
+  protected function taskSiteStatus(Config $config = NULL) {
+    return $this->task(SiteTasks::class, $config)->status();
   }
 
   /**
    * Settings site.
    *
-   * @return Settings
+   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   *   The configurations contains path for drushPath, drupal root, and more..
+   *
+   * @return \Lucacracco\Drupal8\Robo\Task\Site\SiteTasks
    */
-  protected function taskSiteSettings() {
-    return $this->task(Settings::class);
+  protected function taskSiteUpdateSettings(Config $config) {
+    return $this->task(SiteTasks::class, $config)->updateSettings();
   }
 
 }
