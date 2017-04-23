@@ -11,7 +11,7 @@ project:
 
   # Paths
   path: ./
-  drush_path: ./vendor/bin/drushPath
+  drush_path: ./vendor/bin/drush
 
   # Directories of project.
   backups_dir: ./build/backups

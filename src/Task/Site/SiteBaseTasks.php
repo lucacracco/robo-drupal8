@@ -2,10 +2,10 @@
 
 namespace Lucacracco\Drupal8\Robo\Task\Site;
 
-use Lucacracco\Drupal8\Robo\Config;
 use Lucacracco\Drupal8\Robo\Utility\PathResolver;
 use Robo\Collection\Collection;
 use Robo\Common\BuilderAwareTrait;
+use Robo\Config\Config;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Result;
 use Robo\Task\BaseTask;
@@ -48,7 +48,7 @@ abstract class SiteBaseTasks extends BaseTask implements BuilderAwareInterface {
   /**
    * SiteTask constructor.
    *
-   * @param \Lucacracco\Drupal8\Robo\Config|NULL $config
+   * @param \Robo\Config\Config|NULL $config
    *  If null load \Robo\Robo::config().
    */
   public function __construct(Config $config = NULL) {
@@ -60,8 +60,7 @@ abstract class SiteBaseTasks extends BaseTask implements BuilderAwareInterface {
       throw new \InvalidArgumentException(get_class($this) . ' - Configurations not valid');
     }
 
-    $this->root = PathResolver::absolute(\Robo\Robo::config()
-      ->get('project.base_path', '/var/www/html'));
+    $this->root = PathResolver::absolute($this->config->get('project.base_path', '/var/www/html'));
     $this->drupalRoot = PathResolver::absolute($this->config->get('drupal.root', './web'));
     $this->siteDir = PathResolver::absolute($this->drupalRoot . DIRECTORY_SEPARATOR . 'sites' . DIRECTORY_SEPARATOR . $this->config->get('drupal.site.sub_dir', 'default'));
   }

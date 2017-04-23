@@ -2,7 +2,6 @@
 
 namespace Lucacracco\Drupal8\Robo\Common;
 
-use Lucacracco\Drupal8\Robo\Utility\Configurations;
 use Lucacracco\Drupal8\Robo\Utility\PathResolver;
 
 /**

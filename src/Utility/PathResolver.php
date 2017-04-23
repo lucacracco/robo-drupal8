@@ -63,7 +63,7 @@ class PathResolver {
    */
   public static function docroot() {
     $default = static::getProjectPath() . DIRECTORY_SEPARATOR . 'web';
-    return self::absolute(self::$conf->get('drupal.root', $default));
+    return self::absolute(self::getConf()->get('drupal.root', $default));
   }
 
   /**
@@ -76,8 +76,7 @@ class PathResolver {
    */
   public static function drushPath() {
     $default = static::getProjectPath() . '/vendor/bin/drushPath';
-    return self::absolute(self::$conf
-      ->get('project.drush_path', $default));
+    return self::absolute(self::getConf()->get('project.drush_path', $default));
   }
 
   /**
@@ -99,7 +98,7 @@ class PathResolver {
    * @return string The path to local
    */
   public static function getProjectPath() {
-    return self::$conf->get('project.path', '/var/www/html');
+    return self::getConf()->get('project.path', '/var/www/html');
   }
 
   /**
@@ -112,7 +111,7 @@ class PathResolver {
    */
   public static function siteDirectory() {
     // Read from configuration.
-    $sub_dir = self::$conf->get('drupal.site.sub_dir', 'default');
+    $sub_dir = self::getConf()->get('drupal.site.sub_dir', 'default');
     if (static::existDir($sub_dir)) {
       throw new \Exception("Site Directory not found.");
     }
@@ -126,9 +125,9 @@ class PathResolver {
    *   The suggestions path.
    */
   public static function suggestionPathDump() {
-    $dir = self::$conf->get('project.backups_dir', './');
+    $dir = self::getConf()->get('project.backups_dir', './');
     $environment = Environment::getEnvironment();
-    $uri = self::$conf->get('drupal.site.uri', 'default');
+    $uri = self::getConf()->get('drupal.site.uri', 'default');
     $date = date('Ymd_His');
     $dump_name = "{$uri}.{$environment}.{$date}.sql";
     $path = $dir . DIRECTORY_SEPARATOR . $dump_name;

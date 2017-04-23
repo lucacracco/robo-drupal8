@@ -3,9 +3,9 @@
 namespace Lucacracco\Drupal8\Robo\Task\Drush;
 
 use Lucacracco\Drupal8\Robo\Common\CustomDrushStack;
-use Lucacracco\Drupal8\Robo\Config;
 use Robo\Collection\Collection;
 use Robo\Common\BuilderAwareTrait;
+use Robo\Config\Config;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Result;
 use Robo\Task\BaseTask;
@@ -28,16 +28,9 @@ abstract class DrushBaseTasks extends BaseTask implements BuilderAwareInterface 
   protected $collection;
 
   /**
-   * Config Object.
-   *
-   * @var \Lucacracco\Drupal8\Robo\Config
-   */
-  protected $config;
-
-  /**
    * DrushTasks constructor.
    *
-   * @param \Lucacracco\Drupal8\Robo\Config|NULL $config
+   * @param \Robo\Config\Config|NULL $config
    *  If null load \Robo\Robo::config().
    */
   public function __construct(Config $config = NULL) {

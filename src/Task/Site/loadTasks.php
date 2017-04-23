@@ -2,8 +2,13 @@
 
 namespace Lucacracco\Drupal8\Robo\Task\Site;
 
-use Lucacracco\Drupal8\Robo\Config;
+use Robo\Config\Config;
 
+/**
+ * Class loadTasks.
+ *
+ * @package Lucacracco\Drupal8\Robo\Task\Site
+ */
 trait loadTasks {
 
   /**
@@ -11,7 +16,7 @@ trait loadTasks {
    *
    * @param string $dir
    *   Directory to found composer.json.
-   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   * @param \Robo\Config\Config|null $config
    *   The configurations contains path for drushPath, drupal root, and more..
    *
    * @return \Lucacracco\Drupal8\Robo\Task\Site\SiteTasks
@@ -25,7 +30,7 @@ trait loadTasks {
    *
    * @param array $settings
    *   Contains settings to include in installation.
-   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   * @param \Robo\Config\Config|null $config
    *   The configurations contains path for drushPath, drupal root, and more..
    *
    * @return \Lucacracco\Drupal8\Robo\Task\Site\SiteTasks
@@ -39,7 +44,7 @@ trait loadTasks {
    *
    * @param array $settings
    *   Contains settings to include in installation.
-   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   * @param \Robo\Config\Config|null $config
    *   The configurations contains path for drushPath, drupal root, and more..
    *
    * @return \Lucacracco\Drupal8\Robo\Task\Site\SiteTasks
@@ -53,7 +58,7 @@ trait loadTasks {
    *
    * @param array $settings
    *   Contains settings to include in installation.
-   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   * @param \Robo\Config\Config|null $config
    *   The configurations contains path for drushPath, drupal root, and more..
    *
    * @return \Lucacracco\Drupal8\Robo\Task\Site\SiteTasks
@@ -70,7 +75,7 @@ trait loadTasks {
    *   Path of dump to load.
    * @param array $settings
    *   Contains settings to include in installation.
-   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   * @param \Robo\Config\Config|null $config
    *   The configurations contains path for drushPath, drupal root, and more..
    *
    * @return \Lucacracco\Drupal8\Robo\Task\Site\SiteTasks
@@ -85,7 +90,7 @@ trait loadTasks {
    *
    * @param bool $status
    *   Whether to enable or disable maintenance mode.
-   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   * @param \Robo\Config\Config|null $config
    *   The configurations contains path for drushPath, drupal root, and more..
    *
    * @return \Lucacracco\Drupal8\Robo\Task\Site\SiteTasks
@@ -97,7 +102,7 @@ trait loadTasks {
   /**
    * Update site.
    *
-   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   * @param \Robo\Config\Config|null $config
    *   The configurations contains path for drushPath, drupal root, and more..
    *
    * @return \Lucacracco\Drupal8\Robo\Task\Site\SiteTasks
@@ -109,7 +114,7 @@ trait loadTasks {
   /**
    * Status site.
    *
-   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   * @param \Robo\Config\Config|null $config
    *   The configurations contains path for drushPath, drupal root, and more..
    *
    * @return \Lucacracco\Drupal8\Robo\Task\Site\SiteTasks
@@ -121,7 +126,7 @@ trait loadTasks {
   /**
    * Settings site.
    *
-   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   * @param \Robo\Config\Config|null $config
    *   The configurations contains path for drushPath, drupal root, and more..
    *
    * @return \Lucacracco\Drupal8\Robo\Task\Site\SiteTasks

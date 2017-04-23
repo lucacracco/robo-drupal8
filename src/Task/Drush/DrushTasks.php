@@ -233,7 +233,7 @@ class DrushTasks extends DrushBaseTasks {
    *
    * @return $this
    */
-  public function setConfig($config_name, $key, $value) {
+  public function configSet($config_name, $key, $value) {
     $this->collection->add(
       $this->drushStack()
         ->argForNextCommand(escapeshellarg($value))

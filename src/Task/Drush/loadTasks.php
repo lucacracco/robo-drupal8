@@ -2,7 +2,7 @@
 
 namespace Lucacracco\Drupal8\Robo\Task\Drush;
 
-use Lucacracco\Drupal8\Robo\Config;
+use Robo\Config\Config;
 
 /**
  * Class loadTasks.
@@ -14,7 +14,7 @@ trait loadTasks {
   /**
    * Apply database updates.
    *
-   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   * @param \Robo\Config\Config|null $config
    *   The configurations contains path for drushPath, drupal root, and more..
    *
    * @return \Lucacracco\Drupal8\Robo\Task\Drush\DrushTasks
@@ -26,7 +26,7 @@ trait loadTasks {
   /**
    * Apply entity schema updates.
    *
-   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   * @param \Robo\Config\Config|null $config
    *   The configurations contains path for drushPath, drupal root, and more..
    *
    * @return DrushTasks
@@ -38,7 +38,7 @@ trait loadTasks {
   /**
    * Rebuild caches.
    *
-   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   * @param \Robo\Config\Config|null $config
    *   The configurations contains path for drushPath, drupal root, and more..
    *
    * @return DrushTasks
@@ -50,7 +50,7 @@ trait loadTasks {
   /**
    * Status site.
    *
-   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   * @param \Robo\Config\Config|null $config
    *   The configurations contains path for drushPath, drupal root, and more..
    *
    * @return DrushTasks
@@ -64,13 +64,14 @@ trait loadTasks {
    *
    * @param bool $partial
    * @param array $skip_modules
-   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   * @param \Robo\Config\Config|null $config
    *   The configurations contains path for drushPath, drupal root, and more..
    *
    * @return \Lucacracco\Drupal8\Robo\Task\Drush\DrushTasks
    */
   protected function taskDrushConfigImport($partial = FALSE, $skip_modules = [], Config $config = NULL) {
-    return $this->task(DrushTasks::class, $config)->configImport($partial, $skip_modules);
+    return $this->task(DrushTasks::class, $config)
+      ->configImport($partial, $skip_modules);
   }
 
   /**
@@ -78,13 +79,14 @@ trait loadTasks {
    *
    * @param $destination
    * @param array $skip_modules
-   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   * @param \Robo\Config\Config|null $config
    *   The configurations contains path for drushPath, drupal root, and more..
    *
    * @return \Lucacracco\Drupal8\Robo\Task\Drush\DrushTasks
    */
   protected function taskDrushConfigExport($destination, $skip_modules = [], Config $config = NULL) {
-    return $this->task(DrushTasks::class, $config)->configExport($destination, $skip_modules);
+    return $this->task(DrushTasks::class, $config)
+      ->configExport($destination, $skip_modules);
   }
 
   /**
@@ -92,7 +94,7 @@ trait loadTasks {
    *
    * @param array $extensions
    *   An array of names for extensions to enable.
-   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   * @param \Robo\Config\Config|null $config
    *   The configurations contains path for drushPath, drupal root, and more..
    *
    *
@@ -108,7 +110,7 @@ trait loadTasks {
    *
    * @param array $extensions
    *   An array of names for extensions to uninstall.
-   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   * @param \Robo\Config\Config|null $config
    *   The configurations contains path for drushPath, drupal root, and more..
    *
    * @return DrushTasks
@@ -121,7 +123,7 @@ trait loadTasks {
   /**
    * Update localizations.
    *
-   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   * @param \Robo\Config\Config|null $config
    *   The configurations contains path for drushPath, drupal root, and more..
    *
    * @return DrushTasks
@@ -143,7 +145,7 @@ trait loadTasks {
    * @param string $site_sub_dir
    * @param string $profile
    * @param array $settings
-   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   * @param \Robo\Config\Config|null $config
    *   The configurations contains path for drushPath, drupal root, and more..
    *
    * @return DrushTasks
@@ -164,7 +166,7 @@ trait loadTasks {
    *   The type for the value. Use 'auto' to detect format from value. Other
    *   recognized values are 'string', 'integer', 'float' or 'boolean' for
    *   corresponding primitive type, or 'json', 'yaml' for complex types.
-   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   * @param \Robo\Config\Config|null $config
    *   The configurations contains path for drushPath, drupal root, and more..
    *
    * @return DrushTasks
@@ -180,7 +182,7 @@ trait loadTasks {
    * @param int|string $user
    *   An optional uid, user name, or email address for the user to log in
    *   (defaults to user ID '1').
-   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   * @param \Robo\Config\Config|null $config
    *   The configurations contains path for drushPath, drupal root, and more..
    *
    * @return DrushTasks
@@ -194,7 +196,7 @@ trait loadTasks {
    *
    * @param string $file_path
    *   The file path of the database dump.
-   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   * @param \Robo\Config\Config|null $config
    *   The configurations contains path for drushPath, drupal root, and more..
    *
    * @return DrushTasks
@@ -208,7 +210,7 @@ trait loadTasks {
    *
    * @param string $file_path
    *   The file path of the database dump.
-   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   * @param \Robo\Config\Config|null $config
    *   The configurations contains path for drushPath, drupal root, and more..
    *
    * @return DrushTasks
@@ -227,12 +229,13 @@ trait loadTasks {
    * @param $value
    *    The value to assign to the config key. Use '-' to read from STDIN.
    *
-   * @param \Lucacracco\Drupal8\Robo\Config|null $config
+   * @param \Robo\Config\Config|null $config
    *   The configurations contains path for drushPath, drupal root, and more..
    *
    * @return DrushTasks
    */
-  protected function taskDrushSetConfig($config_name, $key, $value, Config $config = NULL) {
-    return $this->task(DrushTasks::class, $config)->setConfig($config_name, $key, $value);
+  protected function taskDrushConfigSet($config_name, $key, $value, Config $config = NULL) {
+    return $this->task(DrushTasks::class, $config)
+      ->configSet($config_name, $key, $value);
   }
 }

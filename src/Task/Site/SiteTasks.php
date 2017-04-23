@@ -237,7 +237,7 @@ class SiteTasks extends SiteBaseTasks {
         ),
       'siteSettingsConfigure' => $this->updateSettings(),
       'setConfigUuid' => $this->collectionBuilder()
-        ->taskDrushSetConfig("system.site", "uuid", $this->config->get('drupal.site.uuid')),
+        ->taskDrushConfigSet("system.site", "uuid", $this->config->get('drupal.site.uuid')),
       'cacheRebuild' => $this->collectionBuilder()
         ->taskDrushCacheRebuild($this->config),
     ];
@@ -274,7 +274,7 @@ class SiteTasks extends SiteBaseTasks {
         ),
       'siteSettingsConfigure' => $this->updateSettings(),
       'setConfigUuid' => $this->collectionBuilder()
-        ->taskDrushSetConfig("system.site", "uuid", $this->config->get('drupal.site.uuid')),
+        ->taskDrushConfigSet("system.site", "uuid", $this->config->get('drupal.site.uuid')),
       'cacheRebuild' => $this->collectionBuilder()
         ->taskDrushCacheRebuild($this->config),
       'updateConfig' => $this->updateConfig(),
@@ -313,7 +313,7 @@ class SiteTasks extends SiteBaseTasks {
         ),
       'siteSettingsConfigure' => $this->updateSettings(),
       'setConfigUuid' => $this->collectionBuilder()
-        ->taskDrushSetConfig("system.site", "uuid", $this->config->get('drupal.site.uuid')),
+        ->taskDrushConfigSet("system.site", "uuid", $this->config->get('drupal.site.uuid')),
       'cacheRebuild' => $this->collectionBuilder()
         ->taskDrushCacheRebuild($this->config),
     ];
@@ -351,7 +351,7 @@ class SiteTasks extends SiteBaseTasks {
         ),
       'siteSettingsConfigure' => $this->updateSettings(),
       'setConfigUuid' => $this->collectionBuilder()
-        ->taskDrushSetConfig("system.site", "uuid", $this->config->get('drupal.site.uuid')),
+        ->taskDrushConfigSet("system.site", "uuid", $this->config->get('drupal.site.uuid')),
       'cacheRebuild' => $this->collectionBuilder()
         ->taskDrushCacheRebuild($this->config),
       'updateConfig' => $this->taskDrushDumpImport($dump),
