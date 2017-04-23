@@ -1,6 +1,6 @@
 <?php
 
-namespace Lucacracco\Drupal8\Robo\Task\Site;
+namespace Lucacracco\Drupal8\Robo\Task;
 
 use Lucacracco\Drupal8\Robo\Utility\PathResolver;
 use Robo\Collection\Collection;
@@ -11,14 +11,14 @@ use Robo\Result;
 use Robo\Task\BaseTask;
 
 /**
- * Class SiteBaseTasks.
+ * Class BaseTasks.
  *
- * @package Lucacracco\Drupal8\Robo\Task\Site
+ * @package Lucacracco\Drupal8\Robo\Task
  */
-abstract class SiteBaseTasks extends BaseTask implements BuilderAwareInterface {
+abstract class BaseTasks extends BaseTask implements BuilderAwareInterface {
 
   use BuilderAwareTrait;
-  use \Lucacracco\Drupal8\Robo\Task\Drush\loadTasks;
+  use \Lucacracco\Drupal8\Robo\Common\CustomDrushStack;
 
   /**
    * Collection Builder.
@@ -26,18 +26,21 @@ abstract class SiteBaseTasks extends BaseTask implements BuilderAwareInterface {
    * @var \Robo\Collection\Collection
    */
   protected $collection;
+
   /**
    * Drupal root.
    *
    * @var string
    */
   protected $drupalRoot;
+
   /**
    * Root Project.
    *
    * @var string
    */
   protected $root;
+
   /**
    * Directory site.
    *

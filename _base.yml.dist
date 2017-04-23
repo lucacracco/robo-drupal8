@@ -28,7 +28,7 @@ drupal:
   # Databases Configuration.
   databases:
     default:
-      url: 'mysql://drupal:drupal@mysql:3306/drupal'
+      url: 'mysql://drupal:drupal@mariadb:3306/drupal'
       prefix: ''
       namespace: 'Drupal\\Core\\Database\\Driver\\mysql'
       driver: 'mysql'

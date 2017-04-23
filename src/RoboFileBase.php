@@ -10,6 +10,8 @@ use Robo\Exception\TaskException;
 /**
  * Console commands configuration base for Robo task runner.
  *
+ * TODO: must be rewrite.
+ *
  * @see http://robo.li/
  */
 class RoboFileBase extends \Robo\Tasks {
