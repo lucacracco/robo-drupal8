@@ -11,6 +11,11 @@ class RoboFile extends \Robo\Tasks {
   use \Lucacracco\Drupal8\Robo\Stack\loadTasks;
   use \Lucacracco\Drupal8\Robo\Task\loadTasks;
 
+  /**
+   * Paths Configurations.
+   *
+   * @var string[]
+   */
   protected $pathsConf = ['_base.yml.dist'];
 
   /**
@@ -22,7 +27,8 @@ class RoboFile extends \Robo\Tasks {
 
     // Create object configuration empty.
     $config = \Robo\Robo::config();
-    $config->setProgressBarAutoDisplayInterval(180);
+    // TODO: not work?!
+    $config->setProgressBarAutoDisplayInterval(99999);
 
     /**
      * TODO: remove and use \Robo\Robo::loadConfiguration($this->pathsConf, $config);
@@ -45,30 +51,27 @@ class RoboFile extends \Robo\Tasks {
   }
 
   /**
-   * Start.
+   * Start: build a new site.
    */
   public function start() {
-
-    // TODO: create collection task for install Drupal8.
-
     $collection = new \Robo\Collection\Collection();
     $task_list = [
-      'buildNew' => $this->taskInstallTasks()->buildNew(),
+      'buildNew' => $this->taskDrupalInstallTasks()->buildNew(),
     ];
     $collection->addTaskList($task_list);
     return $collection;
   }
 
   /**
-   * Finish.
+   * Finish: export configuration and print one-time login.
    */
   public function finish() {
-
-    // TODO: create colelction task for export, rebuild cache and test site Drupal8 installed.
     $collection = new \Robo\Collection\Collection();
     $task_list = [
-      'exportConfigurations' => $this->taskConfigurationsTasks()
+      'exportConfigurations' => $this->taskDrupalConfigurationsTasks()
         ->configurationExport(),
+      'loginOneTimeUrl' => $this->taskDrupalMaintenanceTasks()
+        ->loginOneTimeUrl(1),
     ];
     $collection->addTaskList($task_list);
     return $collection;

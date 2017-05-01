@@ -124,6 +124,25 @@ class MaintenanceTasks extends BaseTasks {
     return $this;
   }
 
+  /**
+   *  Display one-time login URL.
+   *
+   * @param int $user_id
+   *   User id.
+   *
+   * @return $this
+   */
+  public function loginOneTimeUrl($user_id = 1) {
+    $task_list = [
+      'configSet' => $this->drushStack()
+        ->argForNextCommand(escapeshellarg($user_id))
+        ->optionForNextCommand('no-browser')
+        ->drush('user-login')
+    ];
+    $this->collection->addTaskList($task_list);
+    return $this;
+  }
+
 
   /**
    * Convert from an old-style database URL to an array of database settings.

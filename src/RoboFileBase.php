@@ -10,7 +10,6 @@ use Robo\Exception\TaskException;
 /**
  * Console commands configuration base for Robo task runner.
  *
- * TODO: must be rewrite.
  *
  * @see http://robo.li/
  */
@@ -19,8 +18,7 @@ class RoboFileBase extends \Robo\Tasks {
   use \Robo\Task\Filesystem\loadShortcuts;
   use \Lucacracco\Drupal8\Robo\Common\Drupal;
   use \Lucacracco\Drupal8\Robo\Stack\loadTasks;
-  use \Lucacracco\Drupal8\Robo\Task\Drush\loadTasks;
-  use \Lucacracco\Drupal8\Robo\Task\Site\loadTasks;
+  use \Lucacracco\Drupal8\Robo\Task\loadTasks;
 
   /**
    * Build a site from configurations dir.
@@ -29,20 +27,14 @@ class RoboFileBase extends \Robo\Tasks {
    *   The command collection.
    */
   public function buildConf() {
-
     $collection = new Collection();
 
     // If installed, create dump.
     if ($this->isInstalled()) {
-      $collection->add($this->taskDrushDumpExport(PathResolver::suggestionPathDump()));
+      $collection->add($this->databaseExportTask());
     }
-
-    // Build site.
-    $collection->add($this->taskSiteInstall()->buildConf());
-
-    // Create a url for login.
-    $collection->add($this->taskDrushUserLogin(), 'UserLogin');
-
+    $collection->add($this->taskDrupalInstallTasks()->buildConf());
+    $collection->add($this->taskDrupalMaintenanceTasks()->loginOneTimeUrl());
     return $collection;
   }
 
@@ -53,12 +45,11 @@ class RoboFileBase extends \Robo\Tasks {
    *   The command collection.
    */
   public function buildConfigInstaller() {
-
     $collection = new Collection();
 
     // If installed, create dump.
     if ($this->isInstalled()) {
-      $collection->add($this->taskDatabaseDumpExport(PathResolver::suggestionPathDump()));
+      $collection->add($this->databaseExportTask());
     }
 
     // TODO: update composer with config_installer.
@@ -69,9 +60,8 @@ class RoboFileBase extends \Robo\Tasks {
       throw new \InvalidArgumentException("Configuration dir not found.");
     }
 
-    $collection->add($this->taskSiteInstall()
+    $collection->add($this->taskDrupalInstallTasks()
       ->buildConf(
-        'config_installer',
         [
           "config_installer_sync_configure_form.sync_directory=\"{$config_subdir}\"",
         ]
@@ -79,7 +69,8 @@ class RoboFileBase extends \Robo\Tasks {
     );
 
     // Create a url for login.
-    $collection->add($this->taskDrushUserLogin(), 'UserLogin');
+    $collection->add($this->taskDrupalMaintenanceTasks()
+      ->loginOneTimeUrl(1), 'UserLogin');
 
     return $collection;
   }
@@ -99,15 +90,16 @@ class RoboFileBase extends \Robo\Tasks {
 
     // If installed, create dump.
     if ($this->isInstalled()) {
-      $collection->add($this->taskDatabaseDumpExport(PathResolver::suggestionPathDump()));
+      $collection->add($this->databaseExportTask());
     }
 
     // Build site.
-    $collection->add($this->taskSiteInstall()
+    $collection->add($this->taskDrupalInstallTasks()
       ->buildFromDatabase($opts['dbname']));
 
     // Create a url for login.
-    $collection->add($this->taskDrushUserLogin(), 'UserLogin');
+    $collection->add($this->taskDrupalMaintenanceTasks()
+      ->loginOneTimeUrl(1), 'UserLogin');
 
     return $collection;
   }
@@ -124,49 +116,28 @@ class RoboFileBase extends \Robo\Tasks {
 
     // If installed, create dump.
     if ($this->isInstalled()) {
-      $collection->add(
-        $this->taskDatabaseDumpExport(PathResolver::suggestionPathDump()),
-        'SqlDump'
-      );
+      $collection->add($this->databaseExportTask());
     }
 
-    // Composer install for first time.
-    $collection->add(
-      $this->taskSiteInitialize(PathResolver::root(), Environment::needsBuild())
-        ->composerInstall(),
-      'composerInstall'
-    );
-
-    // Setup filesystem.
-    $collection->add(
-      $this->taskSiteSetupFileSystem(PathResolver::siteDirectory())
-        ->clear()
-        ->init(),
-      'setupFileSystem'
-    );
+    if (Environment::needsBuild()) {
+      // TODO: check and remove comment.
+//      // Composer install for first time.
+//      $collection->add(
+//        $this->taskSiteInitialize(PathResolver::root(), Environment::needsBuild())
+//          ->composerInstall(),
+//        'composerInstall'
+//      );
+    }
 
     // Install site.
     $collection->add(
-      $this->taskDrushInstall()
-        ->setSiteName("asd")
-        ->build(), 'DrushInstall.buildNew'
+      $this->taskDrupalInstallTasks()
+        ->buildNew(), 'taskDrupalInstallTasks.buildNew'
     );
-
-    $collection->add(
-      $this->taskSiteSettings()->updateSettings(),
-      'SiteSettings.configure'
-    );
-
-    $collection->add(
-      $this->taskDrushSystemSiteUuid(Configurations::get('drupal.site.uuid')),
-      'DrushSystemSiteUuid'
-    );
-
-    // Rebuild caches.
-    $collection->add($this->taskDrushCacheRebuild(), 'Install.cacheRebuild');
 
     // Create a url for login.
-    $collection->add($this->taskDrushUserLogin(), 'UserLogin');
+    $collection->add($this->taskDrupalMaintenanceTasks()
+      ->loginOneTimeUrl(1), 'UserLogin');
 
     return $collection;
   }
@@ -182,13 +153,9 @@ class RoboFileBase extends \Robo\Tasks {
    */
   public function configurationExport() {
     $collection = new Collection();
-    $modules_dev = \Robo\Robo::config()->get('drupal.site.modules_dev', []);
-    $collection->add($this->taskDrushUninstallExtension($modules_dev));
-    $collection->add($this->taskDrushCacheRebuild());
-    $collection->add($this->taskDrushConfigExport());
-    if (!Environment::isProduction()) {
-      $collection->add($this->taskDrushEnableExtension($modules_dev));
-    }
+    $collection->add($this->taskDrupalConfigurationsTasks()
+      ->configurationExport()
+    );
     return $collection;
   }
 
@@ -203,14 +170,45 @@ class RoboFileBase extends \Robo\Tasks {
    */
   public function configurationImport() {
     $collection = new Collection();
-    $modules_dev = \Robo\Robo::config()->get('drupal.site.modules_dev', []);
-    $collection->add($this->taskDrushUninstallExtension($modules_dev));
-    $collection->add($this->taskDrushCacheRebuild());
-    $collection->add($this->taskDrushConfigImport());
-    if (!Environment::isProduction()) {
-      $collection->add($this->taskDrushEnableExtension($modules_dev));
-    }
+    $collection->add($this->taskDrupalConfigurationsTasks()
+      ->configurationImport()
+    );
     return $collection;
+  }
+
+  /**
+   * Database export.
+   *
+   * @param string|null $file_path
+   *   File path to save dump.
+   *
+   * @return \Robo\Contract\TaskInterface
+   */
+  private function databaseExportTask($file_path = NULL) {
+    $file_path = isset($file_path) ? $file_path : PathResolver::suggestionPathDump();
+    $tables = [
+      'cache_data',
+      'cache_bootstrap',
+      'cache_container',
+      'cache_config',
+      'cache_default',
+      'cache_discovery',
+      'cache_dynamic_page_cache',
+      'cache_entity',
+      'cache_menu',
+      'cache_migrate',
+      'cache_render',
+      'cache_toolbar',
+      'cachetags',
+      'watchdog',
+      'sessions',
+    ];
+    return $this->drushStack()
+      ->argForNextCommand(' > ' . escapeshellarg($file_path))
+      ->argForNextCommand('ordered-dump')
+      ->argForNextCommand('extra=--skip-comments')
+      ->argForNextCommand('structure-tables-list=' . escapeshellarg(implode(',', $tables)))
+      ->drush('sql-dump');
   }
 
   /**
@@ -229,9 +227,7 @@ class RoboFileBase extends \Robo\Tasks {
     if (!$this->isInstalled()) {
       throw new TaskException($this, 'Site not installed.');
     }
-    $file_path = isset($file_path) ? $file_path : PathResolver::suggestionPathDump();
-    $collection->add($this->taskDrushCacheRebuild());
-    $collection->add($this->taskDatabaseDumpExport($file_path));
+    $collection->add($this->databaseExportTask($file_path));
     return $collection;
   }
 
@@ -252,8 +248,10 @@ class RoboFileBase extends \Robo\Tasks {
     if (!$this->isInstalled()) {
       throw new TaskException($this, 'Site not installed.');
     }
-    $collection->add($this->taskDatabaseDumpImport($file_path));
-    $collection->add($this->taskDrushCacheRebuild());
+    // TODO: autoload last dump.
+    $collection->add($this->drushStack()
+      ->argForNextCommand('< ' . escapeshellarg($file_path))
+      ->drush('sql-cli'));
     return $collection;
   }
 
@@ -268,8 +266,7 @@ class RoboFileBase extends \Robo\Tasks {
    */
   public function siteMaintenanceMode($mode = TRUE) {
     $collection = new Collection();
-    $collection->add($this->taskSiteMaintenanceMode($mode));
-    $collection->add($this->taskDrushCacheRebuild());
+    $collection->add($this->taskDrupalMaintenanceTasks($mode));
     return $collection;
   }
 
@@ -281,7 +278,9 @@ class RoboFileBase extends \Robo\Tasks {
    */
   public function rebuildCache() {
     $collection = new Collection();
-    $collection->add($this->taskDrushCacheRebuild());
+    $collection->add($this->drushStack()
+      ->drush('cache-rebuild')
+    );
     return $collection;
   }
 
@@ -296,7 +295,9 @@ class RoboFileBase extends \Robo\Tasks {
    */
   public function siteUserLogin($uid = 1) {
     $collection = new Collection();
-    $collection->add($this->taskDrushUserLogin($uid));
+    $collection->add($this->taskDrupalMaintenanceTasks()
+      ->loginOneTimeUrl($uid)
+    );
     return $collection;
   }
 
@@ -306,10 +307,15 @@ class RoboFileBase extends \Robo\Tasks {
    * @return \Robo\Collection\Collection
    *   The command collection.
    */
-  public function updateDatabase() {
+  public function siteDatabaseUpdate() {
     $collection = new Collection();
-    $collection->add($this->taskDrushApplyDatabaseUpdates());
-    $collection->add($this->taskDrushCacheRebuild());
+    $collection->add($this->drushStack()
+      ->argForNextCommand('--entity-updates')
+      ->drush('updatedb')
+    );
+    $collection->add($this->drushStack()
+      ->drush('cache-rebuild')
+    );
     return $collection;
   }
 
@@ -319,10 +325,13 @@ class RoboFileBase extends \Robo\Tasks {
    * @return \Robo\Collection\Collection
    *   The command collection.
    */
-  public function updateTranslations() {
+  public function siteTranslationsUpdate() {
     $collection = new Collection();
-    $collection->add($this->taskDrushLocaleUpdate());
-    $collection->add($this->taskDrushCacheRebuild());
+    $collection->add($this->drushStack()
+      ->drush('locale-update'));
+    $collection->add($this->drushStack()
+      ->drush('cache-rebuild')
+    );
     return $collection;
   }
 

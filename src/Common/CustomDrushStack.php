@@ -12,61 +12,32 @@ use Lucacracco\Drupal8\Robo\Utility\PathResolver;
 trait CustomDrushStack {
 
   /**
-   * Custom Drush stack.
-   *
-   * @var \Lucacracco\Drupal8\Robo\Stack\CustomDrushStack
-   */
-  protected $drushStack = NULL;
-
-  /**
-   * @return mixed
-   */
-  protected function getDrupalUri() {
-    return $this->drushStack->getUri();
-  }
-
-  /**
-   * @param mixed $drupalUri
-   * @return $this
-   */
-  protected function setDrupalUri($drupalUri) {
-    $this->drushStack->uri($drupalUri);
-    return $this;
-  }
-
-  /**
-   * @param mixed $drupalRootDirectory
-   * @return $this
-   */
-  protected function setDrupalRootDirectory($drupalRootDirectory) {
-    $this->drushStack->drupalRootDirectory($drupalRootDirectory);
-    return $this;
-  }
-
-  /**
    * DrushStack used.
    *
-   * @param string|null $drupal_site_uri
+   * @param null|string $drupal_site_uri
    *   Target a site.
+   * @param null|string $drush_path
+   *   Drush path used.
+   * @param null|string $drupal_root_directory
+   *   Drupal web root directory.
    *
    * @return \Lucacracco\Drupal8\Robo\Stack\CustomDrushStack
    *   DrushStack with URI configured.
    */
-  protected function drushStack($drupal_site_uri = 'default') {
+  protected function drushStack($drupal_site_uri = NULL, $drush_path = NULL, $drupal_root_directory = NULL) {
+
+    $drush_path = isset($drush_path) ? $drush_path : PathResolver::drushPath();
+    $drupal_root_directory = isset($drupal_root_directory) ? $drupal_root_directory : PathResolver::docroot();
+    $drupal_site_uri = isset($drupal_site_uri) ? $drupal_site_uri : \Robo\Robo::config()
+      ->get('drupal.site.uri', 'default');
 
     // Init drushPath.
-    if (!isset($this->drushStack)) {
-      $this->drushStack = $this->getDrushStack(PathResolver::drushPath(), PathResolver::docroot());
-    }
+    $drushStack = $this->getDrushStack($drush_path, $drupal_root_directory);
 
-    // TODO: override from configuration.
+    // Set uri.
+    $drushStack->uri($drupal_site_uri);
 
-    // Override uri.
-    if ($this->drushStack->getUri() != $drupal_site_uri) {
-      $this->setDrupalUri($drupal_site_uri);
-    }
-
-    return $this->drushStack;
+    return $drushStack;
   }
 
   /**

@@ -19,19 +19,19 @@ trait loadTasks {
    *
    * @return \Lucacracco\Drupal8\Robo\Task\ConfigurationsTasks
    */
-  protected function taskConfigurationsTasks(Config $config = NULL) {
+  protected function taskDrupalConfigurationsTasks(Config $config = NULL) {
     return $this->task(ConfigurationsTasks::class, $config);
   }
 
   /**
-   * Tasks for manager the filesystem.
+   * Tasks for manager the installation.
    *
    * @param \Robo\Config\Config|null $config
    *   The configurations contains path for drushPath, drupal root, and more..
    *
    * @return \Lucacracco\Drupal8\Robo\Task\InstallTasks
    */
-  protected function taskInstallTasks(Config $config = NULL) {
+  protected function taskDrupalInstallTasks(Config $config = NULL) {
     return $this->task(InstallTasks::class, $config);
   }
 
@@ -43,8 +43,20 @@ trait loadTasks {
    *
    * @return \Lucacracco\Drupal8\Robo\Task\MaintenanceTasks
    */
-  protected function taskMaintenanceTasks(Config $config = NULL) {
+  protected function taskDrupalMaintenanceTasks(Config $config = NULL) {
     return $this->task(MaintenanceTasks::class, $config);
+  }
+
+  /**
+   * Tasks for manager the filesystem.
+   *
+   * @param \Robo\Config\Config|null $config
+   *   The configurations contains path for drushPath, drupal root, and more..
+   *
+   * @return \Lucacracco\Drupal8\Robo\Task\FileSystemTasks
+   */
+  protected function taskDrupalFileSystemTasks(Config $config = NULL) {
+    return $this->task(FileSystemTasks::class, $config);
   }
 
 }

@@ -2,8 +2,6 @@
 
 namespace Lucacracco\Drupal8\Robo\Task;
 
-use Lucacracco\Drupal8\Robo\Utility\PathResolver;
-
 /**
  * Class InstallTasks.
  *
@@ -21,31 +19,30 @@ class InstallTasks extends BaseTasks {
    */
   public function buildNew($settings = []) {
     $task_list = [
-      'composerInstall' => $this->collectionBuilder()
-        ->taskComposerInstall()
-        ->dir(PathResolver::getProjectPath())
-        ->option('optimize-autoloader')
-        ->option('prefer-dist'),
       'clearFilesSite' => $this->collectionBuilder()
-        ->taskFileSystemTasks()
+        ->taskDrupalFileSystemTasks()
         ->clearFilesSite(),
       'createFilesSite' => $this->collectionBuilder()
-        ->taskFileSystemTasks()
+        ->taskDrupalFileSystemTasks()
         ->createFilesSite(),
       'install' => $this->drushStack()
         ->argForNextCommand('--site-name=' . $this->config->get('drupal.site.name'))
         ->argForNextCommand('--site-mail=' . $this->config->get('drupal.site.mail'))
         ->argForNextCommand('--account-mail=' . $this->config->get('drupal.site.admin.mail'))
         ->argForNextCommand('--account-name=' . $this->config->get('drupal.site.admin.name'))
-        ->argForNextCommand('--account-pass=' . $this->config->get('drupal.site.admin.password'))
+        ->argForNextCommand('--account-pass=' . $this->config->get('drupal.site.admin.pass'))
         ->argForNextCommand('--db-url=' . $this->config->get('drupal.databases.default.url'))
         ->argForNextCommand('--locale=' . $this->config->get('drupal.site.local', 'en'))
         ->argForNextCommand('--sites-subdir=' . $this->config->get('drupal.site.sub_dir', 'default'))
         ->drush('site-install ' . $this->config->get('drupal.site.profile', 'standard') . " " . implode(' ', $settings)),
-      'siteSettingsConfigure' => $this->collectionBuilder()
-        ->taskSiteUpdateSettings(),
-      'setConfigUuid' => $this->collectionBuilder()
-        ->taskDrushConfigSet("system.site", "uuid", $this->config->get('drupal.site.uuid')),
+      'updateSettings' => $this->collectionBuilder()
+        ->taskDrupalMaintenanceTasks()
+        ->updateSettings(),
+      'setConfigUuid' => $this->drushStack()
+        ->argForNextCommand("system.site")
+        ->argForNextCommand("uuid")
+        ->argForNextCommand($this->config->get('drupal.site.uuid'))
+        ->drush('state-set'),
       'cacheRebuild' => $this->drushStack()
         ->drush('cache-rebuild'),
     ];
@@ -63,33 +60,35 @@ class InstallTasks extends BaseTasks {
    */
   public function buildConf($settings = []) {
     $task_list = [
-      'composerInstall' => $this->collectionBuilder()
-        ->taskComposerInstall()
-        ->dir(PathResolver::getProjectPath())
-        ->option('optimize-autoloader')
-        ->option('prefer-dist'),
       'clearFilesSite' => $this->collectionBuilder()
-        ->taskFileSystemTasks()
+        ->taskDrupalFileSystemTasks()
         ->clearFilesSite(),
       'createFilesSite' => $this->collectionBuilder()
-        ->taskFileSystemTasks()
+        ->taskDrupalFileSystemTasks()
         ->createFilesSite(),
       'install' => $this->drushStack()
         ->argForNextCommand('--site-name=' . $this->config->get('drupal.site.name'))
         ->argForNextCommand('--site-mail=' . $this->config->get('drupal.site.mail'))
         ->argForNextCommand('--account-mail=' . $this->config->get('drupal.site.admin.mail'))
         ->argForNextCommand('--account-name=' . $this->config->get('drupal.site.admin.name'))
-        ->argForNextCommand('--account-pass=' . $this->config->get('drupal.site.admin.password'))
+        ->argForNextCommand('--account-pass=' . $this->config->get('drupal.site.admin.pass'))
         ->argForNextCommand('--db-url=' . $this->config->get('drupal.databases.default.url'))
         ->argForNextCommand('--locale=' . $this->config->get('drupal.site.local', 'en'))
         ->argForNextCommand('--sites-subdir=' . $this->config->get('drupal.site.sub_dir', 'default'))
         ->drush('site-install ' . $this->config->get('drupal.site.profile', 'standard') . " " . implode(' ', $settings)),
-      'siteSettingsConfigure' => $this->updateSettings(),
-      'setConfigUuid' => $this->collectionBuilder()
-        ->taskDrushConfigSet("system.site", "uuid", $this->config->get('drupal.site.uuid')),
-      'cacheRebuild' => $this->collectionBuilder()
-        ->taskDrushCacheRebuild($this->config),
-      'updateConfig' => $this->updateConfig(),
+      'updateSettings' => $this->collectionBuilder()
+        ->taskDrupalMaintenanceTasks()
+        ->updateSettings(),
+      'setConfigUuid' => $this->drushStack()
+        ->argForNextCommand("system.site")
+        ->argForNextCommand("uuid")
+        ->argForNextCommand($this->config->get('drupal.site.uuid'))
+        ->drush('state-set'),
+      'cacheRebuild' => $this->drushStack()
+        ->drush('cache-rebuild'),
+      'updateConfig' => $this->collectionBuilder()
+        ->taskDrupalConfigurationsTasks()
+        ->configurationImport,
     ];
     $this->collection->addTaskList($task_list);
     return $this;
@@ -105,33 +104,32 @@ class InstallTasks extends BaseTasks {
    */
   public function buildConfigInstaller($settings = []) {
     $task_list = [
-      'composerInstall' => $this->collectionBuilder()
-        ->taskComposerInstall()
-        ->dir(PathResolver::getProjectPath())
-        ->option('optimize-autoloader')
-        ->option('prefer-dist'),
-      // TODO: composer required drupal/config_installer.
       'clearFilesSite' => $this->collectionBuilder()
-        ->taskFileSystemTasks()
+        ->taskDrupalFileSystemTasks()
         ->clearFilesSite(),
       'createFilesSite' => $this->collectionBuilder()
-        ->taskFileSystemTasks()
+        ->taskDrupalFileSystemTasks()
         ->createFilesSite(),
       'install' => $this->drushStack()
         ->argForNextCommand('--site-name=' . $this->config->get('drupal.site.name'))
         ->argForNextCommand('--site-mail=' . $this->config->get('drupal.site.mail'))
         ->argForNextCommand('--account-mail=' . $this->config->get('drupal.site.admin.mail'))
         ->argForNextCommand('--account-name=' . $this->config->get('drupal.site.admin.name'))
-        ->argForNextCommand('--account-pass=' . $this->config->get('drupal.site.admin.password'))
+        ->argForNextCommand('--account-pass=' . $this->config->get('drupal.site.admin.pass'))
         ->argForNextCommand('--db-url=' . $this->config->get('drupal.databases.default.url'))
         ->argForNextCommand('--locale=' . $this->config->get('drupal.site.local', 'en'))
         ->argForNextCommand('--sites-subdir=' . $this->config->get('drupal.site.sub_dir', 'default'))
         ->drush('site-install config_installer ' . implode(' ', $settings)),
-      'siteSettingsConfigure' => $this->updateSettings(),
-      'setConfigUuid' => $this->collectionBuilder()
-        ->taskDrushConfigSet("system.site", "uuid", $this->config->get('drupal.site.uuid')),
-      'cacheRebuild' => $this->collectionBuilder()
-        ->taskDrushCacheRebuild($this->config),
+      'updateSettings' => $this->collectionBuilder()
+        ->taskDrupalMaintenanceTasks()
+        ->updateSettings(),
+      'setConfigUuid' => $this->drushStack()
+        ->argForNextCommand("system.site")
+        ->argForNextCommand("uuid")
+        ->argForNextCommand($this->config->get('drupal.site.uuid'))
+        ->drush('state-set'),
+      'cacheRebuild' => $this->drushStack()
+        ->drush('cache-rebuild'),
     ];
     $this->collection->addTaskList($task_list);
     return $this;
@@ -148,35 +146,34 @@ class InstallTasks extends BaseTasks {
    */
   public function buildFromDatabase($dump, $settings = []) {
     $task_list = [
-      'composerInstall' => $this->collectionBuilder()
-        ->taskComposerInstall()
-        ->dir(PathResolver::getProjectPath())
-        ->option('optimize-autoloader')
-        ->option('prefer-dist'),
       'clearFilesSite' => $this->collectionBuilder()
-        ->taskFileSystemTasks()
+        ->taskDrupalFileSystemTasks()
         ->clearFilesSite(),
       'createFilesSite' => $this->collectionBuilder()
-        ->taskFileSystemTasks()
+        ->taskDrupalFileSystemTasks()
         ->createFilesSite(),
       'install' => $this->drushStack()
         ->argForNextCommand('--site-name=' . $this->config->get('drupal.site.name'))
         ->argForNextCommand('--site-mail=' . $this->config->get('drupal.site.mail'))
         ->argForNextCommand('--account-mail=' . $this->config->get('drupal.site.admin.mail'))
         ->argForNextCommand('--account-name=' . $this->config->get('drupal.site.admin.name'))
-        ->argForNextCommand('--account-pass=' . $this->config->get('drupal.site.admin.password'))
+        ->argForNextCommand('--account-pass=' . $this->config->get('drupal.site.admin.pass'))
         ->argForNextCommand('--db-url=' . $this->config->get('drupal.databases.default.url'))
         ->argForNextCommand('--locale=' . $this->config->get('drupal.site.local', 'en'))
         ->argForNextCommand('--sites-subdir=' . $this->config->get('drupal.site.sub_dir', 'default'))
         ->drush('site-install ' . $this->config->get('drupal.site.profile', 'standard') . " " . implode(' ', $settings)),
-      'siteSettingsConfigure' => $this->updateSettings(),
-      'setConfigUuid' => $this->collectionBuilder()
-        ->taskDrushConfigSet("system.site", "uuid", $this->config->get('drupal.site.uuid')),
-      'cacheRebuild' => $this->collectionBuilder()
-        ->taskDrushCacheRebuild($this->config),
+      'updateSettings' => $this->collectionBuilder()
+        ->taskDrupalMaintenanceTasks()
+        ->updateSettings(),
+      'setConfigUuid' => $this->drushStack()
+        ->argForNextCommand("system.site")
+        ->argForNextCommand("uuid")
+        ->argForNextCommand($this->config->get('drupal.site.uuid'))
+        ->drush('state-set'),
+      // TODO: import database.
       'updateConfig' => $this->taskDrushDumpImport($dump),
-      'cacheRebuildAfeterImportDump' => $this->collectionBuilder()
-        ->taskDrushCacheRebuild($this->config),
+      'cacheRebuild' => $this->drushStack()
+        ->drush('cache-rebuild'),
     ];
     $this->collection->addTaskList($task_list);
     return $this;

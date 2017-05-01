@@ -99,7 +99,7 @@ class Environment {
       }
     }
 
-    return self::getConf()->get($name, NULL);
+    return self::getConf()->get($name, FALSE);
   }
 
 }
