@@ -182,41 +182,6 @@ class RoboFileBase extends \Robo\Tasks {
    * @param string|null $file_path
    *   File path to save dump.
    *
-   * @return \Robo\Contract\TaskInterface
-   */
-  private function databaseExportTask($file_path = NULL) {
-    $file_path = isset($file_path) ? $file_path : PathResolver::suggestionPathDump();
-    $tables = [
-      'cache_data',
-      'cache_bootstrap',
-      'cache_container',
-      'cache_config',
-      'cache_default',
-      'cache_discovery',
-      'cache_dynamic_page_cache',
-      'cache_entity',
-      'cache_menu',
-      'cache_migrate',
-      'cache_render',
-      'cache_toolbar',
-      'cachetags',
-      'watchdog',
-      'sessions',
-    ];
-    return $this->drushStack()
-      ->argForNextCommand(' > ' . escapeshellarg($file_path))
-      ->argForNextCommand('ordered-dump')
-      ->argForNextCommand('extra=--skip-comments')
-      ->argForNextCommand('structure-tables-list=' . escapeshellarg(implode(',', $tables)))
-      ->drush('sql-dump');
-  }
-
-  /**
-   * Database export.
-   *
-   * @param string|null $file_path
-   *   File path to save dump.
-   *
    * @return \Robo\Collection\Collection
    *   The command collection.
    *
@@ -333,6 +298,77 @@ class RoboFileBase extends \Robo\Tasks {
       ->drush('cache-rebuild')
     );
     return $collection;
+  }
+
+  /**
+   * Install Extension.
+   *
+   * @param array $modules
+   *   A list of modules to install.
+   *
+   * @return \Robo\Collection\Collection
+   */
+  public function extensionInstall(array $modules) {
+    $collection = new Collection();
+    $collection->add(
+      $this->drushStack()
+        ->argsForNextCommand($modules)
+        ->drush("pm-enable"), 'extensionUninstall'
+    );
+    return $collection;
+  }
+
+  /**
+   * Uninstall Extension.
+   *
+   * @param array $modules
+   *   A list of modules to uninstall.
+   *
+   * @return \Robo\Collection\Collection
+   */
+  public function extensionUninstall(array $modules) {
+    $collection = new Collection();
+    $collection->add(
+      $this->drushStack()
+        ->argsForNextCommand($modules)
+        ->drush("pm-uninstall"), 'extensionUninstall'
+    );
+    return $collection;
+  }
+
+  /**
+   * Database export.
+   *
+   * @param string|null $file_path
+   *   File path to save dump.
+   *
+   * @return \Robo\Contract\TaskInterface
+   */
+  private function databaseExportTask($file_path = NULL) {
+    $file_path = isset($file_path) ? $file_path : PathResolver::suggestionPathDump();
+    $tables = [
+      'cache_data',
+      'cache_bootstrap',
+      'cache_container',
+      'cache_config',
+      'cache_default',
+      'cache_discovery',
+      'cache_dynamic_page_cache',
+      'cache_entity',
+      'cache_menu',
+      'cache_migrate',
+      'cache_render',
+      'cache_toolbar',
+      'cachetags',
+      'watchdog',
+      'sessions',
+    ];
+    return $this->drushStack()
+      ->argForNextCommand(' > ' . escapeshellarg($file_path))
+      ->argForNextCommand('ordered-dump')
+      ->argForNextCommand('extra=--skip-comments')
+      ->argForNextCommand('structure-tables-list=' . escapeshellarg(implode(',', $tables)))
+      ->drush('sql-dump');
   }
 
 }

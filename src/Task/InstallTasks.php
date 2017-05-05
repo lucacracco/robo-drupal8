@@ -42,7 +42,7 @@ class InstallTasks extends BaseTasks {
         ->argForNextCommand("system.site")
         ->argForNextCommand("uuid")
         ->argForNextCommand($this->config->get('drupal.site.uuid'))
-        ->drush('state-set'),
+        ->drush('config-set'),
       'cacheRebuild' => $this->drushStack()
         ->drush('cache-rebuild'),
     ];
@@ -83,12 +83,12 @@ class InstallTasks extends BaseTasks {
         ->argForNextCommand("system.site")
         ->argForNextCommand("uuid")
         ->argForNextCommand($this->config->get('drupal.site.uuid'))
-        ->drush('state-set'),
+        ->drush('config-set'),
       'cacheRebuild' => $this->drushStack()
         ->drush('cache-rebuild'),
       'updateConfig' => $this->collectionBuilder()
         ->taskDrupalConfigurationsTasks()
-        ->configurationImport,
+        ->configurationImport(),
     ];
     $this->collection->addTaskList($task_list);
     return $this;
@@ -127,7 +127,7 @@ class InstallTasks extends BaseTasks {
         ->argForNextCommand("system.site")
         ->argForNextCommand("uuid")
         ->argForNextCommand($this->config->get('drupal.site.uuid'))
-        ->drush('state-set'),
+        ->drush('config-set'),
       'cacheRebuild' => $this->drushStack()
         ->drush('cache-rebuild'),
     ];
@@ -169,7 +169,7 @@ class InstallTasks extends BaseTasks {
         ->argForNextCommand("system.site")
         ->argForNextCommand("uuid")
         ->argForNextCommand($this->config->get('drupal.site.uuid'))
-        ->drush('state-set'),
+        ->drush('config-set'),
       // TODO: import database.
       'updateConfig' => $this->taskDrushDumpImport($dump),
       'cacheRebuild' => $this->drushStack()
