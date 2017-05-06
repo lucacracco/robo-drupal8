@@ -143,6 +143,15 @@ class MaintenanceTasks extends BaseTasks {
     return $this;
   }
 
+  /**
+   * Update sites.php.
+   *
+   * @return $this
+   */
+  public function updateSitesPhp() {
+    // TODO:
+    return $this;
+  }
 
   /**
    * Convert from an old-style database URL to an array of database settings.

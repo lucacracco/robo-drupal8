@@ -37,7 +37,8 @@ class InstallTasks extends BaseTasks {
         ->drush('site-install ' . $this->config->get('drupal.site.profile', 'standard') . " " . implode(' ', $settings)),
       'updateSettings' => $this->collectionBuilder()
         ->taskDrupalMaintenanceTasks()
-        ->updateSettings(),
+        ->updateSettings()
+        ->updateSitesPhp(),
       'cacheRebuild' => $this->drushStack()
         ->drush('cache-rebuild'),
     ];
@@ -74,7 +75,8 @@ class InstallTasks extends BaseTasks {
         ->drush('site-install ' . $this->config->get('drupal.site.profile', 'standard') . " " . implode(' ', $settings)),
       'updateSettings' => $this->collectionBuilder()
         ->taskDrupalMaintenanceTasks()
-        ->updateSettings(),
+        ->updateSettings()
+        ->updateSitesPhp(),
       'cacheRebuild' => $this->drushStack()
         ->drush('cache-rebuild'),
     ];
@@ -110,7 +112,8 @@ class InstallTasks extends BaseTasks {
         ->drush('site-install config_installer ' . implode(' ', $settings)),
       'updateSettings' => $this->collectionBuilder()
         ->taskDrupalMaintenanceTasks()
-        ->updateSettings(),
+        ->updateSettings()
+        ->updateSitesPhp(),
       'cacheRebuild' => $this->drushStack()
         ->drush('cache-rebuild'),
     ];
@@ -147,7 +150,8 @@ class InstallTasks extends BaseTasks {
         ->drush('site-install ' . $this->config->get('drupal.site.profile', 'standard') . " " . implode(' ', $settings)),
       'updateSettings' => $this->collectionBuilder()
         ->taskDrupalMaintenanceTasks()
-        ->updateSettings(),
+        ->updateSettings()
+        ->updateSitesPhp(),
       // TODO: import database.
       'updateConfig' => $this->taskDrushDumpImport($dump),
       'cacheRebuild' => $this->drushStack()

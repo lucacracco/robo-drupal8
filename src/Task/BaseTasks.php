@@ -66,6 +66,18 @@ abstract class BaseTasks extends BaseTask implements BuilderAwareInterface {
     $this->root = PathResolver::absolute($this->config->get('project.base_path', '/var/www/html'));
     $this->drupalRoot = PathResolver::absolute($this->config->get('drupal.root', './web'));
     $this->siteDir = PathResolver::absolute($this->drupalRoot . DIRECTORY_SEPARATOR . 'sites' . DIRECTORY_SEPARATOR . $this->config->get('drupal.site.sub_dir', 'default'));
+    $fs = new \Symfony\Component\Filesystem\Filesystem();
+    if (!PathResolver::existDir($this->siteDir)) {
+      $fs->mkdir($this->siteDir);
+    }
+    if(!PathResolver::existDir($this->siteDir . DIRECTORY_SEPARATOR . 'default.settings.php')){
+      $base_path = PathResolver::absolute($this->drupalRoot . DIRECTORY_SEPARATOR . 'sites');
+      $fs->copy($base_path . DIRECTORY_SEPARATOR . 'default/default.settings.php', $this->siteDir . DIRECTORY_SEPARATOR . 'default.settings.php');
+    }
+    if(!PathResolver::existDir($this->siteDir . DIRECTORY_SEPARATOR . 'default.services.yml')){
+      $base_path = PathResolver::absolute($this->drupalRoot . DIRECTORY_SEPARATOR . 'sites');
+      $fs->copy($base_path . DIRECTORY_SEPARATOR . 'default/default.services.yml', $this->siteDir . DIRECTORY_SEPARATOR . 'default.services.yml');
+    }
   }
 
   /**
