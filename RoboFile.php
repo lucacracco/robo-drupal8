@@ -16,7 +16,7 @@ class RoboFile extends \Robo\Tasks {
    *
    * @var string[]
    */
-  protected $pathsConf = ['_base.yml.dist'];
+  protected $pathsConf = ['./build/_base.yml.dist'];
 
   /**
    * RoboFile constructor.

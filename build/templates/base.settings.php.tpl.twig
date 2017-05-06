@@ -1,0 +1,41 @@
+/**
+* Custom configuration
+*/
+
+/**
+* Database settings:
+*/
+$databases['default']['default'] = array (
+'database' => '{{ drupal.databases.default.database }}',
+'username' => '{{ drupal.databases.default.username }}',
+'password' => '{{ drupal.databases.default.password }}',
+'prefix' => '{{ drupal.databases.default.prefix }}',
+'host' => '{{ drupal.databases.default.host }}',
+'port' => '{{ drupal.databases.default.port }}',
+'namespace' => '{{ drupal.databases.default.namespace }}',
+'driver' => '{{ drupal.databases.default.driver }}',
+);
+
+/**
+* CONFIG_SYNC_DIRECTORY config.
+*/
+$config_directories[CONFIG_SYNC_DIRECTORY] = '{{ drupal.site.config_dir }}';
+
+/**
+* The active installation profile.
+*/
+#$settings['install_profile'] = '{{ drupal.site.profile }}';
+
+/**
+* Environment Indicator.
+*/
+{% if environment == 'local' %}
+    {% set bg_color, fg_color = '#829356', '#FFFFFF' %}
+{% elseif environment == 'stage' %}
+    {% set bg_color, fg_color = '#C2571A', '#FFFFFF' %}
+{% else %}
+    {% set bg_color, fg_color = '#9A2617', '#FFFFFF' %}
+{% endif %}
+$config['environment_indicator.indicator']['bg_color'] = '{{ bg_color }}';
+$config['environment_indicator.indicator']['fg_color'] = '{{ fg_color }}';
+$config['environment_indicator.indicator']['name'] = '{{ environment }}';
