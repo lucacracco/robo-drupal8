@@ -35,8 +35,6 @@ drupal:
 
   # Site configurations.
   site:
-    # Use https://www.guidgenerator.com/online-guid-generator.aspx for generate UUID.
-    uuid: 97339455-aa2b-46aa-8057-b75d2fe408d9
     mail: site@example.it
     name: 'Site Examples'
     locale: en

@@ -51,17 +51,13 @@ class RoboFileBase extends \Robo\Tasks {
     if ($this->isInstalled()) {
       $collection->add($this->databaseExportTask());
     }
-
-    // TODO: update composer with config_installer.
-
-    // Build site.
     $config_subdir = \Robo\Robo::config()->get('drupal.site.config_dir', NULL);
     if (!isset($config_subdir)) {
       throw new \InvalidArgumentException("Configuration dir not found.");
     }
 
     $collection->add($this->taskDrupalInstallTasks()
-      ->buildConf(
+      ->buildConfigInstaller(
         [
           "config_installer_sync_configure_form.sync_directory=\"{$config_subdir}\"",
         ]
@@ -332,6 +328,23 @@ class RoboFileBase extends \Robo\Tasks {
       $this->drushStack()
         ->argsForNextCommand($modules)
         ->drush("pm-uninstall"), 'extensionUninstall'
+    );
+    return $collection;
+  }
+
+  /**
+   * Exec drush command.
+   *
+   * @param string $arg
+   *   Command to exec.
+   *
+   * @return \Robo\Collection\Collection
+   */
+  public function drush($arg = "") {
+    $collection = new Collection();
+    $collection->add(
+      $this->drushStack()
+        ->drush($arg), 'drush'
     );
     return $collection;
   }

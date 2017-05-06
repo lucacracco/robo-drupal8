@@ -38,11 +38,6 @@ class InstallTasks extends BaseTasks {
       'updateSettings' => $this->collectionBuilder()
         ->taskDrupalMaintenanceTasks()
         ->updateSettings(),
-      'setConfigUuid' => $this->drushStack()
-        ->argForNextCommand("system.site")
-        ->argForNextCommand("uuid")
-        ->argForNextCommand($this->config->get('drupal.site.uuid'))
-        ->drush('config-set'),
       'cacheRebuild' => $this->drushStack()
         ->drush('cache-rebuild'),
     ];
@@ -75,20 +70,13 @@ class InstallTasks extends BaseTasks {
         ->argForNextCommand('--db-url=' . $this->config->get('drupal.databases.default.url'))
         ->argForNextCommand('--locale=' . $this->config->get('drupal.site.local', 'en'))
         ->argForNextCommand('--sites-subdir=' . $this->config->get('drupal.site.sub_dir', 'default'))
+        ->argForNextCommand('--config-dir=' . $this->config->get('drupal.site.config_dir', 'default'))
         ->drush('site-install ' . $this->config->get('drupal.site.profile', 'standard') . " " . implode(' ', $settings)),
       'updateSettings' => $this->collectionBuilder()
         ->taskDrupalMaintenanceTasks()
         ->updateSettings(),
-      'setConfigUuid' => $this->drushStack()
-        ->argForNextCommand("system.site")
-        ->argForNextCommand("uuid")
-        ->argForNextCommand($this->config->get('drupal.site.uuid'))
-        ->drush('config-set'),
       'cacheRebuild' => $this->drushStack()
         ->drush('cache-rebuild'),
-      'updateConfig' => $this->collectionBuilder()
-        ->taskDrupalConfigurationsTasks()
-        ->configurationImport(),
     ];
     $this->collection->addTaskList($task_list);
     return $this;
@@ -123,11 +111,6 @@ class InstallTasks extends BaseTasks {
       'updateSettings' => $this->collectionBuilder()
         ->taskDrupalMaintenanceTasks()
         ->updateSettings(),
-      'setConfigUuid' => $this->drushStack()
-        ->argForNextCommand("system.site")
-        ->argForNextCommand("uuid")
-        ->argForNextCommand($this->config->get('drupal.site.uuid'))
-        ->drush('config-set'),
       'cacheRebuild' => $this->drushStack()
         ->drush('cache-rebuild'),
     ];
@@ -165,11 +148,6 @@ class InstallTasks extends BaseTasks {
       'updateSettings' => $this->collectionBuilder()
         ->taskDrupalMaintenanceTasks()
         ->updateSettings(),
-      'setConfigUuid' => $this->drushStack()
-        ->argForNextCommand("system.site")
-        ->argForNextCommand("uuid")
-        ->argForNextCommand($this->config->get('drupal.site.uuid'))
-        ->drush('config-set'),
       // TODO: import database.
       'updateConfig' => $this->taskDrushDumpImport($dump),
       'cacheRebuild' => $this->drushStack()
