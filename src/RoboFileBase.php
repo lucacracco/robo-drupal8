@@ -357,7 +357,7 @@ class RoboFileBase extends \Robo\Tasks {
    *
    * @return \Robo\Contract\TaskInterface
    */
-  private function databaseExportTask($file_path = NULL) {
+  protected function databaseExportTask($file_path = NULL) {
     $file_path = isset($file_path) ? $file_path : PathResolver::suggestionPathDump();
     $tables = [
       'cache_data',

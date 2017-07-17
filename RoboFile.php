@@ -36,8 +36,8 @@ class RoboFile extends \Robo\Tasks {
      * Default use '$config->import($loader->export());' and not
      * '$config->import($processor->export());'.
      */
-    $loader = new \Robo\Config\YamlConfigLoader();
-    $processor = new \Robo\Config\ConfigProcessor();
+    $loader = new \Consolidation\Config\Loader\YamlConfigLoader();
+    $processor = new \Consolidation\Config\Loader\ConfigProcessor();
     $processor->add($config->export());
     foreach ($this->pathsConf as $path) {
       if (file_exists($path)) {

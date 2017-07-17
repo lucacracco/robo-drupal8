@@ -50,8 +50,3 @@ drupal:
       mail: admin@example.com
       name: admin
       pass: admin
-
-    # Modules Development that will be installed. (use only environment local).
-    modules_dev:
-      - field_ui
-      - views_ui
