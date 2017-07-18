@@ -210,6 +210,7 @@ class RoboFileBase extends \Robo\Tasks {
       throw new TaskException($this, 'Site not installed.');
     }
     // TODO: autoload last dump.
+    $collection->add($this->drushStack()->drush('sql-drop'));
     $collection->add($this->drushStack()
       ->argForNextCommand('< ' . escapeshellarg($file_path))
       ->drush('sql-cli'));
