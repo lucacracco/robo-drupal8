@@ -1,0 +1,57 @@
+{
+  "name": "lucacracco/robodrupal8-project",
+  "description": "Example project used to create new projects with RD8.",
+  "license": "GPL-2.0",
+  "authors": [],
+  "repositories": {
+    "blt": {
+      "type": "path",
+      "url": "../robo-drupal8",
+      "options": {
+        "symlink": true
+      }
+    },
+    "drupal": {
+      "type": "composer",
+      "url": "https://packages.drupal.org/8"
+    }
+  },
+  "require": {
+    "lucacracco/robo-drupal8": "*@dev"
+  },
+  "extra": {
+    "enable-patching": true,
+    "installer-paths": {
+      "docroot/core": [
+        "type:drupal-core"
+      ],
+      "docroot/modules/contrib/{$name}": [
+        "type:drupal-module"
+      ],
+      "docroot/profiles/contrib/{$name}": [
+        "type:drupal-profile"
+      ],
+      "docroot/themes/contrib/{$name}": [
+        "type:drupal-theme"
+      ],
+      "docroot/libraries/{$name}": [
+        "type:drupal-library"
+      ]
+    },
+    "merge-plugin": {
+      "require": [
+        "../robo-drupal8/composer.required.json",
+        "../robo-drupal8/composer.suggested.json"
+      ],
+      "include": [
+        "../robo-drupal8/composer.overrides.json"
+      ],
+      "merge-extra": true,
+      "merge-extra-deep": true,
+      "merge-scripts": true,
+      "replace": true
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
