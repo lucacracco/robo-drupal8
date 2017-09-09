@@ -6,6 +6,7 @@ use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use Lucacracco\RoboDrupal8\Robo\Common\ArrayManipulator;
 use Lucacracco\RoboDrupal8\Robo\Config\ConfigAwareTrait;
+use Lucacracco\RoboDrupal8\Robo\Tasks\LoadTasks;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Robo\Common\IO;
@@ -28,8 +29,7 @@ class RoboDrupal8Tasks implements ConfigAwareInterface, LoggerAwareInterface, Bu
   use ConfigAwareTrait;
   use IO;
   use LoggerAwareTrait;
-
-  //  use LoadTasks;
+  use LoadTasks;
 
   /**
    * Writes an array to the screen as a formatted table.

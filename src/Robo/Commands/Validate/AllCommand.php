@@ -19,7 +19,7 @@ class AllCommand extends RoboDrupal8Tasks {
   public function all() {
     $status_code = $this->invokeCommands([
       'validate:composer',
-      'validate:phpcs',
+      // TODO: add phpcs, phpunit.
     ]);
 
     return $status_code;
