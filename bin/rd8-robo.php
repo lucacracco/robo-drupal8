@@ -62,6 +62,7 @@ function find_directory_containing_files($working_directory, $files, $max_height
       $file_path = realpath($file_path . '/..');
     }
   }
+
   return FALSE;
 }
 

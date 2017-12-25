@@ -14,27 +14,24 @@
       "email": "craccoluca@gmail.com"
     }
   ],
+
   "autoload": {
     "psr-4": {
       "Lucacracco\\RoboDrupal8\\": "src"
     }
   },
   "require": {
-    "composer/installers": "^1.2.0",
     "composer-plugin-api": "^1.0.0",
-    "oomphinc/composer-installers-extender": "^1.1",
-    "drush/drush": "^8.1.10",
-    "php": ">=5.6",
-    "symfony/yaml": "^2.8.11|^3.2",
-    "wikimedia/composer-merge-plugin": "^1.4.1",
-    "squizlabs/php_codesniffer": "^2.7",
-    "consolidation/robo": "^1.1.0",
+    "composer/installers": "^1.2.0",
     "consolidation/config": "^1.0.0",
-    "boedah/robo-drush": "^3.0"
-  },
-  "require-dev": {
-    "guzzlehttp/guzzle": "^6.2",
-    "composer/composer": "dev-master"
+    "consolidation/robo": "^1.2.0",
+    "cweagans/composer-patches": "^1.6.0",
+    "drush/drush": "^9.0.0-beta9",
+    "symfony/yaml": "~3.2.8",
+    "grasmash/yaml-cli": "^1.0.0",
+    "grasmash/yaml-expander": "^1.2.0",
+    "squizlabs/php_codesniffer": "^2.7",
+    "wikimedia/composer-merge-plugin": "^1.4"
   },
   "extra": {
     "class": "Lucacracco\\RoboDrupal8\\Composer\\Plugin"
