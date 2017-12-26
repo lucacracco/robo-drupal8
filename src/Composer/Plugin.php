@@ -7,11 +7,6 @@ use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\IO\IOInterface;
 use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
-use Composer\Installer\PackageEvent;
-use Composer\DependencyResolver\Operation\InstallOperation;
-use Composer\DependencyResolver\Operation\UpdateOperation;
-use Composer\Package\PackageInterface;
-use Composer\Installer\PackageEvents;
 use Composer\Script\ScriptEvents;
 use Composer\Util\ProcessExecutor;
 use Composer\Util\Filesystem;
@@ -34,29 +29,42 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   const RD8_DIR = 'robo-drupal8';
 
   /**
-   * @var Composer
+   * Priority that plugin uses to register callbacks.
+   */
+  const CALLBACK_PRIORITY = 60000;
+
+  /**
+   * @var \Composer\Composer
    */
   protected $composer;
 
   /**
-   * @var IOInterface
+   * @var \Composer\IO\IOInterface
    */
   protected $io;
 
   /**
-   * @var EventDispatcher
-   */
-  protected $eventDispatcher;
-
-  /**
-   * @var ProcessExecutor
+   * @var \Composer\Util\ProcessExecutor
    */
   protected $executor;
 
   /**
-   * @var \Composer\Package\PackageInterface
+   * Returns an array of event names this subscriber wants to listen to.
    */
-  protected $bltPackage;
+  public static function getSubscribedEvents() {
+    return [
+      ScriptEvents::PRE_INSTALL_CMD => [
+        ['scaffoldComposerIncludes', self::CALLBACK_PRIORITY],
+        ['checkInstallerPaths'],
+      ],
+      ScriptEvents::POST_UPDATE_CMD => [
+        ['scaffoldComposerIncludes', self::CALLBACK_PRIORITY],
+      ],
+      ScriptEvents::PRE_AUTOLOAD_DUMP => [
+        ['scaffoldComposerIncludes', self::CALLBACK_PRIORITY],
+      ],
+    ];
+  }
 
   /**
    * Apply plugin modifications to composer.
@@ -67,27 +75,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   public function activate(Composer $composer, IOInterface $io) {
     $this->composer = $composer;
     $this->io = $io;
-    $this->eventDispatcher = $composer->getEventDispatcher();
     ProcessExecutor::setTimeout(3600);
     $this->executor = new ProcessExecutor($this->io);
-  }
-
-  /**
-   * Returns an array of event names this subscriber wants to listen to.
-   */
-  public static function getSubscribedEvents() {
-    return [
-      ScriptEvents::PRE_INSTALL_CMD => array(
-        array('scaffoldComposerIncludes', self::CALLBACK_PRIORITY),
-        array('checkInstallerPaths'),
-      ),
-      ScriptEvents::POST_UPDATE_CMD => array(
-        array('scaffoldComposerIncludes', self::CALLBACK_PRIORITY),
-      ),
-      ScriptEvents::PRE_AUTOLOAD_DUMP => array(
-        array('scaffoldComposerIncludes', self::CALLBACK_PRIORITY),
-      ),
-    ];
   }
 
   /**
@@ -97,10 +86,10 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    */
   public function scaffoldComposerIncludes(Event $event) {
 
-    $files = array(
+    $files = [
       'composer.required.json',
       'composer.suggested.json',
-    );
+    ];
 
     $dir = $this->getRepoRoot() . DIRECTORY_SEPARATOR . self::RD8_DIR;
     $package_dir = $this->getVendorPath() . DIRECTORY_SEPARATOR . self::PACKAGE_NAME;
@@ -150,6 +139,40 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    */
   protected function createDirectory($path) {
     return is_dir($path) || mkdir($path);
+  }
+
+  /**
+   * Executes a shell command with escaping.
+   *
+   * Example usage: $this->executeCommand("test command %s", [ $value ]).
+   *
+   * @param string $cmd
+   * @param array $args
+   * @param bool $display_output
+   *   Optional. Defaults to FALSE. If TRUE, command output will be displayed
+   *   on screen.
+   *
+   * @return bool
+   *   TRUE if command returns successfully with a 0 exit code.
+   */
+  protected function executeCommand($cmd, $args = [], $display_output = FALSE) {
+    // Shell-escape all arguments.
+    foreach ($args as $index => $arg) {
+      $args[$index] = escapeshellarg($arg);
+    }
+    // Add command as first arg.
+    array_unshift($args, $cmd);
+    // And replace the arguments.
+    $command = call_user_func_array('sprintf', $args);
+    $output = '';
+    if ($this->io->isVerbose() || $display_output) {
+      $this->io->write('<comment> > ' . $command . '</comment>');
+      $io = $this->io;
+      $output = function ($type, $buffer) use ($io) {
+        $io->write($buffer, FALSE);
+      };
+    }
+    return ($this->executor->execute($command, $output) == 0);
   }
 
 }

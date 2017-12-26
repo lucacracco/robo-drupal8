@@ -9,7 +9,6 @@ use Lucacracco\RoboDrupal8\Robo\Config\ConfigAwareTrait;
 use Lucacracco\RoboDrupal8\Robo\Log\Rd8LogStyle;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
-use Robo\Collection\CollectionBuilder;
 use Robo\Config\Config;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -67,6 +66,7 @@ class Rd8 implements ContainerAwareInterface, LoggerAwareInterface {
 
     $this->runner = new RoboRunner();
     $this->runner->setContainer($container);
+
     $this->setLogger($container->get('logger'));
   }
 
@@ -90,11 +90,13 @@ class Rd8 implements ContainerAwareInterface, LoggerAwareInterface {
    */
   private function addPluginsCommandsAndHooks() {
     $commands = $this->getCommands([
-      'path' => $this->getConfig()->get('repo.root') . '/robo-drupal8/src/Commands',
+      'path' => $this->getConfig()
+          ->get('repo.root') . '/robo-drupal8/src/Commands',
       'namespace' => 'Lucacracco\RoboDrupal8\Custom\Commands',
     ]);
     $hooks = $this->getHooks([
-      'path' => $this->getConfig()->get('repo.root') . '/robo-drupal8/src/Hooks',
+      'path' => $this->getConfig()
+          ->get('repo.root') . '/robo-drupal8/src/Hooks',
       'namespace' => 'Lucacracco\RoboDrupal8\Custom\Hooks',
     ]);
     $plugin_commands_hooks = array_merge($commands, $hooks);
@@ -109,7 +111,8 @@ class Rd8 implements ContainerAwareInterface, LoggerAwareInterface {
    */
   private function addDefaultArgumentsAndOptions(Application $app) {
     $app->getDefinition()->addOption(
-      new InputOption('--yes', '-y', InputOption::VALUE_NONE, 'Answer all confirmations with "yes"'));
+      new InputOption('--yes', '-y', InputOption::VALUE_NONE, 'Answer all confirmations with "yes"')
+    );
     $app->getDefinition()->addOption(
       new InputOption('--define', '-D', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Define a configuration item value.', [])
     );

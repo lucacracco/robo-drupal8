@@ -31,7 +31,8 @@
     "grasmash/yaml-cli": "^1.0.0",
     "grasmash/yaml-expander": "^1.2.0",
     "squizlabs/php_codesniffer": "^2.7",
-    "wikimedia/composer-merge-plugin": "^1.4"
+    "wikimedia/composer-merge-plugin": "^1.4",
+    "composer/composer": "^1.5"
   },
   "extra": {
     "class": "Lucacracco\\RoboDrupal8\\Composer\\Plugin"
