@@ -16,9 +16,9 @@ class ImportCommand extends RoboDrupal8Tasks {
   /**
    * Imports a .sql file into the Drupal database.
    *
-   * // TODO: change import from manual reference, not use 'setup.dump-file'.
-   *
    * @command setup:import
+   *
+   * @validateDrushConfig
    */
   public function import() {
     $task = $this->taskDrush()
