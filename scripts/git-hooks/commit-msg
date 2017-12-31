@@ -1,0 +1,17 @@
+#!/usr/bin/env php
+<?php
+echo "Executing .git/hooks/commit-msg...\n";
+$repo_root = getcwd();
+
+$original_argv = $_SERVER['argv'];
+$commit_msg = rtrim(file_get_contents($original_argv[1]), "\n");
+
+// Construct pseudo `rd8 commit-msg $commit_msg` call.
+$_SERVER['argv'] = [
+  $repo_root . '/bin/rd8',
+  'git:commit-msg',
+  $commit_msg,
+];
+$_SERVER['argc'] = count($_SERVER['argv']);
+
+require __DIR__ . '/../../bin/rd8-robo.php';

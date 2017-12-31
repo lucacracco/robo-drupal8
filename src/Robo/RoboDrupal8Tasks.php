@@ -6,6 +6,8 @@ use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use Lucacracco\RoboDrupal8\Robo\Common\ArrayManipulator;
 use Lucacracco\RoboDrupal8\Robo\Config\ConfigAwareTrait;
+use Lucacracco\RoboDrupal8\Robo\Inspector\InspectorAwareInterface;
+use Lucacracco\RoboDrupal8\Robo\Inspector\InspectorAwareTrait;
 use Lucacracco\RoboDrupal8\Robo\Tasks\LoadTasks;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -24,11 +26,12 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @package Lucacracco\RoboDrupal8\Robo
  */
-class RoboDrupal8Tasks implements ConfigAwareInterface, LoggerAwareInterface, BuilderAwareInterface, IOAwareInterface, ContainerAwareInterface {
+class RoboDrupal8Tasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerAwareInterface, BuilderAwareInterface, IOAwareInterface, ContainerAwareInterface {
 
   use ContainerAwareTrait;
   use LoadAllTasks;
   use ConfigAwareTrait;
+  use InspectorAwareTrait;
   use IO;
   use LoggerAwareTrait;
   use LoadTasks;

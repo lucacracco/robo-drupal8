@@ -2,7 +2,6 @@
 
 namespace Lucacracco\RoboDrupal8\Robo\Config;
 
-use Consolidation\Config\Loader\YamlConfigLoader;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -17,6 +16,8 @@ class DefaultConfig extends Rd8Config {
    *
    * @param string $repo_root
    *   The repository root of the project that depends on RD8.
+   *
+   * @throws \Exception
    */
   public function __construct($repo_root) {
     parent::__construct();
@@ -56,42 +57,30 @@ class DefaultConfig extends Rd8Config {
     $defaultAlias = $this->get('drush.default_alias');
     $alias = $defaultAlias == 'self' ? '' : $defaultAlias;
     $this->set('drush.alias', $alias);
+
     if (!$this->get('multisites')) {
       $this->set('multisites', $this->getSiteDirs());
     }
-  }
+    $multisites = $this->get('multisites');
+    $first_multisite = reset($multisites);
+    $site = $this->get('site', $first_multisite);
+    $this->setSite($site);
 
-  /**
-   * Sets multisite context by settings site-specific config values.
-   *
-   * @param string $site_name
-   *   The name of a multisite. E.g., if docroot/sites/example.com is the site,
-   *   $site_name would be example.com.
-   */
-  public function setSiteConfig($site_name) {
-    $this->config->set('site', $site_name);
-    if (!$this->config->get('drush.uri')) {
-      $this->config->set('drush.uri', $site_name);
+    // Adapt remote alias for the multisite.
+    if ($environment = $this->get('drush.aliases.remote_env')) {
+      $machine_name = $this->get('project.machine_name');
+      $this->config->set('drush.aliases.remote', $machine_name . '.' . $site . '.' . $environment);
     }
-
-    // After having set site, this should now return the multisite
-    // specific config.
-    $site_config_file = $this->get('rd8.config-files.multisite');
-    $this->importYamlFile($site_config_file);
   }
 
   /**
-   * Sets multisite context by settings site-specific config values.
-   *
-   * @param string $file_path
-   *   The file path to the config yaml file.
+   * @param $site
    */
-  public function importYamlFile($file_path) {
-    $loader = new YamlConfigLoader();
-    $processor = new YamlConfigProcessor();
-    $processor->add($this->config->export());
-    $processor->extend($loader->load($file_path));
-    $this->config->import($processor->export());
+  public function setSite($site) {
+    $this->config->set('site', $site);
+    if (!$this->get('drush.uri')) {
+      $this->set('drush.uri', $site);
+    }
   }
 
   /**
@@ -106,6 +95,8 @@ class DefaultConfig extends Rd8Config {
     $sites_dir = $this->get('docroot') . '/sites';
     $sites = [];
 
+    // If BLT's template has not yet been rsynced into the project root, it is
+    // possible that docroot/sites does not exist.
     if (!file_exists($sites_dir)) {
       return $sites;
     }

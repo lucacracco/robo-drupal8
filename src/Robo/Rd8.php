@@ -5,10 +5,14 @@ namespace Lucacracco\RoboDrupal8\Robo;
 use Consolidation\AnnotatedCommand\CommandFileDiscovery;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
+use Lucacracco\RoboDrupal8\Robo\Common\Executor;
 use Lucacracco\RoboDrupal8\Robo\Config\ConfigAwareTrait;
+use Lucacracco\RoboDrupal8\Robo\Inspector\Inspector;
+use Lucacracco\RoboDrupal8\Robo\Inspector\InspectorAwareInterface;
 use Lucacracco\RoboDrupal8\Robo\Log\Rd8LogStyle;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use Robo\Collection\CollectionBuilder;
 use Robo\Config\Config;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -174,10 +178,24 @@ class Rd8 implements ContainerAwareInterface, LoggerAwareInterface {
     // implement task methods, like taskExec(). Yes, there are now two builders
     // in the container. "collectionBuilder" used for the actual command that
     // was executed, and "builder" to be used with non-command classes.
-    //    $blt_tasks = new BltTasks();
-    //    $builder = new CollectionBuilder($blt_tasks);
-    //    $blt_tasks->setBuilder($builder);
-    //    $container->add('builder', $builder);
+    $blt_tasks = new RoboDrupal8Tasks();
+    $builder = new CollectionBuilder($blt_tasks);
+    $blt_tasks->setBuilder($builder);
+    $container->add('builder', $builder);
+    $container->add('executor', Executor::class)
+      ->withArgument('builder');
+
+    $container->share('inspector', Inspector::class)
+      ->withArgument('executor');
+
+    $container->inflector(InspectorAwareInterface::class)
+      ->invokeMethod('setInspector', ['inspector']);
+
+    /** @var \Consolidation\AnnotatedCommand\AnnotatedCommandFactory $factory */
+    $factory = $container->get('commandFactory');
+    // Tell the command loader to only allow command functions that have a
+    // name/alias.
+    $factory->setIncludeAllPublicMethods(FALSE);
   }
 
   /**
