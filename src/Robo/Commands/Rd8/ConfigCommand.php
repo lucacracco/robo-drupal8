@@ -1,6 +1,6 @@
 <?php
 
-namespace Lucacracco\RoboDrupal8\Robo\Commands;
+namespace Lucacracco\RoboDrupal8\Robo\Commands\Rd8;
 
 use Lucacracco\RoboDrupal8\Robo\RoboDrupal8Tasks;
 
@@ -32,6 +32,7 @@ class ConfigCommand extends RoboDrupal8Tasks {
    */
   public function dump() {
     $config = $this->getConfig()->export();
+    ksort($config);
     $this->printArrayAsTable($config);
   }
 

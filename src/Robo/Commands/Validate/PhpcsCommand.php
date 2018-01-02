@@ -15,8 +15,6 @@ class PhpcsCommand extends RoboDrupal8Tasks {
    * By default, these include custom themes, modules, and tests.
    *
    * @command validate:phpcs
-   *
-   * @throws \Exception
    */
   public function sniffFileSets() {
     $bin = $this->getConfigValue('composer.bin');
@@ -25,17 +23,17 @@ class PhpcsCommand extends RoboDrupal8Tasks {
       ->exec("$bin/phpcs")
       ->run();
     $exit_code = $result->getExitCode();
-    if($exit_code) {
-      if($this->input()->isInteractive()) {
+    if ($exit_code) {
+      if ($this->input()->isInteractive()) {
         $this->fixViolationsInteractively();
-        throw new \Exception("Initial execution of PHPCS failed. Re-run now that PHPCBF has fixed sonme violations");
-      }else{
-        $this->logger->notice("Try running 'rd8 fix:phpcbf to automatically fix standards violations.");
+        throw new \Exception("Initial execution of PHPCS failed. Re-run now that PHPCBF has fixed some violations.");
+      }
+      else {
+        $this->logger->notice('Try running `blt fix:phpcbf` to automatically fix standards violations.');
         throw new \Exception("PHPCS failed.");
       }
     }
   }
-
 
   /**
    * Prompts user to fix PHPCS violations.

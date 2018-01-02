@@ -1,0 +1,31 @@
+<?php
+
+namespace Lucacracco\RoboDrupal8\Robo\Commands\Setup;
+
+use Lucacracco\RoboDrupal8\Robo\RoboDrupal8Tasks;
+
+/**
+ * Defines commands in the "setup:import" namespace.
+ */
+class ImportCommand extends RoboDrupal8Tasks {
+
+  /**
+   * Imports a .sql file into the Drupal database.
+   *
+   * @command setup:import
+   *
+   * @validateDrushConfig
+   */
+  public function import() {
+    $task = $this->taskDrush()
+      ->drush('sql-drop')
+      ->drush('sql-cli < ' . $this->getConfigValue('setup.dump-file'));
+    $result = $task->run();
+    $exit_code = $result->getExitCode();
+
+    if ($exit_code) {
+      throw new \Exception("Unable to import setup.dump-file.");
+    }
+  }
+
+}
