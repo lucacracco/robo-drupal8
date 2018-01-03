@@ -1,0 +1,42 @@
+# Drupal.
+drupal:
+  site_name: default
+  account:
+    mail: admin@localhost
+    username: admin
+    password: admin
+  locale: en
+  local_settings_file: ${docroot}/sites/${site}/settings/local.settings.php
+  settings_file: ${docroot}/sites/${site}/settings.php
+  db:
+    database: drupal
+    username: drupal
+    password: drupal
+    host: localhost
+    port: 3306
+  url:
+    protocol: http
+    uri: ${drupal.url.protocol}://${drupal.site_name}.${project.machine_name}
+
+# PHPCs.
+phpcs:
+  standard: Drupal,DrupalPractice
+
+# PhpUnit.
+phpunit:
+  - path: ${repo.root}/tests/phpunit
+    class: 'ExampleTest'
+    file: 'ExampleTest.php'
+    config: null
+  # Customization for one or more custom phpunit test locations
+  # and if the core (or custom) config file should be included as a -c parameter.
+  # - path: '${docroot}/modules/custom/<your_module'
+  #   config: '${docroot}/core/phpunit.xml.dist'
+  # - path: '${docroot}/core'
+  #   config: '${docroot}/core/phpunit.xml.dist'
+
+
+# Override or custom for site.
+drush:
+  aliases:
+    local: 'self'

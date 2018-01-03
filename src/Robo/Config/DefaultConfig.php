@@ -5,11 +5,11 @@ namespace Lucacracco\RoboDrupal8\Robo\Config;
 use Symfony\Component\Finder\Finder;
 
 /**
- * Default configuration for RD8.
+ * Default configuration for Robo-Drupal8.
  *
  * @package Lucacracco\RoboDrupal8\Robo\Config
  */
-class DefaultConfig extends Rd8Config {
+class DefaultConfig extends RoboDrupal8Config {
 
   /**
    * DefaultConfig constructor.
@@ -24,12 +24,12 @@ class DefaultConfig extends Rd8Config {
 
     $this->set('repo.root', $repo_root);
     $this->set('docroot', $repo_root . '/docroot');
-    $this->set('robo-drupal8.root', $this->getRd8Root());
+    $this->set('rd8.root', $this->getRd8Root());
     $this->set('composer.bin', $repo_root . '/vendor/bin');
   }
 
   /**
-   * Gets the BLT root directory. E.g., /vendor/lucacracco/robo-drupal8.
+   * Gets the RD8 root directory. E.g., /vendor/lucacracco/robo-drupal8.
    *
    * @return string
    *   THe filepath for the Drupal docroot.
@@ -37,13 +37,13 @@ class DefaultConfig extends Rd8Config {
    * @throws \Exception
    */
   protected function getRd8Root() {
-    $possible_blt_roots = [
+    $possible_rd8_roots = [
       dirname(dirname(dirname(dirname(__FILE__)))),
       dirname(dirname(dirname(__FILE__))),
     ];
-    foreach ($possible_blt_roots as $possible_blt_root) {
-      if (file_exists("$possible_blt_root/template")) {
-        return $possible_blt_root;
+    foreach ($possible_rd8_roots as $possible_rd8_root) {
+      if (file_exists("$possible_rd8_root/template")) {
+        return $possible_rd8_root;
       }
     }
 
@@ -57,20 +57,9 @@ class DefaultConfig extends Rd8Config {
     $defaultAlias = $this->get('drush.default_alias');
     $alias = $defaultAlias == 'self' ? '' : $defaultAlias;
     $this->set('drush.alias', $alias);
-
-    if (!$this->get('multisites')) {
-      $this->set('multisites', $this->getSiteDirs());
-    }
-    $multisites = $this->get('multisites');
-    $first_multisite = reset($multisites);
+    $first_multisite = reset($this->getSiteDirs());
     $site = $this->get('site', $first_multisite);
     $this->setSite($site);
-
-    // Adapt remote alias for the multisite.
-    if ($environment = $this->get('drush.aliases.remote_env')) {
-      $machine_name = $this->get('project.machine_name');
-      $this->config->set('drush.aliases.remote', $machine_name . '.' . $site . '.' . $environment);
-    }
   }
 
   /**

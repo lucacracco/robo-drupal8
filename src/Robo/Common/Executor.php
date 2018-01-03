@@ -13,7 +13,6 @@ use Robo\Contract\VerbosityThresholdInterface;
 use Robo\Robo;
 use Symfony\Component\Process\Process;
 
-
 /**
  * A class for executing commands.
  *

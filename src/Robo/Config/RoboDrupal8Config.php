@@ -6,11 +6,11 @@ use Grasmash\YamlExpander\Expander;
 use Robo\Config\Config;
 
 /**
- * Class Rd8Config.
+ * Class RoboDrupal8Config.
  *
  * @package Lucacracco\RoboDrupal8\Robo\Config
  */
-class Rd8Config extends Config {
+class RoboDrupal8Config extends Config {
 
   /**
    * Expands YAML placeholders in a given file, using config object.

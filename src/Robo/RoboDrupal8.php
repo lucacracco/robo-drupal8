@@ -21,11 +21,11 @@ use Robo\Robo;
 use Robo\Runner as RoboRunner;
 
 /**
- * The RD8 Robo application.
+ * The RoboDrupal8 Robo application.
  *
  * @package Lucacracco\RoboDrupal8\Robo
  */
-class Rd8 implements ContainerAwareInterface, LoggerAwareInterface {
+class RoboDrupal8 implements ContainerAwareInterface, LoggerAwareInterface {
 
   const VERSION = '2.x';
 
@@ -51,7 +51,7 @@ class Rd8 implements ContainerAwareInterface, LoggerAwareInterface {
    * Object constructor.
    *
    * @param \Robo\Config\Config $config
-   *   The BLT configuration.
+   *   The RD8 configuration.
    * @param \Symfony\Component\Console\Input\InputInterface $input
    *   The input.
    * @param \Symfony\Component\Console\Output\OutputInterface $output
@@ -59,7 +59,7 @@ class Rd8 implements ContainerAwareInterface, LoggerAwareInterface {
    */
   public function __construct(Config $config, InputInterface $input = NULL, OutputInterface $output = NULL) {
     $this->setConfig($config);
-    $application = new Application('Rd8', Rd8::VERSION);
+    $application = new Application('RoboDrupal8', RoboDrupal8::VERSION);
 
     $container = Robo::createDefaultContainer($input, $output, $application, $config);
     $this->setContainer($container);
@@ -72,6 +72,57 @@ class Rd8 implements ContainerAwareInterface, LoggerAwareInterface {
     $this->runner->setContainer($container);
 
     $this->setLogger($container->get('logger'));
+  }
+
+  /**
+   * Register the necessary classes for RD8.
+   */
+  public function configureContainer($container) {
+
+    $container->share('logStyler', Rd8LogStyle::class);
+
+    // We create our own builder so that non-command classes are able to
+    // implement task methods, like taskExec(). Yes, there are now two builders
+    // in the container. "collectionBuilder" used for the actual command that
+    // was executed, and "builder" to be used with non-command classes.
+    $rd8_tasks = new RoboDrupal8Tasks();
+    $builder = new CollectionBuilder($rd8_tasks);
+    $rd8_tasks->setBuilder($builder);
+    $container->add('builder', $builder);
+    $container->add('executor', Executor::class)
+      ->withArgument('builder');
+
+    $container->share('inspector', Inspector::class)
+      ->withArgument('executor');
+
+    $container->inflector(InspectorAwareInterface::class)
+      ->invokeMethod('setInspector', ['inspector']);
+
+    /** @var \Consolidation\AnnotatedCommand\AnnotatedCommandFactory $factory */
+    $factory = $container->get('commandFactory');
+    // Tell the command loader to only allow command functions that have a
+    // name/alias.
+    $factory->setIncludeAllPublicMethods(FALSE);
+  }
+
+  /**
+   * Runs the instantiated RD8 application.
+   *
+   * @param \Symfony\Component\Console\Input\InputInterface $input
+   *   An input object to run the application with.
+   * @param \Symfony\Component\Console\Output\OutputInterface $output
+   *   An output object to run the application with.
+   *
+   * @return int
+   *   The exiting status code of the application
+   *
+   * @throws \Psr\Container\ContainerExceptionInterface
+   * @throws \Psr\Container\NotFoundExceptionInterface
+   */
+  public function run(InputInterface $input, OutputInterface $output) {
+    $application = $this->getContainer()->get('application');
+    $status_code = $this->runner->run($input, $output, $application, $this->commands);
+    return $status_code;
   }
 
   /**
@@ -165,54 +216,6 @@ class Rd8 implements ContainerAwareInterface, LoggerAwareInterface {
     $discovery = new CommandFileDiscovery();
     $discovery->setSearchPattern('*Hook.php')->setSearchLocations([]);
     return $discovery->discover($options['path'], $options['namespace']);
-  }
-
-  /**
-   * Register the necessary classes for RD8.
-   */
-  public function configureContainer($container) {
-
-    $container->share('logStyler', Rd8LogStyle::class);
-
-    // We create our own builder so that non-command classes are able to
-    // implement task methods, like taskExec(). Yes, there are now two builders
-    // in the container. "collectionBuilder" used for the actual command that
-    // was executed, and "builder" to be used with non-command classes.
-    $blt_tasks = new RoboDrupal8Tasks();
-    $builder = new CollectionBuilder($blt_tasks);
-    $blt_tasks->setBuilder($builder);
-    $container->add('builder', $builder);
-    $container->add('executor', Executor::class)
-      ->withArgument('builder');
-
-    $container->share('inspector', Inspector::class)
-      ->withArgument('executor');
-
-    $container->inflector(InspectorAwareInterface::class)
-      ->invokeMethod('setInspector', ['inspector']);
-
-    /** @var \Consolidation\AnnotatedCommand\AnnotatedCommandFactory $factory */
-    $factory = $container->get('commandFactory');
-    // Tell the command loader to only allow command functions that have a
-    // name/alias.
-    $factory->setIncludeAllPublicMethods(FALSE);
-  }
-
-  /**
-   * Runs the instantiated RD8 application.
-   *
-   * @param \Symfony\Component\Console\Input\InputInterface $input
-   *   An input object to run the application with.
-   * @param \Symfony\Component\Console\Output\OutputInterface $output
-   *   An output object to run the application with.
-   *
-   * @return int
-   *   The exiting status code of the application
-   */
-  public function run(InputInterface $input, OutputInterface $output) {
-    $application = $this->getContainer()->get('application');
-    $status_code = $this->runner->run($input, $output, $application, $this->commands);
-    return $status_code;
   }
 
 }

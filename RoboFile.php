@@ -5,76 +5,165 @@
  *
  * @see http://robo.li/
  */
-class RoboFile extends \Robo\Tasks {
+class RoboFile extends \Robo\Tasks implements \Psr\Log\LoggerAwareInterface {
 
-  use \Lucacracco\Drupal8\Robo\Common\Drupal;
-  use \Lucacracco\Drupal8\Robo\Stack\loadTasks;
-  use \Lucacracco\Drupal8\Robo\Task\loadTasks;
+  use \Psr\Log\LoggerAwareTrait;
 
   /**
-   * Paths Configurations.
+   * Directory used for test.
+   */
+  const RD8_TEST_DIR = '../rd8-test';
+
+  /**
+   * Robo-Drupal8 root.
    *
-   * @var string[]
+   * @var string
    */
-  protected $pathsConf = ['./build/_base.yml.dist'];
+  protected $rd8Root;
 
   /**
-   * RoboFile constructor.
+   * Bin RD8
+   *
+   * @var string
    */
-  public function __construct() {
+  protected $bin;
 
-    $this->stopOnFail(TRUE);
+  /**
+   * This hook will fire for all commands in this command file.
+   *
+   * @hook init
+   */
+  public function initialize() {
+    $this->rd8Root = __DIR__;
+    $this->bin = $this->rd8Root . '/vendor/bin';
+  }
 
-    // Create object configuration empty.
-    $config = \Robo\Robo::config();
-    // TODO: not work?!
-    $config->setProgressBarAutoDisplayInterval(99999);
+  /**
+   * Create a new project via symlink from current checkout of robo-drupal8.
+   *
+   * Local RD8 will be symlinked to project.
+   *
+   * @option project-dir The directory in which the test project will be
+   *   created.
+   */
+  public function createFromSymlink($options = ['project-dir' => self::RD8_TEST_DIR]) {
+    $test_project_dir = $this->rd8Root . "/" . $options['project-dir'];
+    $this->prepareTestProjectDir($test_project_dir);
+    $this->taskFilesystemStack()
+      ->mkdir($test_project_dir)
+      ->mirror($this->rd8Root . "/test-project", $test_project_dir)
+      ->run();
+    $this->taskReplaceInFile($test_project_dir . "/composer.json")
+      ->from("../robo-drupal8")
+      ->to($this->rd8Root)
+      ->run();
+    $task = $this->taskExecStack()
+      ->dir($test_project_dir)
+      ->exec("composer install")
+      ->exec("rm -rf $test_project_dir/vendor")
+      ->exec("composer install");
+    $task->run();
+  }
 
-    /**
-     * TODO: remove and use \Robo\Robo::loadConfiguration($this->pathsConf, $config);
-     * when correct the bug in this function.
-     * Default use '$config->import($loader->export());' and not
-     * '$config->import($processor->export());'.
-     */
-    $loader = new \Consolidation\Config\Loader\YamlConfigLoader();
-    $processor = new \Consolidation\Config\Loader\ConfigProcessor();
-    $processor->add($config->export());
-    foreach ($this->pathsConf as $path) {
-      if (file_exists($path)) {
-        $processor->extend($loader->load($path));
+  /**
+   * Create a new project using `composer create-project lucacracco/robo-drupal8-project'.
+   *
+   * @option project-dir The directory in which the test project will be
+   *   created.
+   */
+  public function createFromRd8Project($options = ['project-dir' => self::RD8_TEST_DIR]) {
+    $test_project_dir = $this->rd8Root . "/" . $options['project-dir'];
+    $this->prepareTestProjectDir($test_project_dir);
+    $this->yell("Creating project from lucacracco/robo-drupal8-project.");
+    $this->taskExecStack()
+      ->dir($this->rd8Root . "/..")
+      ->exec("COMPOSER_PROCESS_TIMEOUT=2000 composer create-project lucacracco/robo-drupal8-project " . self::RD8_TEST_DIR . " --no-interaction")
+      ->run();
+  }
+
+  /**
+   * Create a new project using `composer require lucacracco/robo-drupal8'.
+   *
+   * @option project-dir The directory in which the test project will be
+   *   created.
+   */
+  public function createFromScratch($options = ['project-dir' => self::RD8_TEST_DIR]) {
+    $test_project_dir = $this->rd8Root . "/" . $options['project-dir'];
+    $this->prepareTestProjectDir($test_project_dir);
+    $this->taskFilesystemStack()->mkdir("$test_project_dir")->run();
+    $this->taskExecStack()
+      ->dir($test_project_dir)
+      ->exec("composer init --name=acme/project --stability=dev --no-interaction")
+      ->exec("composer config prefer-stable true")
+      ->run();
+    $task = $this->taskExecStack()
+      ->dir($test_project_dir)
+      ->exec("composer require lucacracco/robo-drupal8 2.x");
+    $task->run();
+  }
+
+  /**
+   * Fixes RD8 internal code via PHPCBF.
+   *
+   * @command fix-code
+   */
+  public function fixCode() {
+    $command = "'{$this->bin}/phpcbf'";
+    $task = $this->taskExecStack()
+      ->dir($this->rd8Root)
+      ->exec($command);
+    $result = $task->run();
+    return $result->getExitCode();
+  }
+
+  /**
+   * Sniffs RD8 internal code via PHPCS.
+   *
+   * @command sniff-code
+   */
+  public function sniffCode() {
+    $task = $this->taskExecStack()
+      ->dir($this->rd8Root)
+      ->exec("{$this->bin}/phpcs")
+      ->exec("composer validate");
+    $result = $task->run();
+
+    return $result->getExitCode();
+  }
+
+  /**
+   * @param array $options
+   */
+  protected function createTestApp($options = [
+    'project-type' => 'standalone',
+    'project-dir' => self::RD8_TEST_DIR,
+  ]) {
+    switch ($options['project-type']) {
+      case 'standalone':
+        $this->createFromRd8Project($options);
+        break;
+
+      case 'symlink':
+        $this->createFromSymlink($options);
+        break;
+    }
+  }
+
+  /**
+   * @param $test_project_dir
+   *
+   * @throws \Exception
+   */
+  protected function prepareTestProjectDir($test_project_dir) {
+    if (file_exists($test_project_dir)) {
+      $this->logger->warning("This will destroy the $test_project_dir directory!");
+      $continue = $this->confirm("Continue?");
+      if (!$continue) {
+        $this->say("Please run <comment>sudo rm -rf $test_project_dir</comment>");
+        throw new \Exception("$test_project_dir already exists.");
       }
     }
-    $config->import($processor->export());
-
-    // Import new configuration in global configurations.
-    \Robo\Robo::config()->import($config->export());
-  }
-
-  /**
-   * Start: build a new site.
-   */
-  public function start() {
-    $collection = new \Robo\Collection\Collection();
-    $task_list = [
-      'buildNew' => $this->taskDrupalInstallTasks()->buildNew(),
-    ];
-    $collection->addTaskList($task_list);
-    return $collection;
-  }
-
-  /**
-   * Finish: export configuration and print one-time login.
-   */
-  public function finish() {
-    $collection = new \Robo\Collection\Collection();
-    $task_list = [
-      'exportConfigurations' => $this->taskDrupalConfigurationsTasks()
-        ->configurationExport(),
-      'loginOneTimeUrl' => $this->taskDrupalMaintenanceTasks()
-        ->loginOneTimeUrl(1),
-    ];
-    $collection->addTaskList($task_list);
-    return $collection;
+    $this->taskDeleteDir($test_project_dir)->run();
   }
 
 }

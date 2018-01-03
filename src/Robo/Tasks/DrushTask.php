@@ -91,6 +91,8 @@ class DrushTask extends CommandStack {
    *   The drush command to execute. Do NOT include "drush" prefix.
    *
    * @return $this
+   *
+   * @throws \Robo\Exception\TaskException
    */
   public function drush($command) {
     // Clear out options associated with previous drush command.
@@ -263,8 +265,8 @@ class DrushTask extends CommandStack {
       $this->option('include', $this->include);
     }
 
-    $this->option('config', $this->getConfig()
-        ->get('repo.root') . '/drush/drushrc.php');
+    // $this->option('config', $this->getConfig()
+    //    ->get('repo.root') . '/drush/drushrc.php');
 
     $this->option("ansi");
   }

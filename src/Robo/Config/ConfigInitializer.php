@@ -59,20 +59,9 @@ class ConfigInitializer {
   }
 
   /**
-   * @return mixed|string
-   */
-  protected function getDefaultSite() {
-    if ($this->input->hasParameterOption('site')) {
-      $site = $this->input->getParameterOption('site');
-    }
-    else {
-      $site = 'default';
-    }
-    return $site;
-  }
-
-  /**
-   * @return \Acquia\Blt\Robo\Config\DefaultConfig
+   * Initialize.
+   *
+   * @return \Lucacracco\RoboDrupal8\Robo\Config\DefaultConfig
    */
   public function initialize() {
     if (!$this->site) {
@@ -86,6 +75,8 @@ class ConfigInitializer {
   }
 
   /**
+   * Load default config, project, site and environment.
+   *
    * @return $this
    */
   public function loadConfigFiles() {
@@ -102,8 +93,7 @@ class ConfigInitializer {
    */
   public function loadDefaultConfig() {
     $this->processor->add($this->config->export());
-    $this->processor->extend($this->loader->load($this->config->get('blt.root') . '/config/build.yml'));
-
+    $this->processor->extend($this->loader->load($this->config->get('rd8.root') . '/config/default_conf.yml'));
     return $this;
   }
 
@@ -111,9 +101,7 @@ class ConfigInitializer {
    * @return $this
    */
   public function loadProjectConfig() {
-    $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/blt/project.yml'));
-    $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/blt/project.local.yml'));
-
+    $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/robo-drupal8/_project.yml'));
     return $this;
   }
 
@@ -122,10 +110,11 @@ class ConfigInitializer {
    * @return $this
    */
   public function loadSiteConfig() {
+    $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/robo-drupal8/sites/_default.yml'));
     if ($this->site) {
-      $this->processor->extend($this->loader->load($this->config->get('docroot') . '/sites/' . $this->site . '/site.yml'));
+      $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/robo-drupal8/sites/' . $this->site . '.yml'));
+      $this->processor->extend($this->loader->load($this->config->get('docroot') . '/sites/' . $this->site . '/' . $this->site . '.yml'));
     }
-
     return $this;
   }
 
@@ -133,10 +122,17 @@ class ConfigInitializer {
    * @return $this
    */
   public function loadEnvironmentConfig() {
-    if ($this->input->hasParameterOption('environment')) {
-      $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/blt/' . $this->input->getParameterOption('environment') . '.yml'));
+    if (!$this->input->hasParameterOption('environment')) {
+      return $this;
     }
-
+    // Default environment configuration.
+    $environment = $this->input->hasParameterOption('environment');
+    $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/robo-drupal8/' . $environment . '.yml'));
+    // Custom environment configuration based to site.
+    if ($this->site) {
+      $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/robo-drupal8/sites/' . $this->site . '.' . $environment . '.yml'));
+      $this->processor->extend($this->loader->load($this->config->get('docroot') . '/sites/' . $this->site . '/' . $this->site . '.' . $environment . '.yml'));
+    }
     return $this;
   }
 
@@ -146,8 +142,20 @@ class ConfigInitializer {
   public function processConfigFiles() {
     $this->config->import($this->processor->export());
     $this->config->populateHelperConfig();
-
     return $this;
+  }
+
+  /**
+   * @return mixed|string
+   */
+  protected function getDefaultSite() {
+    if ($this->input->hasParameterOption('site')) {
+      $site = $this->input->getParameterOption('site');
+    }
+    else {
+      $site = 'default';
+    }
+    return $site;
   }
 
 }

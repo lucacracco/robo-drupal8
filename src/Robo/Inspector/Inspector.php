@@ -138,16 +138,6 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   }
 
   /**
-   * Determines if RD8 configuration file exists, typically project.local.yml.
-   *
-   * @return bool
-   *   TRUE if file exists.
-   */
-  public function isBltLocalConfigFilePresent() {
-    return file_exists($this->getConfigValue('rd8.config-files.local'));
-  }
-
-  /**
    * Determines if Drupal settings.php file exists.
    *
    * @return bool
@@ -371,14 +361,12 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
 
   /**
    * Throws an exception if the minimum PHP version is not met.
-   *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function warnIfPhpOutdated() {
     $minimum_php_version = 5.6;
     $current_php_version = phpversion();
     if ($current_php_version < $minimum_php_version) {
-      throw new \Exception("RD8 requires PHP $minimum_php_version or greater. You are using $current_php_version.");
+      throw new \Exception("Robo-Drupal8 requires PHP $minimum_php_version or greater. You are using $current_php_version.");
     }
   }
 

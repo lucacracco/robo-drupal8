@@ -19,8 +19,8 @@ $config_initializer = new \Lucacracco\RoboDrupal8\Robo\Config\ConfigInitializer(
 $config = $config_initializer->initialize();
 
 // Execute command.
-$rd8 = new \Lucacracco\RoboDrupal8\Robo\Rd8($config, $input, $output);
-$status_code = (int) $rd8->run($input, $output);
+$robo_drupal8 = new \Lucacracco\RoboDrupal8\Robo\RoboDrupal8($config, $input, $output);
+$status_code = (int) $robo_drupal8->run($input, $output);
 
 // Stop timer.
 $timer->stop();

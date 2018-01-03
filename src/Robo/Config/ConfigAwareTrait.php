@@ -29,5 +29,18 @@ trait ConfigAwareTrait {
     return $this->getConfig()->get($key, $default);
   }
 
-  // @todo add hasConfigValue().
+  /**
+   * Check if configuration exist.
+   *
+   * @param string $key
+   *
+   * @return boolean
+   *   True if configuration has key.
+   */
+  protected function hasConfigValue($key) {
+    if (!$this->getConfig()) {
+      throw new \InvalidArgumentException("Configuration required.");
+    }
+    return $this->getConfig()->has($key);
+  }
 }
