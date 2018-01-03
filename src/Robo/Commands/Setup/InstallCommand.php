@@ -20,6 +20,8 @@ class InstallCommand extends RoboDrupal8Tasks {
    *
    * @return \Robo\Result
    *   The `drush site-install` command result.
+   *
+   * @throws \Robo\Exception\TaskException
    */
   public function install() {
     return $this->baseInstall()->detectInteractive()->run();

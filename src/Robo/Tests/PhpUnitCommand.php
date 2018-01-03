@@ -8,6 +8,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Defines commands in the "tests" namespace.
+ *
+ * TODO: update class & code.
  */
 class PhpUnitCommand extends RoboDrupal8Tasks {
 

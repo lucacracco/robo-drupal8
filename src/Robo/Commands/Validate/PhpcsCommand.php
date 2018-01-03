@@ -71,6 +71,8 @@ class PhpcsCommand extends RoboDrupal8Tasks {
   /**
    * Executes PHP Code Sniffer against an array of files.
    *
+   * @todo: update system to load file to sniff.
+   *
    * @param array $files
    *   A flat array of absolute file paths.
    *

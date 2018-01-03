@@ -179,6 +179,54 @@ class DrushTask extends CommandStack {
   }
 
   /**
+   * Overriding CommandArguments::option to default option separator to '='.
+   */
+  public function option($option, $value = NULL, $separator = '=') {
+    return $this->traitOption($option, $value, $separator);
+  }
+
+  /**
+   * Overriding parent::run() method to remove printTaskInfo() calls.
+   *
+   * Make note that if stopOnFail() is TRUE, then result data isn't returned!
+   * Maybe this should be changed.
+   */
+  public function run() {
+    $this->setupExecution();
+    if (empty($this->exec)) {
+      throw new TaskException($this, 'You must add at least one command');
+    }
+
+    // Set $input to NULL so that it is not inherited by the process.
+    $this->setInput(NULL);
+
+    // If 'stopOnFail' is not set, or if there is only one command to run,
+    // then execute the single command to run.
+    if (!$this->stopOnFail || (count($this->exec) == 1)) {
+      return $this->executeCommand($this->getCommand());
+    }
+
+    // When executing multiple commands in 'stopOnFail' mode, run them
+    // one at a time so that the result will have the exact command
+    // that failed available to the caller. This is at the expense of
+    // losing the output from all successful commands.
+    $data = [];
+    $message = '';
+    $result = NULL;
+    foreach ($this->exec as $command) {
+      $result = $this->executeCommand($command);
+      $result->accumulateExecutionTime($data);
+      $message = $result->accumulateMessage($message);
+      $data = $result->mergeData($data);
+      if (!$result->wasSuccessful()) {
+        return $result;
+      }
+    }
+
+    return $result;
+  }
+
+  /**
    * Sets up drush defaults using config.
    */
   protected function init() {
@@ -269,54 +317,6 @@ class DrushTask extends CommandStack {
     //    ->get('repo.root') . '/drush/drushrc.php');
 
     $this->option("ansi");
-  }
-
-  /**
-   * Overriding CommandArguments::option to default option separator to '='.
-   */
-  public function option($option, $value = NULL, $separator = '=') {
-    return $this->traitOption($option, $value, $separator);
-  }
-
-  /**
-   * Overriding parent::run() method to remove printTaskInfo() calls.
-   *
-   * Make note that if stopOnFail() is TRUE, then result data isn't returned!
-   * Maybe this should be changed.
-   */
-  public function run() {
-    $this->setupExecution();
-    if (empty($this->exec)) {
-      throw new TaskException($this, 'You must add at least one command');
-    }
-
-    // Set $input to NULL so that it is not inherited by the process.
-    $this->setInput(NULL);
-
-    // If 'stopOnFail' is not set, or if there is only one command to run,
-    // then execute the single command to run.
-    if (!$this->stopOnFail || (count($this->exec) == 1)) {
-      return $this->executeCommand($this->getCommand());
-    }
-
-    // When executing multiple commands in 'stopOnFail' mode, run them
-    // one at a time so that the result will have the exact command
-    // that failed available to the caller. This is at the expense of
-    // losing the output from all successful commands.
-    $data = [];
-    $message = '';
-    $result = NULL;
-    foreach ($this->exec as $command) {
-      $result = $this->executeCommand($command);
-      $result->accumulateExecutionTime($data);
-      $message = $result->accumulateMessage($message);
-      $data = $result->mergeData($data);
-      if (!$result->wasSuccessful()) {
-        return $result;
-      }
-    }
-
-    return $result;
   }
 
   /**

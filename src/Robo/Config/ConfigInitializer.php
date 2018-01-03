@@ -51,14 +51,6 @@ class ConfigInitializer {
   }
 
   /**
-   * @param mixed $site
-   */
-  public function setSite($site) {
-    $this->site = $site;
-    $this->config->setSite($site);
-  }
-
-  /**
    * Initialize.
    *
    * @return \Lucacracco\RoboDrupal8\Robo\Config\DefaultConfig
@@ -72,6 +64,14 @@ class ConfigInitializer {
     $this->processConfigFiles();
 
     return $this->config;
+  }
+
+  /**
+   * @param mixed $site
+   */
+  public function setSite($site) {
+    $this->site = $site;
+    $this->config->setSite($site);
   }
 
   /**
@@ -122,12 +122,15 @@ class ConfigInitializer {
    * @return $this
    */
   public function loadEnvironmentConfig() {
+
     if (!$this->input->hasParameterOption('environment')) {
       return $this;
     }
+
     // Default environment configuration.
     $environment = $this->input->hasParameterOption('environment');
     $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/robo-drupal8/' . $environment . '.yml'));
+
     // Custom environment configuration based to site.
     if ($this->site) {
       $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/robo-drupal8/sites/' . $this->site . '.' . $environment . '.yml'));

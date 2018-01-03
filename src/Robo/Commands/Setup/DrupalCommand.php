@@ -20,6 +20,8 @@ class DrupalCommand extends RoboDrupal8Tasks {
    * @return \Robo\Result
    *   The `drush site-install` command result.
    *
+   * @throws \Exception
+   * @throws \Robo\Exception\TaskException
    * @hidden
    */
   public function install() {

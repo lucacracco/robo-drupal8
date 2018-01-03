@@ -57,19 +57,9 @@ class DefaultConfig extends RoboDrupal8Config {
     $defaultAlias = $this->get('drush.default_alias');
     $alias = $defaultAlias == 'self' ? '' : $defaultAlias;
     $this->set('drush.alias', $alias);
-    $first_multisite = reset($this->getSiteDirs());
-    $site = $this->get('site', $first_multisite);
+    $first_site = reset($this->getSiteDirs());
+    $site = $this->get('site', $first_site);
     $this->setSite($site);
-  }
-
-  /**
-   * @param $site
-   */
-  public function setSite($site) {
-    $this->config->set('site', $site);
-    if (!$this->get('drush.uri')) {
-      $this->set('drush.uri', $site);
-    }
   }
 
   /**
@@ -84,8 +74,6 @@ class DefaultConfig extends RoboDrupal8Config {
     $sites_dir = $this->get('docroot') . '/sites';
     $sites = [];
 
-    // If BLT's template has not yet been rsynced into the project root, it is
-    // possible that docroot/sites does not exist.
     if (!file_exists($sites_dir)) {
       return $sites;
     }
@@ -101,6 +89,16 @@ class DefaultConfig extends RoboDrupal8Config {
     }
 
     return $sites;
+  }
+
+  /**
+   * @param $site
+   */
+  public function setSite($site) {
+    $this->config->set('site', $site);
+    if (!$this->get('drush.uri')) {
+      $this->set('drush.uri', $site);
+    }
   }
 
 }

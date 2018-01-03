@@ -59,7 +59,7 @@ class ConfigCommand extends RoboDrupal8Tasks {
     $core_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/core.extension.yml';
 
     if (!file_exists($core_config_file)) {
-      $this->logger->warning("BLT will NOT import configuration, $core_config_file was not found.");
+      $this->logger->warning("RD8 will NOT import configuration, $core_config_file was not found.");
       // This is not considered a failure.
       return 0;
     }

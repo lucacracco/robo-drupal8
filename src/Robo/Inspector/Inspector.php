@@ -19,8 +19,6 @@ use Symfony\Component\Process\Process;
 
 /**
  * Class Inspector.
- *
- * @package Acquia\Blt\Robo\Common
  */
 class Inspector implements BuilderAwareInterface, ConfigAwareInterface, ContainerAwareInterface, LoggerAwareInterface {
 
@@ -133,7 +131,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    * @return bool
    *   TRUE if file exists.
    */
-  public function isBltConfigFilePresent() {
+  public function isRd8ConfigFilePresent() {
     return file_exists($this->getConfigValue('rd8.config-files.project'));
   }
 
@@ -267,7 +265,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    * Checks to see if RD( alias is installed on CLI.
    *
    * @return bool
-   *   TRUE if BLT alias is installed.
+   *   TRUE if RD8 alias is installed.
    */
   public function isRd8AliasInstalled() {
     $cli_config_file = $this->getCliConfigFile();

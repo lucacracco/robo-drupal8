@@ -12,14 +12,18 @@ class ImportCommand extends RoboDrupal8Tasks {
   /**
    * Imports a .sql file into the Drupal database.
    *
-   * @command setup:import
+   * @command setup:importreports.localDir
    *
    * @validateDrushConfig
    */
-  public function import() {
+  public function import($dump_file) {
+    if (file_exists($dump_file)) {
+      throw new \InvalidArgumentException("Dump file $dump_file not valid.");
+    }
+
     $task = $this->taskDrush()
       ->drush('sql-drop')
-      ->drush('sql-cli < ' . $this->getConfigValue('setup.dump-file'));
+      ->drush('sql-cli < ' . $dump_file);
     $result = $task->run();
     $exit_code = $result->getExitCode();
 

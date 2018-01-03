@@ -22,10 +22,8 @@ class GitCommand extends RoboDrupal8Tasks {
     if (!preg_match($pattern, $message)) {
       $this->logger->error("Invalid commit message!");
       $this->say("Commit messages must conform to the regex $pattern");
-
       return 1;
     }
-
     return 0;
   }
 
@@ -63,11 +61,9 @@ class GitCommand extends RoboDrupal8Tasks {
     }
 
     $result = $collection->run();
-
     if ($result->wasSuccessful()) {
       $this->say("<info>Your local code has passed git pre-commit validation.</info>");
     }
-
     return $result;
   }
 

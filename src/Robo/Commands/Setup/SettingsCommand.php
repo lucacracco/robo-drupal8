@@ -9,9 +9,11 @@ use Robo\Contract\VerbosityThresholdInterface;
 class SettingsCommand extends RoboDrupal8Tasks {
 
   /**
-   * Installs BLT git hooks to local .git/hooks directory.
+   * Installs RD8 git hooks to local .git/hooks directory.
    *
    * @command setup:git-hooks
+   *
+   * @throws \Exception
    */
   public function gitHooks() {
     foreach (['pre-commit', 'commit-msg'] as $hook) {
@@ -99,7 +101,9 @@ class SettingsCommand extends RoboDrupal8Tasks {
         ->run();
 
       if (!$result->wasSuccessful()) {
-        $filepath = $this->getInspector()->getFs()->makePathRelative($this->getConfigValue('blt.config-files.local'), $this->getConfigValue('repo.root'));
+        $filepath = $this->getInspector()
+          ->getFs()
+          ->makePathRelative($this->getConfigValue('blt.config-files.local'), $this->getConfigValue('repo.root'));
         throw new \Exception("Unable to create $filepath.");
       }
     }
@@ -191,7 +195,9 @@ class SettingsCommand extends RoboDrupal8Tasks {
         ->run();
 
       if (!$result->wasSuccessful()) {
-        $filepath = $this->getInspector()->getFs()->makePathRelative($project_settings_file, $this->getConfigValue('repo.root'));
+        $filepath = $this->getInspector()
+          ->getFs()
+          ->makePathRelative($project_settings_file, $this->getConfigValue('repo.root'));
         throw new \Exception("Unable to set permissions on $project_settings_file.");
       }
     }
