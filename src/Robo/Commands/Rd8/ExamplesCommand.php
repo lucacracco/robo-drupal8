@@ -12,7 +12,7 @@ class ExamplesCommand extends RoboDrupal8Tasks {
 
   /**
    * Generate example files for writing custom commands and hooks.
-   * 
+   *
    * @command examples:init
    */
   public function init() {
@@ -33,5 +33,5 @@ class ExamplesCommand extends RoboDrupal8Tasks {
 
     $this->say("<info>Example commands and hooks were copied to your repository root.</info>");
   }
-  
+
 }

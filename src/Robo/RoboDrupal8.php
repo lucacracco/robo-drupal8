@@ -2,6 +2,7 @@
 
 namespace Lucacracco\RoboDrupal8\Robo;
 
+use Lucacracco\RoboDrupal8\Robo\Wizards\SetupWizard;
 use Consolidation\AnnotatedCommand\CommandFileDiscovery;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
@@ -99,6 +100,9 @@ class RoboDrupal8 implements ContainerAwareInterface, LoggerAwareInterface {
     $container
       ->inflector(InspectorAwareInterface::class)
       ->invokeMethod('setInspector', ['inspector']);
+    $container
+      ->add(SetupWizard::class)
+      ->withArgument('executor');
 
     /** @var \Consolidation\AnnotatedCommand\AnnotatedCommandFactory $factory */
     $factory = $container->get('commandFactory');

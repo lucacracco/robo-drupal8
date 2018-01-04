@@ -30,6 +30,8 @@ class GitCommand extends RoboDrupal8Tasks {
   /**
    * Validates staged files.
    *
+   * TODO: load changed_files from git staged.
+   *
    * @command git:pre-commit
    *
    * @param string $changed_files
@@ -44,8 +46,8 @@ class GitCommand extends RoboDrupal8Tasks {
       function () use ($changed_files) {
         return $this->invokeCommands([
           'validate:phpcs:files' => ['file_list' => $changed_files],
-          //          'validate:twig:files' => ['file_list' => $changed_files],
-          //          'validate:yaml:files' => ['file_list' => $changed_files],
+          // 'validate:twig:files' => ['file_list' => $changed_files],
+          // 'validate:yaml:files' => ['file_list' => $changed_files],
         ]);
       }
     );

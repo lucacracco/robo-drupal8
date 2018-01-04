@@ -118,7 +118,6 @@ class ConfigInitializer {
    * @return $this
    */
   public function loadSiteConfig() {
-    $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/robo-drupal8/sites/_default.yml'));
     if ($this->site) {
       $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/robo-drupal8/sites/' . $this->site . '.yml'));
       $this->processor->extend($this->loader->load($this->config->get('docroot') . '/sites/' . $this->site . '/' . $this->site . '.yml'));

@@ -1,0 +1,12 @@
+# This is an example for another site (multisite drupal).
+
+# Drupal.
+drupal:
+  site_name: default
+  account:
+    mail: default@localhost
+    username: default
+    password: default
+  db:
+    database: default
+    host: localhost
