@@ -29,6 +29,29 @@ class DefaultConfig extends RoboDrupal8Config {
   }
 
   /**
+   * Populates configuration settings not available during construction.
+   */
+  public function populateHelperConfig() {
+    $defaultAlias = $this->get('drush.default_alias');
+    $alias = $defaultAlias == 'self' ? '' : $defaultAlias;
+    $this->set('drush.alias', $alias);
+    $site_dirs = $this->getSiteDirs();
+    $first_site = reset($site_dirs);
+    $site = $this->get('site', $first_site);
+    $this->setSite($site);
+  }
+
+  /**
+   * @param $site
+   */
+  public function setSite($site) {
+    $this->config->set('site', $site);
+    if (!$this->get('drush.uri')) {
+      $this->set('drush.uri', $site);
+    }
+  }
+
+  /**
    * Gets the RD8 root directory. E.g., /vendor/lucacracco/robo-drupal8.
    *
    * @return string
@@ -48,18 +71,6 @@ class DefaultConfig extends RoboDrupal8Config {
     }
 
     throw new \Exception('Could not find the Drupal docroot directory');
-  }
-
-  /**
-   * Populates configuration settings not available during construction.
-   */
-  public function populateHelperConfig() {
-    $defaultAlias = $this->get('drush.default_alias');
-    $alias = $defaultAlias == 'self' ? '' : $defaultAlias;
-    $this->set('drush.alias', $alias);
-    $first_site = reset($this->getSiteDirs());
-    $site = $this->get('site', $first_site);
-    $this->setSite($site);
   }
 
   /**
@@ -89,16 +100,6 @@ class DefaultConfig extends RoboDrupal8Config {
     }
 
     return $sites;
-  }
-
-  /**
-   * @param $site
-   */
-  public function setSite($site) {
-    $this->config->set('site', $site);
-    if (!$this->get('drush.uri')) {
-      $this->set('drush.uri', $site);
-    }
   }
 
 }

@@ -55,7 +55,6 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     return [
       ScriptEvents::PRE_INSTALL_CMD => [
         ['scaffoldComposerIncludes', self::CALLBACK_PRIORITY],
-        ['checkInstallerPaths'],
       ],
       ScriptEvents::POST_UPDATE_CMD => [
         ['scaffoldComposerIncludes', self::CALLBACK_PRIORITY],
@@ -103,6 +102,22 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
             copy($source, $target);
           }
         }
+      }
+    }
+
+    $directories = [
+      'config',
+      'patches',
+    ];
+    foreach ($directories as $directory) {
+      $directory_path = $this->getRepoRoot() . DIRECTORY_SEPARATOR . $directory;
+      if(file_exists($directory)){
+        continue;
+      }
+      if ($this->createDirectory($directory_path)) {
+        $this->io->write("Directory $directory_path created.");
+      }else{
+        $this->io->write("<error>Directory $directory_path not writable or not found.</error>");
       }
     }
   }

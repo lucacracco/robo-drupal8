@@ -7,7 +7,7 @@ use Lucacracco\RoboDrupal8\Robo\RoboDrupal8Tasks;
 /**
  * Defines commands in the "validate:all*" namespace.
  */
-class AllCommand extends RoboDrupal8Tasks {
+class ValidateCommand extends RoboDrupal8Tasks {
 
   /**
    * Runs all code validation commands.
@@ -23,6 +23,17 @@ class AllCommand extends RoboDrupal8Tasks {
     ]);
 
     return $status_code;
+  }
+
+  /**
+   * Validates root composer.json and composer.lock files.
+   *
+   * @command validate:composer
+   */
+  public function validateComposer() {
+    $this->invokeCommands([
+      'composer:validate',
+    ]);
   }
 
 }

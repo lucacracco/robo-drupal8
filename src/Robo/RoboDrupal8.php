@@ -9,7 +9,7 @@ use Lucacracco\RoboDrupal8\Robo\Common\Executor;
 use Lucacracco\RoboDrupal8\Robo\Config\ConfigAwareTrait;
 use Lucacracco\RoboDrupal8\Robo\Inspector\Inspector;
 use Lucacracco\RoboDrupal8\Robo\Inspector\InspectorAwareInterface;
-use Lucacracco\RoboDrupal8\Robo\Log\Rd8LogStyle;
+use Lucacracco\RoboDrupal8\Robo\Log\LogStyle;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Robo\Collection\CollectionBuilder;
@@ -79,7 +79,7 @@ class RoboDrupal8 implements ContainerAwareInterface, LoggerAwareInterface {
    */
   public function configureContainer($container) {
 
-    $container->share('logStyler', Rd8LogStyle::class);
+    $container->share('logStyler', LogStyle::class);
 
     // We create our own builder so that non-command classes are able to
     // implement task methods, like taskExec(). Yes, there are now two builders
@@ -88,18 +88,21 @@ class RoboDrupal8 implements ContainerAwareInterface, LoggerAwareInterface {
     $rd8_tasks = new RoboDrupal8Tasks();
     $builder = new CollectionBuilder($rd8_tasks);
     $rd8_tasks->setBuilder($builder);
-    $container->add('builder', $builder);
-    $container->add('executor', Executor::class)
+    $container
+      ->add('builder', $builder);
+    $container
+      ->add('executor', Executor::class)
       ->withArgument('builder');
-
-    $container->share('inspector', Inspector::class)
+    $container
+      ->share('inspector', Inspector::class)
       ->withArgument('executor');
-
-    $container->inflector(InspectorAwareInterface::class)
+    $container
+      ->inflector(InspectorAwareInterface::class)
       ->invokeMethod('setInspector', ['inspector']);
 
     /** @var \Consolidation\AnnotatedCommand\AnnotatedCommandFactory $factory */
     $factory = $container->get('commandFactory');
+
     // Tell the command loader to only allow command functions that have a
     // name/alias.
     $factory->setIncludeAllPublicMethods(FALSE);
@@ -144,14 +147,13 @@ class RoboDrupal8 implements ContainerAwareInterface, LoggerAwareInterface {
    * Registers custom commands and hooks defined project.
    */
   private function addPluginsCommandsAndHooks() {
+    $repo_root = $this->getConfig()->get('repo.root');
     $commands = $this->getCommands([
-      'path' => $this->getConfig()
-          ->get('repo.root') . '/robo-drupal8/src/Commands',
+      'path' => $repo_root . '/robo-drupal8/src/Commands',
       'namespace' => 'Lucacracco\RoboDrupal8\Custom\Commands',
     ]);
     $hooks = $this->getHooks([
-      'path' => $this->getConfig()
-          ->get('repo.root') . '/robo-drupal8/src/Hooks',
+      'path' => $repo_root . '/robo-drupal8/src/Hooks',
       'namespace' => 'Lucacracco\RoboDrupal8\Custom\Hooks',
     ]);
     $plugin_commands_hooks = array_merge($commands, $hooks);

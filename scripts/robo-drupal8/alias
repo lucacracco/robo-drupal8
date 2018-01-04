@@ -1,0 +1,9 @@
+function rd8() {
+  ROOT="."
+  if [ -f "$ROOT/vendor/bin/rd8" ]; then
+    $ROOT/vendor/bin/rd8 "$@"
+  else
+    echo "Not found $ROOT/vendor/bin/rd8."
+    return 1
+  fi
+}

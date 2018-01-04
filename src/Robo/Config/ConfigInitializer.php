@@ -4,6 +4,7 @@ namespace Lucacracco\RoboDrupal8\Robo\Config;
 
 use Consolidation\Config\Loader\YamlConfigLoader;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 /**
  * Class ConfigInitializer.
@@ -21,6 +22,11 @@ class ConfigInitializer {
    * @var \Symfony\Component\Console\Input\InputInterface
    */
   protected $input;
+
+  /**
+   * @var \Symfony\Component\Console\Output\ConsoleOutput
+   */
+  protected $output;
 
   /**
    * @var \Consolidation\Config\Loader\YamlConfigLoader
@@ -42,9 +48,11 @@ class ConfigInitializer {
    *
    * @param string $repo_root
    * @param \Symfony\Component\Console\Input\InputInterface $input
+   * @param \Symfony\Component\Console\Output\ConsoleOutput $output
    */
-  public function __construct($repo_root, InputInterface $input) {
+  public function __construct($repo_root, InputInterface $input, ConsoleOutput $output) {
     $this->input = $input;
+    $this->output = $output;
     $this->config = new DefaultConfig($repo_root);
     $this->loader = new YamlConfigLoader();
     $this->processor = new YamlConfigProcessor();
@@ -154,6 +162,7 @@ class ConfigInitializer {
   protected function getDefaultSite() {
     if ($this->input->hasParameterOption('site')) {
       $site = $this->input->getParameterOption('site');
+      $this->output->writeln("<comment>Target Site: $site.</comment>");
     }
     else {
       $site = 'default';

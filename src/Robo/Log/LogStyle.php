@@ -7,7 +7,7 @@ use Robo\Log\RoboLogStyle;
 /**
  * Defines style for RD8 logging.
  */
-class Rd8LogStyle extends RoboLogStyle {
+class LogStyle extends RoboLogStyle {
 
   /**
    * Log style customization for Robo.

@@ -78,7 +78,7 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
     }
 
     if (!$this->getInspector()->isDrupalSettingsFileValid()) {
-      throw new \Exception("BLT settings are not included in settings file.");
+      throw new \Exception("Robo-Drupal8 settings are not included in settings file.");
     }
   }
 
@@ -89,8 +89,7 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
    */
   public function validateMySqlAvailable() {
     if (!$this->getInspector()->isMySqlAvailable()) {
-      // @todo Prompt to fix.
-      throw new \Exception("MySql is not available. Please run `blt doctor` to diagnose the issue.");
+      throw new \Exception("MySql is not available.");
     }
   }
 
@@ -101,7 +100,7 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
    */
   public function validateSettingsFilesPresent() {
     if (!$this->getInspector()->isHashSaltPresent()) {
-      throw new \Exception("salt.txt is not present. Please run `blt setup:settings` to generate it.");
+      throw new \Exception("salt.txt is not present. Please run `rd8 setup:settings` to generate it.");
     }
     if (!$this->getInspector()->isDrupalLocalSettingsFilePresent()) {
       throw new \Exception("Could not find settings.php for this site.");

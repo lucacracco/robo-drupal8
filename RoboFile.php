@@ -12,7 +12,12 @@ class RoboFile extends \Robo\Tasks implements \Psr\Log\LoggerAwareInterface {
   /**
    * Directory used for test.
    */
-  const RD8_TEST_DIR = '../rd8-test';
+  const RD8_TEST_DIR = '../test-rd8';
+
+  /**
+   * Template project dir.
+   */
+  const RD8_TPL_TEST_DIR = 'test-project';
 
   /**
    * Robo-Drupal8 root.
@@ -49,20 +54,25 @@ class RoboFile extends \Robo\Tasks implements \Psr\Log\LoggerAwareInterface {
   public function createFromSymlink($options = ['project-dir' => self::RD8_TEST_DIR]) {
     $test_project_dir = $this->rd8Root . "/" . $options['project-dir'];
     $this->prepareTestProjectDir($test_project_dir);
+
+    // Clone directory test.
     $this->taskFilesystemStack()
       ->mkdir($test_project_dir)
-      ->mirror($this->rd8Root . "/test-project", $test_project_dir)
+      ->mirror($this->rd8Root . "/" . self::RD8_TPL_TEST_DIR, $test_project_dir)
       ->run();
+
+    // Replace in composer.json test the relative path to absolute.
     $this->taskReplaceInFile($test_project_dir . "/composer.json")
       ->from("../robo-drupal8")
       ->to($this->rd8Root)
       ->run();
-    $task = $this->taskExecStack()
+
+    // Run composer install after clear vendor directory.
+    $this->taskExecStack()
       ->dir($test_project_dir)
-      ->exec("composer install")
       ->exec("rm -rf $test_project_dir/vendor")
-      ->exec("composer install");
-    $task->run();
+      ->exec("composer install")
+      ->run();
   }
 
   /**
@@ -74,7 +84,10 @@ class RoboFile extends \Robo\Tasks implements \Psr\Log\LoggerAwareInterface {
   public function createFromRd8Project($options = ['project-dir' => self::RD8_TEST_DIR]) {
     $test_project_dir = $this->rd8Root . "/" . $options['project-dir'];
     $this->prepareTestProjectDir($test_project_dir);
+
     $this->yell("Creating project from lucacracco/robo-drupal8-project.");
+
+    // Create project test.
     $this->taskExecStack()
       ->dir($this->rd8Root . "/..")
       ->exec("COMPOSER_PROCESS_TIMEOUT=2000 composer create-project lucacracco/robo-drupal8-project " . self::RD8_TEST_DIR . " --no-interaction")
@@ -90,16 +103,22 @@ class RoboFile extends \Robo\Tasks implements \Psr\Log\LoggerAwareInterface {
   public function createFromScratch($options = ['project-dir' => self::RD8_TEST_DIR]) {
     $test_project_dir = $this->rd8Root . "/" . $options['project-dir'];
     $this->prepareTestProjectDir($test_project_dir);
+
+    // Create directory for project test.
     $this->taskFilesystemStack()->mkdir("$test_project_dir")->run();
+
+    // Init composer.json.
     $this->taskExecStack()
       ->dir($test_project_dir)
       ->exec("composer init --name=acme/project --stability=dev --no-interaction")
       ->exec("composer config prefer-stable true")
       ->run();
-    $task = $this->taskExecStack()
+
+    // Add required.
+    $this->taskExecStack()
       ->dir($test_project_dir)
-      ->exec("composer require lucacracco/robo-drupal8 2.x");
-    $task->run();
+      ->exec("composer require lucacracco/robo-drupal8 2.x")
+      ->run();
   }
 
   /**
@@ -150,6 +169,8 @@ class RoboFile extends \Robo\Tasks implements \Psr\Log\LoggerAwareInterface {
   }
 
   /**
+   * Delete Dir before init project test.
+   *
    * @param $test_project_dir
    *
    * @throws \Exception

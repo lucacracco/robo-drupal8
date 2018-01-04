@@ -3,11 +3,58 @@
 namespace Lucacracco\RoboDrupal8\Robo\Commands\Composer;
 
 use Lucacracco\RoboDrupal8\Robo\RoboDrupal8Tasks;
+use Robo\Contract\VerbosityThresholdInterface;
 
 /**
  * Defines commands in the "composer:*" namespace.
  */
 class ComposerCommand extends RoboDrupal8Tasks {
+
+  /**
+   * Install packages.
+   *
+   * @command composer:install
+   *
+   * @option dev Whether package should be added to require-dev.
+   * @option source Forces installation from package sources when possible,
+   *   including VCS information.
+   *
+   * @return \Robo\Result
+   */
+  public function install($options = ['dev' => FALSE, 'source' => FALSE]) {
+    /** @var \Robo\Task\Composer\Install $task */
+    $task = $this->taskComposerInstall()
+      ->printOutput(TRUE)
+      ->dir($this->getConfigValue('repo.root'))
+      ->dev($options['dev']);
+    if ($options['source']) {
+      $task->preferSource();
+    }
+    return $task->run();
+  }
+
+  /**
+   * Update packages.
+   *
+   * @command composer:update
+   *
+   * @option dev Whether package should be added to require-dev.
+   * @option source Forces installation from package sources when possible,
+   *   including VCS information.
+   *
+   * @return \Robo\Result
+   */
+  public function update($options = ['dev' => FALSE, 'source' => FALSE]) {
+    /** @var \Robo\Task\Composer\Install $task */
+    $task = $this->taskComposerInstall()
+      ->printOutput(TRUE)
+      ->dir($this->getConfigValue('repo.root'))
+      ->dev($options['dev']);
+    if ($options['source']) {
+      $task->preferSource();
+    }
+    return $task->run();
+  }
 
   /**
    * Requires a composer package.
@@ -64,6 +111,29 @@ class ComposerCommand extends RoboDrupal8Tasks {
     }
 
     return $result;
+  }
+
+  /**
+   * Validates root composer.json and composer.lock files.
+   *
+   * @command composer:validate
+   */
+  public function validate() {
+    $this->say("Validating composer.json and composer.lock...");
+    $result = $this->taskExecStack()
+      ->dir($this->getConfigValue('repo.root'))
+      ->exec('composer validate --no-check-all --ansi')
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
+    if (!$result->wasSuccessful()) {
+      $this->say($result->getMessage());
+      $this->logger->error("composer.lock is invalid.");
+      $this->say("If this is simply a matter of the lock file being out of date, you may attempt to use `composer update --lock` to quickly generate a new hash in your lock file.");
+      $this->say("Otherwise, `composer update` is likely necessary.");
+      throw new \Exception("composer.lock is invalid!");
+    }else{
+      $this->say("Validation successful complete.");
+    }
   }
 
 }

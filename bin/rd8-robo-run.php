@@ -15,7 +15,7 @@ $timer->start();
 $output->writeln("<comment>Start: " . date("j F Y - g:i a") . "</comment>");
 
 // Initialize configuration.
-$config_initializer = new \Lucacracco\RoboDrupal8\Robo\Config\ConfigInitializer($repo_root, $input);
+$config_initializer = new \Lucacracco\RoboDrupal8\Robo\Config\ConfigInitializer($repo_root, $input, $output);
 $config = $config_initializer->initialize();
 
 // Execute command.
