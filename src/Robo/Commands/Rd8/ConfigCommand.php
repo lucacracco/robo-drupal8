@@ -22,7 +22,10 @@ class ConfigCommand extends RoboDrupal8Tasks {
       throw new \InvalidArgumentException("$key is not set.");
     }
 
-    $this->say($this->getConfigValue($key));
+    $value = $this->getConfigValue($key);
+    $value = is_array($value) ? $value : [$key => (string) $value];
+
+    $this->printArrayAsTable($value);
   }
 
   /**

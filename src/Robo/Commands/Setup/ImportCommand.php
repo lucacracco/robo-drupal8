@@ -12,7 +12,7 @@ class ImportCommand extends RoboDrupal8Tasks {
   /**
    * Imports a .sql file into the Drupal database.
    *
-   * @command setup:importreports.localDir
+   * @command setup:import
    *
    * @validateDrushConfig
    */
