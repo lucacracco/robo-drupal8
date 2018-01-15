@@ -76,7 +76,8 @@ class RoboFile extends \Robo\Tasks implements \Psr\Log\LoggerAwareInterface {
   }
 
   /**
-   * Create a new project using `composer create-project lucacracco/robo-drupal8-project'.
+   * Create a new project using `composer create-project
+   * lucacracco/robo-drupal8-project'.
    *
    * @option project-dir The directory in which the test project will be
    *   created.
