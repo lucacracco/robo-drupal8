@@ -27,7 +27,7 @@ class FrontendCommand extends RoboDrupal8Tasks {
    * @command frontend:build
    */
   public function build() {
-    return $this->invokeHook('frontend-build');
+
   }
 
   /**
@@ -36,18 +36,16 @@ class FrontendCommand extends RoboDrupal8Tasks {
    * @command frontend:setup
    */
   public function setup() {
-    return $this->invokeHook('frontend-setup');
+
   }
 
   /**
    * Executes frontend-test target hook.
    *
    * @command frontend:test
-   *
-   * @launchWebServer
    */
   public function test() {
-    return $this->invokeHook('frontend-test');
+
   }
 
 }

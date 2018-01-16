@@ -89,8 +89,6 @@ class BuildCommand extends RoboDrupal8Tasks {
       'setup:settings',
       'frontend',
     ]);
-
-    $this->invokeHook("post-setup-build");
   }
 
   /**

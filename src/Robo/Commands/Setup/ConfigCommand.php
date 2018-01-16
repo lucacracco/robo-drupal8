@@ -53,8 +53,6 @@ class ConfigCommand extends RoboDrupal8Tasks {
     $cm_core_key = $this->getConfigValue('cm.core.key');
     $this->logConfig($this->getConfigValue('cm'), 'cm');
 
-    $this->invokeHook('pre-config-import');
-
     // First check to see if required config is exported.
     $core_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/core.extension.yml';
 
@@ -97,8 +95,6 @@ class ConfigCommand extends RoboDrupal8Tasks {
     }
 
     $this->checkConfigOverrides($cm_core_key);
-
-    $result = $this->invokeHook('post-config-import');
 
     return $result;
   }
