@@ -101,7 +101,6 @@ class ConfigInitializer {
    */
   public function loadDefaultConfig() {
     $this->processor->add($this->config->export());
-    $this->processor->extend($this->loader->load($this->config->get('rd8.root') . '/config/default_conf.yml'));
     return $this;
   }
 

@@ -3,6 +3,7 @@
 namespace Lucacracco\RoboDrupal8\Robo\Commands\Rd8;
 
 use Lucacracco\RoboDrupal8\Robo\RoboDrupal8Tasks;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Defines commands in the 'config:*' namespace.
@@ -37,6 +38,30 @@ class ConfigCommand extends RoboDrupal8Tasks {
     $config = $this->getConfig()->export();
     ksort($config);
     $this->printArrayAsTable($config);
+  }
+
+  /**
+   * Export all configurations values.
+   *
+   * @command config:export
+   *
+   * @option file File to save dump yaml configurations.
+   */
+  public function export($options = ['file' => '']) {
+    $config = $this->getConfig()->export();
+    ksort($config);
+    $yaml = Yaml::dump($config);
+
+    $this->say("Dump Yaml file:");
+
+    $file_path = $options['file'];
+    if (empty($file_path)) {
+      $this->writeln($yaml);
+    }
+    else {
+      file_put_contents($file_path, $yaml);
+      $this->writeln($file_path);
+    }
   }
 
 }

@@ -2,6 +2,7 @@
 
 namespace Lucacracco\RoboDrupal8\Robo\Config;
 
+use DrupalFinder\DrupalFinder;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -14,18 +15,19 @@ class DefaultConfig extends RoboDrupal8Config {
   /**
    * DefaultConfig constructor.
    *
-   * @param string $repo_root
+   * @param string $project_root
    *   The repository root of the project that depends on RD8.
    *
    * @throws \Exception
    */
-  public function __construct($repo_root) {
+  public function __construct($project_root) {
     parent::__construct();
-
-    $this->set('repo.root', $repo_root);
-    $this->set('docroot', $repo_root . '/docroot');
+    $drupalFinder = new DrupalFinder();
+    $drupalFinder->locateRoot($project_root);
+    $this->set('project.root', $project_root);
+    $this->set('docroot', $drupalFinder->getDrupalRoot());
     $this->set('rd8.root', $this->getRd8Root());
-    $this->set('composer.bin', $repo_root . '/vendor/bin');
+    $this->set('composer.bin', $drupalFinder->getVendorDir() . '/bin');
   }
 
   /**

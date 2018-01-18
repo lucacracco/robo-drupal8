@@ -163,7 +163,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       'composer.suggested.json',
     ];
 
-    $dir = $this->getRepoRoot() . DIRECTORY_SEPARATOR . self::RD8_DIR;
+    $dir_base = $this->getRepoRoot() . DIRECTORY_SEPARATOR . self::RD8_DIR;
+    $dir = $dir_base;
     $package_dir = $this->getVendorPath() . DIRECTORY_SEPARATOR . self::PACKAGE_NAME;
     if ($this->createDirectory($dir)) {
       foreach ($files as $file) {
@@ -171,6 +172,32 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
         $target = $dir . DIRECTORY_SEPARATOR . $file;
         if (file_exists($source)) {
           if (!file_exists($target) || md5_file($source) != md5_file($target)) {
+            $this->io->write("Copying $source to $target");
+            copy($source, $target);
+          }
+        }
+      }
+
+      // Copy project configuration.
+      $dir = $dir_base . DIRECTORY_SEPARATOR . 'config';
+      $source = $package_dir . DIRECTORY_SEPARATOR . 'config/_project.yml';
+      $target = $dir . DIRECTORY_SEPARATOR . '_project.yml';
+      if ($this->createDirectory($dir)) {
+        if (file_exists($source)) {
+          if (!file_exists($target)) {
+            $this->io->write("Copying $source to $target");
+            copy($source, $target);
+          }
+        }
+      }
+
+      // Copy default site configuration.
+      $dir = $dir_base . DIRECTORY_SEPARATOR . 'config/sites';
+      $source = $package_dir . DIRECTORY_SEPARATOR . 'config/sites/default.yml';
+      $target = $dir . DIRECTORY_SEPARATOR . 'default.yml';
+      if ($this->createDirectory($dir)) {
+        if (file_exists($source)) {
+          if (!file_exists($target)) {
             $this->io->write("Copying $source to $target");
             copy($source, $target);
           }
