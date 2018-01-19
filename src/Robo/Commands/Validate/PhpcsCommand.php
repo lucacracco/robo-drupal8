@@ -14,12 +14,15 @@ class PhpcsCommand extends RoboDrupal8Tasks {
    *
    * By default, these include custom themes, modules, and tests.
    *
+   * @todo: description argument command.
+   *
    * @command validate:phpcs
    */
-  public function sniffFileSets() {
+  public function sniffFileSets($directory = '') {
     $bin = $this->getConfigValue('composer.bin');
+    $dir = empty($directory) ? $this->getConfigValue('docroot') : $directory;
     $result = $this->taskExecStack()
-      ->dir($this->getConfigValue('repo.root'))
+      ->dir($dir)
       ->exec("$bin/phpcs")
       ->run();
     $exit_code = $result->getExitCode();
@@ -29,7 +32,7 @@ class PhpcsCommand extends RoboDrupal8Tasks {
         throw new \Exception("Initial execution of PHPCS failed. Re-run now that PHPCBF has fixed some violations.");
       }
       else {
-        $this->logger->notice('Try running `blt fix:phpcbf` to automatically fix standards violations.');
+        $this->logger->notice('Try running `rd8 fix:phpcbf` to automatically fix standards violations.');
         throw new \Exception("PHPCS failed.");
       }
     }
@@ -80,7 +83,7 @@ class PhpcsCommand extends RoboDrupal8Tasks {
    */
   protected function doSniffFileList(array $files) {
     if ($files) {
-      $temp_path = $this->getConfigValue('repo.root') . '/tmp/phpcs-fileset';
+      $temp_path = $this->getConfigValue('project.root') . '/tmp/phpcs-fileset';
       $this->taskWriteToFile($temp_path)
         ->lines($files)
         ->run();

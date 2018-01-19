@@ -29,7 +29,7 @@ class AllCommand extends RoboDrupal8Tasks {
     $commands[] = 'setup:drupal:install';
     $commands[] = 'setup:import';
     $commands[] = 'setup:update';
-    $commands[] = 'install-alias';
+    // $commands[] = 'install-alias';
     $this->invokeCommands($commands);
   }
 

@@ -49,6 +49,8 @@ class ConfigInitializer {
    * @param string $repo_root
    * @param \Symfony\Component\Console\Input\InputInterface $input
    * @param \Symfony\Component\Console\Output\ConsoleOutput $output
+   *
+   * @throws \Exception
    */
   public function __construct($repo_root, InputInterface $input, ConsoleOutput $output) {
     $this->input = $input;

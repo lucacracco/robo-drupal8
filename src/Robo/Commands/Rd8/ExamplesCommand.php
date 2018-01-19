@@ -13,6 +13,8 @@ class ExamplesCommand extends RoboDrupal8Tasks {
   /**
    * Generate example files for writing custom commands and hooks.
    *
+   * @todo: add example command with robo.yml, see https://github.com/ec-europa/oe-task-runner.
+   *
    * @command examples:init
    */
   public function init() {

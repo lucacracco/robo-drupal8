@@ -25,7 +25,7 @@ class ComposerCommand extends RoboDrupal8Tasks {
     /** @var \Robo\Task\Composer\Install $task */
     $task = $this->taskComposerInstall()
       ->printOutput(TRUE)
-      ->dir($this->getConfigValue('repo.root'))
+      ->dir($this->getConfigValue('project.root'))
       ->dev($options['dev']);
     if ($options['source']) {
       $task->preferSource();
@@ -48,7 +48,7 @@ class ComposerCommand extends RoboDrupal8Tasks {
     /** @var \Robo\Task\Composer\Install $task */
     $task = $this->taskComposerInstall()
       ->printOutput(TRUE)
-      ->dir($this->getConfigValue('repo.root'))
+      ->dir($this->getConfigValue('project.root'))
       ->dev($options['dev']);
     if ($options['source']) {
       $task->preferSource();
@@ -74,7 +74,7 @@ class ComposerCommand extends RoboDrupal8Tasks {
     /** @var \Robo\Task\Composer\RequireDependency $task */
     $task = $this->taskComposerRequire()
       ->printOutput(TRUE)
-      ->dir($this->getConfigValue('repo.root'));
+      ->dir($this->getConfigValue('project.root'));
     if ($options['dev']) {
       $task->dev(TRUE);
     }
@@ -89,7 +89,7 @@ class ComposerCommand extends RoboDrupal8Tasks {
     if (!$result->wasSuccessful()) {
       $this->logger->error("An error occurred while requiring {$package_name}.");
       $this->say("This is likely due to an incompatibility with your existing packages.");
-      $confirm = $this->confirm("Should BLT attempt to update all of your Composer packages in order to find a compatible version?");
+      $confirm = $this->confirm("Should RoboDrupal8 attempt to update all of your Composer packages in order to find a compatible version?");
       if ($confirm) {
         $command = "composer require '{$package_name}:{$package_version}' --no-update ";
         if ($options['dev']) {
@@ -121,7 +121,7 @@ class ComposerCommand extends RoboDrupal8Tasks {
   public function validate() {
     $this->say("Validating composer.json and composer.lock...");
     $result = $this->taskExecStack()
-      ->dir($this->getConfigValue('repo.root'))
+      ->dir($this->getConfigValue('project.root'))
       ->exec('composer validate --no-check-all --ansi')
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
@@ -131,7 +131,8 @@ class ComposerCommand extends RoboDrupal8Tasks {
       $this->say("If this is simply a matter of the lock file being out of date, you may attempt to use `composer update --lock` to quickly generate a new hash in your lock file.");
       $this->say("Otherwise, `composer update` is likely necessary.");
       throw new \Exception("composer.lock is invalid!");
-    }else{
+    }
+    else {
       $this->say("Validation successful complete.");
     }
   }

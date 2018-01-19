@@ -15,7 +15,7 @@ class TestsCommandBase extends RoboDrupal8Tasks {
    */
   protected function createReportsDir() {
     // Create reports dir.
-    $logs_dir = $this->getConfigValue('repo.root') . "/reports";
+    $logs_dir = $this->getConfigValue('project.root') . "/reports";
     $this->taskFilesystemStack()
       ->mkdir($logs_dir)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)

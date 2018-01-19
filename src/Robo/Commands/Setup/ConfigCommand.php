@@ -36,7 +36,7 @@ class ConfigCommand extends RoboDrupal8Tasks {
         ->drush("cex")
         ->arg($cm_core_key);
       if (!$config_overrides->run()->wasSuccessful()) {
-        throw new \Exception("Configuration in the database does not match configuration on disk. BLT has attempted to automatically fix this by re-exporting configuration to disk. Please read https://github.com/acquia/blt/wiki/Configuration-overrides");
+        throw new \Exception("Configuration in the database does not match configuration on disk. RD8 has attempted to automatically fix this by re-exporting configuration to disk. Please read https://github.com/acquia/blt/wiki/Configuration-overrides");
       }
     }
   }

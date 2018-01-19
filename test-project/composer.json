@@ -10,7 +10,7 @@
     }
   ],
   "repositories": {
-    "blt": {
+    "local": {
       "type": "path",
       "url": "../robo-drupal8",
       "options": {

@@ -14,12 +14,13 @@ class PhpCbfCommand extends RoboDrupal8Tasks {
    *
    * @command fix:phpcbf
    */
-  public function phpcbfFileSet() {
+  public function phpcbfFileSet($directory = '') {
     $this->say('Fixing and beautifying code...');
 
     $bin = $this->getConfigValue('composer.bin');
+    $dir = empty($directory) ? $this->getConfigValue('docroot') : $directory;
     $result = $this->taskExec("$bin/phpcbf")
-      ->dir($this->getConfigValue('repo.root'))
+      ->dir($dir)
       ->run();
 
     $exit_code = $result->getExitCode();

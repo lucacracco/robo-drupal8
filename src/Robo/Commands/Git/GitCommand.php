@@ -18,7 +18,7 @@ class GitCommand extends RoboDrupal8Tasks {
    */
   public function commitMsgHook($message) {
     $this->say('Validating commit message syntax...');
-    $pattern = $this->getConfigValue('git.commit-msg.pattern');
+    $pattern = $this->getConfigValue('git.commit_msg.pattern');
     if (!preg_match($pattern, $message)) {
       $this->logger->error("Invalid commit message!");
       $this->say("Commit messages must conform to the regex $pattern");
