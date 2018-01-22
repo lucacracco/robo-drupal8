@@ -1,7 +1,8 @@
 <?php
 
-namespace Lucacracco\RoboDrupal8\Robo\Setup;
+namespace Lucacracco\RoboDrupal8\Robo\Commands\Setup;
 
+use Lucacracco\RoboDrupal8\Robo\Common\RandomString;
 use Lucacracco\RoboDrupal8\Robo\RoboDrupal8Tasks;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Finder\Finder;
@@ -14,7 +15,7 @@ class BuildCommand extends RoboDrupal8Tasks {
   /**
    * Installs Drupal and sets correct file/directory permissions.
    *
-   * @command setup:drupal:install
+   * @command setup:build:install
    *
    * @interactGenerateSettingsFiles
    *
@@ -23,7 +24,7 @@ class BuildCommand extends RoboDrupal8Tasks {
    * @validateDocrootIsPresent
    */
   public function drupalInstall() {
-    $commands = ['internal:drupal:install'];
+    $commands = ['setup:install'];
     $commands[] = 'setup:config-import';
     $this->invokeCommands($commands);
     $this->setSitePermissions();
@@ -31,11 +32,43 @@ class BuildCommand extends RoboDrupal8Tasks {
   }
 
   /**
+   * Generates all required files for a full build.
+   *
+   * @command setup:build
+   *
+   * //interactConfigIdentical
+   */
+  public function build() {
+    $this->invokeCommands([
+      // setup:build:composer:install must run prior to setup:settings to ensure that
+      // scaffold files are present.
+      'setup:build:composer:install',
+      // 'setup:settings',
+      // 'frontend',
+    ]);
+  }
+
+  /**
+   * Installs Composer dependencies.
+   *
+   * @command setup:build:composer:install
+   */
+  public function composerInstall() {
+    $result = $this->taskExec("export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi --no-interaction")
+      ->dir($this->getConfigValue('project.root'))
+      ->detectInteractive()
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
+
+    return $result;
+  }
+
+  /**
    * Creates deployment_identifier file.
    */
   protected function createDeployId($id) {
     $this->taskExecStack()->exec("echo '$id' > deployment_identifier")
-      ->dir($this->getConfigValue('repo.root'))
+      ->dir($this->getConfigValue('project.root'))
       ->stopOnFail()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
@@ -43,6 +76,8 @@ class BuildCommand extends RoboDrupal8Tasks {
 
   /**
    * Set correct permissions for files and folders in docroot/sites/*.
+   *
+   * @throws \Exception
    */
   protected function setSitePermissions() {
     $taskFilesystemStack = $this->taskFilesystemStack();
@@ -71,39 +106,6 @@ class BuildCommand extends RoboDrupal8Tasks {
     if (!$result->wasSuccessful()) {
       throw new \Exception("Unable to set permissions for site directories.");
     }
-  }
-
-  /**
-   * Generates all required files for a full build.
-   *
-   * @command setup:build
-   *
-   * @interactConfigIdentical
-   */
-  public function build() {
-    $this->invokeCommands([
-      // setup:composer:install must run prior to setup:settings to ensure that
-      // scaffold files are present.
-      'setup:composer:install',
-      'setup:git-hooks',
-      'setup:settings',
-      'frontend',
-    ]);
-  }
-
-  /**
-   * Installs Composer dependencies.
-   *
-   * @command setup:composer:install
-   */
-  public function composerInstall() {
-    $result = $this->taskExec("export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi --no-interaction")
-      ->dir($this->getConfigValue('repo.root'))
-      ->detectInteractive()
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
-
-    return $result;
   }
 
 }

@@ -35,11 +35,7 @@ class InteractHook extends RoboDrupal8Tasks {
    *
    * @hook interact @interactGenerateSettingsFiles
    */
-  public function interactGenerateSettingsFiles(
-    InputInterface $input,
-    OutputInterface $output,
-    AnnotationData $annotationData
-  ) {
+  public function interactGenerateSettingsFiles(InputInterface $input, OutputInterface $output, AnnotationData $annotationData) {
     /** @var \Lucacracco\RoboDrupal8\Robo\Wizards\SetupWizard $setup_wizard */
     $setup_wizard = $this->getContainer()->get(SetupWizard::class);
     $setup_wizard->wizardGenerateSettingsFiles();
@@ -50,11 +46,7 @@ class InteractHook extends RoboDrupal8Tasks {
    *
    * @hook interact @interactInstallDrupal
    */
-  public function interactInstallDrupal(
-    InputInterface $input,
-    OutputInterface $output,
-    AnnotationData $annotationData
-  ) {
+  public function interactInstallDrupal(InputInterface $input, OutputInterface $output, AnnotationData $annotationData) {
     /** @var \Lucacracco\RoboDrupal8\Robo\Wizards\SetupWizard $setup_wizard */
     $setup_wizard = $this->getContainer()->get(SetupWizard::class);
     $setup_wizard->wizardInstallDrupal();

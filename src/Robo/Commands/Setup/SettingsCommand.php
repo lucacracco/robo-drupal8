@@ -6,6 +6,11 @@ use Lucacracco\RoboDrupal8\Robo\Common\RandomString;
 use Lucacracco\RoboDrupal8\Robo\RoboDrupal8Tasks;
 use Robo\Contract\VerbosityThresholdInterface;
 
+/**
+ * Class SettingsCommand.
+ *
+ * @package Lucacracco\RoboDrupal8\Robo\Commands\Setup
+ */
 class SettingsCommand extends RoboDrupal8Tasks {
 
   /**
@@ -35,10 +40,10 @@ class SettingsCommand extends RoboDrupal8Tasks {
     if ($this->getConfigValue('git.hooks.' . $hook)) {
       $this->say("Installing $hook git hook...");
       $source = $this->getConfigValue('git.hooks.' . $hook) . "/$hook";
-      $dest = $this->getConfigValue('repo.root') . "/.git/hooks/$hook";
+      $dest = $this->getConfigValue('git.root') . "/.git/hooks/$hook";
 
       $result = $this->taskFilesystemStack()
-        ->mkdir($this->getConfigValue('repo.root') . '/.git/hooks')
+        ->mkdir($this->getConfigValue('git.root') . '/.git/hooks')
         ->remove($dest)
         ->symlink($source, $dest)
         ->stopOnFail()
@@ -55,9 +60,9 @@ class SettingsCommand extends RoboDrupal8Tasks {
   }
 
   /**
-   * Writes a hash salt to ${repo.root}/salt.txt if one does not exist.
+   * Writes a hash salt to ${project.root}/salt.txt if one does not exist.
    *
-   * @command setup:hash-salt
+   * @command setup:settings:hash-salt
    *
    * @return int
    *   A CLI exit code.
@@ -65,7 +70,7 @@ class SettingsCommand extends RoboDrupal8Tasks {
    * @throws \Exception
    */
   public function hashSalt() {
-    $hash_salt_file = $this->getConfigValue('repo.root') . '/salt.txt';
+    $hash_salt_file = $this->getConfigValue('project.root') . '/salt.txt';
     if (!file_exists($hash_salt_file)) {
       $this->say("Generating hash salt...");
       $result = $this->taskWriteToFile($hash_salt_file)
@@ -75,7 +80,7 @@ class SettingsCommand extends RoboDrupal8Tasks {
       if (!$result->wasSuccessful()) {
         $filepath = $this->getInspector()
           ->getFs()
-          ->makePathRelative($hash_salt_file, $this->getConfigValue('repo.root'));
+          ->makePathRelative($hash_salt_file, $this->getConfigValue('project.root'));
         throw new \Exception("Unable to write hash salt to $filepath.");
       }
 
@@ -89,6 +94,8 @@ class SettingsCommand extends RoboDrupal8Tasks {
 
   /**
    * Generates default settings files for Drupal and drush.
+   *
+   * TODO: re-implement!.
    *
    * @command setup:settings
    */

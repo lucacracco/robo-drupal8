@@ -24,6 +24,7 @@ class DefaultConfig extends RoboDrupal8Config {
     'project.prefix' => 'RD8',
     'project.human_name' => 'RoboDrupal 8 Example Project',
     // Git.
+    'git.root' => '${project.root}',
     'git.hooks.pre_commit' => '${rd8.root}/scripts/git-hooks',
     'git.hooks.commit_msg' => '${rd8.root}/scripts/git-hooks',
     'git.commit_msg.pattern' => "/(^\${project.prefix}-[0-9]+(: )[^ ].{15,}\\.)|(Merge branch (.)+)/",

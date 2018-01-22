@@ -14,7 +14,7 @@ class ConfigCommand extends RoboDrupal8Tasks {
   /**
    * Update current database to reflect the state of the Drupal file system.
    *
-   * @command setup:update
+   * @command setup:config:update
    * @aliases su
    */
   public function update() {

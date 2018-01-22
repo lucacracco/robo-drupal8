@@ -16,7 +16,6 @@ class SecurityUpdatesCommand extends RoboDrupal8Tasks {
    *
    * @description Check local Drupal installation for security updates.
    *
-   * @throws \Robo\Exception\TaskException
    */
   public function testsSecurityUpdates() {
     $result = $this->taskDrush()

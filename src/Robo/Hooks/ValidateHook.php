@@ -86,6 +86,8 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
    * Validates that MySQL is available.
    *
    * @hook validate @validateMySqlAvailable
+   *
+   * @throws \Exception
    */
   public function validateMySqlAvailable() {
     if (!$this->getInspector()->isMySqlAvailable()) {

@@ -5,14 +5,14 @@ namespace Lucacracco\RoboDrupal8\Robo\Commands\Setup;
 use Lucacracco\RoboDrupal8\Robo\RoboDrupal8Tasks;
 
 /**
- * Defines commands in the "setup:import" namespace.
+ * Defines commands in the "setup:import:import" namespace.
  */
 class ImportCommand extends RoboDrupal8Tasks {
 
   /**
    * Imports a .sql file into the Drupal database.
    *
-   * @command setup:import
+   * @command setup:import:import
    *
    * @validateDrushConfig
    */

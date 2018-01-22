@@ -31,6 +31,7 @@ class GitCommand extends RoboDrupal8Tasks {
    * Validates staged files.
    *
    * TODO: load changed_files from git staged.
+   * TODO: implement other validation.
    *
    * @command git:pre-commit
    *
