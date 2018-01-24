@@ -1,6 +1,64 @@
 # Commands
 
-### List
+## List
+
+### Composer
+
+**composer:install**
+- install composer dependecies
+
+**composer:update**
+- update composer dependecies
+
+**composer:require**
+- require library
+
+### Git
+
+### Alias
+
+Installa alias for use tool RoboDrupal8.
+
+### Docker (for 3.x version?)
+
+Initialization, update or stop docker containers.
+
+### Setup
+
+**setup:build**
+
+Build the project.
+
+- install Drupal from configuration
+- install git hooks
+
+### Fix code
+
+**fix:phpcbf**
+
+Fix the coding standard in the code changed.
+
+### Frontend
+
+Commands to build, test the front-end theme.
+
+**frontend:setup**
+
+Initialization the theme.
+
+**frontend:build**
+
+Build or rebuild the theme.
+
+**frontend:validate**
+
+Validate the theme.
+
+### Test (for version 3.x?)
+
+Run test for code changed.
+
+### Drupal
 
 **drupal:install-scratch**
 
@@ -78,7 +136,6 @@ Process:
 
 TODO.
 
-
 **drupal:protect-site**
 
 TODO.
@@ -90,3 +147,4 @@ Validate:
 
 Process:
 - recovery onetime-login for user
+
