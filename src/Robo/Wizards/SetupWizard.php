@@ -62,4 +62,37 @@ class SetupWizard extends Wizard {
     }
   }
 
+  /**
+   * Wizard for insert mysql connection.
+   *
+   * @throws \Exception
+   */
+  public function wizardMySqlConnection() {
+    $required_config = [
+      'database',
+      'host',
+      'port',
+      'user',
+      'pass',
+    ];
+
+    $update_config = FALSE;
+    foreach ($required_config as $required) {
+
+      $config_v = $this->getConfigValue("drupal.database.$required");
+      if (!empty($config_v)) {
+        continue;
+      }
+
+      $update_config = TRUE;
+      $config_input = $this->ask("Please insert \"$required\" of database connection.");
+      if (empty($config_input)) {
+        throw new \InvalidArgumentException("Impossible continue without \"$required\" of database");
+      }
+      $this->setConfigValue("drupal.database.$required", $config_input);
+    }
+
+    return $update_config;
+  }
+
 }

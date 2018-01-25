@@ -110,7 +110,7 @@ class ConfigInitializer {
    * @return $this
    */
   public function loadProjectConfig() {
-    $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/robo-drupal8/_project.yml'));
+    $this->processor->extend($this->loader->load($this->config->get('project.root') . '/robo-drupal8/_project.yml'));
     return $this;
   }
 
@@ -120,7 +120,7 @@ class ConfigInitializer {
    */
   public function loadSiteConfig() {
     if ($this->site) {
-      $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/robo-drupal8/sites/' . $this->site . '.yml'));
+      $this->processor->extend($this->loader->load($this->config->get('project.root') . '/robo-drupal8/config/sites/' . $this->site . '.yml'));
       $this->processor->extend($this->loader->load($this->config->get('docroot') . '/sites/' . $this->site . '/' . $this->site . '.yml'));
     }
     return $this;
@@ -137,11 +137,11 @@ class ConfigInitializer {
 
     // Default environment configuration.
     $environment = $this->input->hasParameterOption('environment');
-    $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/robo-drupal8/' . $environment . '.yml'));
+    $this->processor->extend($this->loader->load($this->config->get('project.root') . '/robo-drupal8/' . $environment . '.yml'));
 
     // Custom environment configuration based to site.
     if ($this->site) {
-      $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/robo-drupal8/sites/' . $this->site . '.' . $environment . '.yml'));
+      $this->processor->extend($this->loader->load($this->config->get('project.root') . '/robo-drupal8/config/sites/' . $this->site . '.' . $environment . '.yml'));
       $this->processor->extend($this->loader->load($this->config->get('docroot') . '/sites/' . $this->site . '/' . $this->site . '.' . $environment . '.yml'));
     }
     return $this;

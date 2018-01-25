@@ -2,6 +2,7 @@
 
 namespace Lucacracco\RoboDrupal8\Robo\Commands\Drupal;
 
+use Lucacracco\RoboDrupal8\Robo\Common\MySqlConnection;
 use Lucacracco\RoboDrupal8\Robo\RoboDrupal8Tasks;
 
 /**
@@ -17,29 +18,31 @@ class InstallCommand extends RoboDrupal8Tasks {
    * @command drupal:install-scratch
    *
    * @interactMySqlConnection
+   * @interactDrupalIsAlreadyInstalled
    *
-   * @validateMySqlAvailable
    * @validateDocrootIsPresent
    */
   public function drupalInstallScratch() {
     $this->invokeCommand('composer:install');
     $this->install()->detectInteractive()->run();
-    $this->invokeCommands([
-      'drupal:settings',
-      'drupal:update',
-      'drupal:protect-site',
-      'drupal:core-cron',
-      'drupal:one-time-login',
-    ]);
+    //    $this->invokeCommands([
+    //      'drupal:settings',
+    //      'drupal:update',
+    //      'drupal:protect-site',
+    //      'drupal:core-cron',
+    //      'drupal:one-time-login',
+    //    ]);
   }
 
   /**
    * Install from configuration.
    *
+   * @command drupal:install-from-config
+   *
    * @interactMySqlConnection
+   * @interactDrupalIsAlreadyInstalled
    *
    * @validateMySqlAvailable
-   * @validateMySqlConnection
    * @validateDocrootIsPresent
    */
   public function drupalInstallFromConfig() {
@@ -73,10 +76,14 @@ class InstallCommand extends RoboDrupal8Tasks {
    * @return \Lucacracco\RoboDrupal8\Robo\Tasks\DrushTask
    */
   protected function install($profile = '') {
+
     $username = $this->getConfigValue('drupal.account.username', 'admin');
     $password = $this->getConfigValue('drupal.account.password', 'admin');
     $mail = $this->getConfigValue('drupal.account.mail', 'admin@localhost');
-    $profile = empty($profile) ? $this->getConfigValue('project.profile.name') : $profile;
+
+    $profile = empty($profile) ? $this->getConfigValue('project.profile.name', 'minimal') : $profile;
+
+    $db_url = MySqlConnection::convertDatabaseFromDatabaseArray($this->getConfigValue('drupal.database'));
 
     /** @var \Lucacracco\RoboDrupal8\Robo\Tasks\DrushTask $task */
     $task = $this->taskDrush()
@@ -87,10 +94,10 @@ class InstallCommand extends RoboDrupal8Tasks {
       ->option('site-name', $this->getConfigValue('project.human_name'))
       ->option('site-mail', $this->getConfigValue('drupal.site.mail'))
       ->option('account-name', $username, '=')
-      ->option('account-password', $password, '=')
+      ->option('account-pass', $password, '=')
       ->option('account-mail', $mail)
+      ->option('db-url', $db_url)
       ->option('locale', $this->getConfigValue('drupal.locale'))
-      ->assume(TRUE)
       ->printOutput(TRUE);
 
     return $task;

@@ -43,4 +43,20 @@ trait ConfigAwareTrait {
     }
     return $this->getConfig()->has($key);
   }
+
+  /**
+   * Set a value in configuration.
+   *
+   * @param string $key
+   * @param string $value
+   *
+   * @throws \Exception
+   */
+  protected function setConfigValue($key, $value) {
+    if (!$this->getConfig()) {
+      throw new \Exception("Not possible set config value.");
+    }
+    $this->getConfig()->set($key, $value);
+  }
+
 }

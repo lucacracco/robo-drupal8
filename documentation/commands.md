@@ -82,7 +82,7 @@ Process:
 
 Validate:
 - @validateMySqlAvailable
-- @validateMySqlConnection
+- @validateMySqlConnection (todo)
 - @validateDocrootIsPresent
 
 Interact:
@@ -101,7 +101,6 @@ Process:
 
 Validate:
 - @validateMySqlAvailable
-- @validateMySqlConnection
 - @validateDrupalIsInstalled
 - @validateConfigSyncDirIsPresent
 

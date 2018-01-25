@@ -32,7 +32,7 @@ class DefaultConfig extends RoboDrupal8Config {
     'composer.bin' => '${project.root}/vendor/bin',
     'composer.extra' => '',
     // Web root.
-    'docroot' => '/docroot',
+    'docroot' => '/web',
     // RoboDrupal8 Root.
     'rd8.root' => '',
     'rd8.version' => '2.x',
@@ -57,11 +57,16 @@ class DefaultConfig extends RoboDrupal8Config {
     //    'drupal.root' => 'web',
     'drupal.config_directories.sync' => '${project.root}/config/${drupal.site.machine_name}/sync',
     // Database connection.
-    'database.name' => '',
-    'database.host' => '',
-    'database.port' => '3306',
-    'database.username' => '',
-    'database.password' => '',
+    'drupal.database.scheme' => NULL,
+    'drupal.database.user' => NULL,
+    'drupal.database.pass' => NULL,
+    'drupal.database.host' => NULL,
+    'drupal.database.port' => NULL,
+    'drupal.database.path' => NULL,
+    'drupal.database.prefix' => '',
+    'drupal.database.namespace' => '',
+    'drupal.database.driver' => 'mysql',
+    'drupal.database.database' => NULL,
     // PHPCs.
     'phpcs.bin' => '',
     'phpcs.standard' => 'Drupal,DrupalPractice',

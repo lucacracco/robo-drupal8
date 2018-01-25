@@ -185,7 +185,10 @@ class RoboFile extends \Robo\Tasks implements \Psr\Log\LoggerAwareInterface {
         throw new \Exception("$test_project_dir already exists.");
       }
     }
-    $this->taskDeleteDir($test_project_dir)->run();
+    $this->taskFilesystemStack()
+      ->chmod($test_project_dir, 0775)
+      ->taskDeleteDir($test_project_dir)
+      ->run();
   }
 
 }
