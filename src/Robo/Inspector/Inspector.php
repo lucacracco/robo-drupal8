@@ -126,13 +126,13 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   }
 
   /**
-   * Determines if RoboDrupal8 configuration file exists, typically project.yml.
+   * Determines if configuration directory sync directory exists.
    *
    * @return bool
    *   TRUE if file exists.
    */
-  public function isRd8ConfigFilePresent() {
-    return file_exists($this->getConfigValue('rd8.config-files.project'));
+  public function isConfigurationDirectorySyncPresent() {
+    return file_exists($this->getConfigValue('drupal.config_directories.sync'));
   }
 
   /**

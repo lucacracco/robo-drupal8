@@ -54,6 +54,17 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
   }
 
   /**
+   * Validates that the Drupal configuration sync exists.
+   *
+   * @hook validate @validateDrupalConfigurationDirectorySync
+   */
+  public function validateDrupalConfigurationDirectorySync(CommandData $commandData) {
+    if (!$this->getInspector()->isConfigurationDirectorySyncPresent()) {
+      throw new \Exception("Unable to find Drupal configuration sync.");
+    }
+  }
+
+  /**
    * Validates that Drupal is installed.
    *
    * @hook validate @validateDrupalIsInstalled

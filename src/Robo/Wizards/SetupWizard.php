@@ -2,6 +2,8 @@
 
 namespace Lucacracco\RoboDrupal8\Robo\Wizards;
 
+use Robo\LoadAllTasks;
+
 /**
  * Class SetupWizard.
  *
@@ -35,6 +37,29 @@ class SetupWizard extends Wizard {
       }
       else {
         throw new \Exception("Settings.php or salt.txt is required.");
+      }
+    }
+  }
+
+  /**
+   * Wizard for generating directory sync.
+   *
+   * @throws \Exception
+   */
+  public function wizardGenerateConfigurationDirectorySync() {
+    $missing = FALSE;
+    if (!$this->getInspector()->isConfigurationDirectorySyncPresent()) {
+      $this->logger->warning("<comment>{$this->getConfigValue('drupal.config_directories.sync')}</comment> is missing.");
+      $missing = TRUE;
+    }
+    if ($missing) {
+      $confirm = $this->confirm("Do you want to generate this required directory?");
+      if ($confirm) {
+        // @fixme.
+        mkdir($this->getConfigValue('drupal.config_directories.sync'));
+      }
+      else {
+        throw new \Exception("<comment>{$this->getConfigValue('drupal.config_directories.sync')}</comment> is required.");
       }
     }
   }

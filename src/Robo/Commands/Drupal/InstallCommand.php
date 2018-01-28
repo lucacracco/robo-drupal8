@@ -25,13 +25,13 @@ class InstallCommand extends RoboDrupal8Tasks {
   public function drupalInstallScratch() {
     $this->invokeCommand('composer:install');
     $this->install()->detectInteractive()->run();
-    //    $this->invokeCommands([
-    //      'drupal:settings',
-    //      'drupal:update',
-    //      'drupal:protect-site',
-    //      'drupal:core-cron',
-    //      'drupal:one-time-login',
-    //    ]);
+    $this->invokeCommands([
+      //      'drupal:settings',
+      'drupal:update',
+      'drupal:protect-site',
+      'drupal:core-cron',
+      'drupal:extra:login-one-time-url',
+    ]);
   }
 
   /**
@@ -55,7 +55,7 @@ class InstallCommand extends RoboDrupal8Tasks {
       'drupal:update',
       'drupal:protect-site',
       'drupal:core-cron',
-      'drupal:one-time-login',
+      'drupal:extra:login-one-time-url',
     ]);
   }
 

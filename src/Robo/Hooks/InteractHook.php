@@ -42,6 +42,17 @@ class InteractHook extends RoboDrupal8Tasks {
   }
 
   /**
+   * Runs wizard for generating configuration directory sync.
+   *
+   * @hook interact @interactGenerateConfigurationDirectorySync
+   */
+  public function interactGenerateConfigurationDirectorySync(InputInterface $input, OutputInterface $output, AnnotationData $annotationData) {
+    /** @var \Lucacracco\RoboDrupal8\Robo\Wizards\SetupWizard $setup_wizard */
+    $setup_wizard = $this->getContainer()->get(SetupWizard::class);
+    $setup_wizard->wizardGenerateConfigurationDirectorySync();
+  }
+
+  /**
    * Runs wizard for installing Drupal.
    *
    * @hook interact @interactInstallDrupal

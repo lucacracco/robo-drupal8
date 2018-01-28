@@ -5,7 +5,6 @@ namespace Lucacracco\RoboDrupal8\Robo\Commands\Setup;
 use Lucacracco\RoboDrupal8\Robo\Common\RandomString;
 use Lucacracco\RoboDrupal8\Robo\RoboDrupal8Tasks;
 use Robo\Contract\VerbosityThresholdInterface;
-use Symfony\Component\Finder\Finder;
 
 /**
  * Defines commands in the "setup:build" namespace.
@@ -72,40 +71,6 @@ class BuildCommand extends RoboDrupal8Tasks {
       ->stopOnFail()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
-  }
-
-  /**
-   * Set correct permissions for files and folders in docroot/sites/*.
-   *
-   * @throws \Exception
-   */
-  protected function setSitePermissions() {
-    $taskFilesystemStack = $this->taskFilesystemStack();
-    $multisite_dir = $this->getConfigValue('docroot') . '/sites/' . $this->getConfigValue('site');
-    $finder = new Finder();
-    $dirs = $finder
-      ->in($multisite_dir)
-      ->directories()
-      ->depth('< 1')
-      ->exclude('files');
-    foreach ($dirs->getIterator() as $dir) {
-      $taskFilesystemStack->chmod($dir->getRealPath(), 0755);
-    }
-    $files = $finder
-      ->in($multisite_dir)
-      ->files()
-      ->depth('< 1')
-      ->exclude('files');
-    foreach ($files->getIterator() as $dir) {
-      $taskFilesystemStack->chmod($dir->getRealPath(), 0644);
-    }
-
-    $taskFilesystemStack->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
-    $result = $taskFilesystemStack->run();
-
-    if (!$result->wasSuccessful()) {
-      throw new \Exception("Unable to set permissions for site directories.");
-    }
   }
 
 }
