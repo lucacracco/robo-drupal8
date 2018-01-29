@@ -55,8 +55,8 @@ class SetupWizard extends Wizard {
     if ($missing) {
       $confirm = $this->confirm("Do you want to generate this required directory?");
       if ($confirm) {
-        // @fixme.
-        mkdir($this->getConfigValue('drupal.config_directories.sync'));
+        $this->fs
+          ->mkdir($this->getConfigValue('drupal.config_directories.sync'));
       }
       else {
         throw new \Exception("<comment>{$this->getConfigValue('drupal.config_directories.sync')}</comment> is required.");

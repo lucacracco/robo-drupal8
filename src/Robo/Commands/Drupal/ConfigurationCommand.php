@@ -17,12 +17,18 @@ class ConfigurationCommand extends RoboDrupal8Tasks {
    * @command drupal:configuration:import
    * @aliases dci
    *
+   * @option report Print output command
+   *
    * @validateDrupalIsInstalled
    * @validateDrupalConfigurationDirectorySync
    */
-  public function import() {
+  public function import($opts = ['report' => FALSE]) {
     $this->invokeCommand('drupal:cache:rebuild');
-
+    $this->taskDrush()
+      ->drush('config-import')
+      ->printOutput((boolean) $opts['report'])
+      ->run();
+    $this->invokeCommand('drupal:cache:rebuild');
   }
 
   /**
@@ -31,14 +37,22 @@ class ConfigurationCommand extends RoboDrupal8Tasks {
    * @command drupal:configuration:export
    * @aliases dce
    *
+   * @arg destination Destination directory_sync to save the
+   *   configurations.
+   * @option report Print output command
+   *
    * @interactGenerateConfigurationDirectorySync
    *
    * @validateDrupalIsInstalled
    * @validateDrupalConfigurationDirectorySync
    */
-  public function export() {
+  public function export($destination = 'sync', $opts = ['report' => FALSE]) {
     $this->invokeCommand('drupal:cache:rebuild');
-
+    $this->taskDrush()
+      ->drush('config-export')
+      ->option('destination', $destination)
+      ->printOutput((boolean) $opts['report'])
+      ->run();
   }
 
 }

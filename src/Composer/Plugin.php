@@ -129,7 +129,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
 
       $settings['config_directories'] = [
         CONFIG_SYNC_DIRECTORY => (object) [
-          'value' => Path::makeRelative($drupalFinder->getComposerRoot() . '/config/sync', $drupalRoot),
+          'value' => Path::makeRelative($drupalFinder->getComposerRoot() . '/config/default/sync', $drupalRoot),
           'required' => TRUE,
         ],
       ];
