@@ -29,4 +29,25 @@ class ExtraCommand extends RoboDrupal8Tasks {
       ->run();
   }
 
+  /**
+   * Active/disable maintenance_mode in Drupal site.
+   *
+   * @param bool $active
+   *
+   * @command drupal:extra:maintenance-mode
+   *
+   * @validateDrupalIsInstalled
+   *
+   * @throws \Exception
+   * @throws \Psr\Container\ContainerExceptionInterface
+   * @throws \Psr\Container\NotFoundExceptionInterface
+   */
+  public function maintenanceMode($active = TRUE) {
+    $this->taskDrush()
+      ->drush("sset system.maintenance_mode")
+      ->arg($active)
+      ->run();
+    $this->invokeCommand('drupal:cache:rebuild');
+  }
+
 }

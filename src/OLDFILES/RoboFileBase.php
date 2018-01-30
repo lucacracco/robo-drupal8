@@ -117,12 +117,12 @@ class RoboFileBase extends \Robo\Tasks {
 
     if (Environment::needsBuild()) {
       // TODO: check and remove comment.
-//      // Composer install for first time.
-//      $collection->add(
-//        $this->taskSiteInitialize(PathResolver::root(), Environment::needsBuild())
-//          ->composerInstall(),
-//        'composerInstall'
-//      );
+      //      // Composer install for first time.
+      //      $collection->add(
+      //        $this->taskSiteInitialize(PathResolver::root(), Environment::needsBuild())
+      //          ->composerInstall(),
+      //        'composerInstall'
+      //      );
     }
 
     // Install site.
@@ -135,40 +135,6 @@ class RoboFileBase extends \Robo\Tasks {
     $collection->add($this->taskDrupalMaintenanceTasks()
       ->loginOneTimeUrl(1), 'UserLogin');
 
-    return $collection;
-  }
-
-  /**
-   * Export configuration.
-   *
-   * Uninstall dev modules before export configuration and r-enable after if
-   * not production environment.
-   *
-   * @return \Robo\Collection\Collection
-   *   The command collection.
-   */
-  public function configurationExport() {
-    $collection = new Collection();
-    $collection->add($this->taskDrupalConfigurationsTasks()
-      ->configurationExport()
-    );
-    return $collection;
-  }
-
-  /**
-   * Import configuration.
-   *
-   * Uninstall dev modules before import configuration and r-enable after if
-   * not production environment.
-   *
-   * @return \Robo\Collection\Collection
-   *   The command collection.
-   */
-  public function configurationImport() {
-    $collection = new Collection();
-    $collection->add($this->taskDrupalConfigurationsTasks()
-      ->configurationImport()
-    );
     return $collection;
   }
 
@@ -218,122 +184,6 @@ class RoboFileBase extends \Robo\Tasks {
   }
 
   /**
-   * Set site in maintenance.
-   *
-   * @param bool $mode
-   *   Value of maintenance.
-   *
-   * @return \Robo\Collection\Collection
-   *   The command collection.
-   */
-  public function siteMaintenanceMode($mode = TRUE) {
-    $collection = new Collection();
-    $collection->add($this->taskDrupalMaintenanceTasks($mode));
-    return $collection;
-  }
-
-  /**
-   * Rebuild Cache.
-   *
-   * @return \Robo\Collection\Collection
-   *   The command collection.
-   */
-  public function rebuildCache() {
-    $collection = new Collection();
-    $collection->add($this->drushStack()
-      ->drush('cache-rebuild')
-    );
-    return $collection;
-  }
-
-  /**
-   * User login.
-   *
-   * @param int $uid
-   *   Drupal user id.
-   *
-   * @return \Robo\Collection\Collection
-   *   The command collection.
-   */
-  public function siteUserLogin($uid = 1) {
-    $collection = new Collection();
-    $collection->add($this->taskDrupalMaintenanceTasks()
-      ->loginOneTimeUrl($uid)
-    );
-    return $collection;
-  }
-
-  /**
-   * Update database pending of drupal.
-   *
-   * @return \Robo\Collection\Collection
-   *   The command collection.
-   */
-  public function siteDatabaseUpdate() {
-    $collection = new Collection();
-    $collection->add($this->drushStack()
-      ->argForNextCommand('--entity-updates')
-      ->drush('updatedb')
-    );
-    $collection->add($this->drushStack()
-      ->drush('cache-rebuild')
-    );
-    return $collection;
-  }
-
-  /**
-   * Update Translations of drupal.
-   *
-   * @return \Robo\Collection\Collection
-   *   The command collection.
-   */
-  public function siteTranslationsUpdate() {
-    $collection = new Collection();
-    $collection->add($this->drushStack()
-      ->drush('locale-update'));
-    $collection->add($this->drushStack()
-      ->drush('cache-rebuild')
-    );
-    return $collection;
-  }
-
-  /**
-   * Install Extension.
-   *
-   * @param array $modules
-   *   A list of modules to install.
-   *
-   * @return \Robo\Collection\Collection
-   */
-  public function extensionInstall(array $modules) {
-    $collection = new Collection();
-    $collection->add(
-      $this->drushStack()
-        ->argsForNextCommand($modules)
-        ->drush("pm-enable"), 'extensionUninstall'
-    );
-    return $collection;
-  }
-
-  /**
-   * Uninstall Extension.
-   *
-   * @param array $modules
-   *   A list of modules to uninstall.
-   *
-   * @return \Robo\Collection\Collection
-   */
-  public function extensionUninstall(array $modules) {
-    $collection = new Collection();
-    $collection->add(
-      $this->drushStack()
-        ->argsForNextCommand($modules)
-        ->drush("pm-uninstall"), 'extensionUninstall'
-    );
-    return $collection;
-  }
-
-  /**
    * Exec drush command.
    *
    * @param string $arg
@@ -348,41 +198,6 @@ class RoboFileBase extends \Robo\Tasks {
         ->drush($arg), 'drush'
     );
     return $collection;
-  }
-
-  /**
-   * Database export.
-   *
-   * @param string|null $file_path
-   *   File path to save dump.
-   *
-   * @return \Robo\Contract\TaskInterface
-   */
-  protected function databaseExportTask($file_path = NULL) {
-    $file_path = isset($file_path) ? $file_path : PathResolver::suggestionPathDump();
-    $tables = [
-      'cache_data',
-      'cache_bootstrap',
-      'cache_container',
-      'cache_config',
-      'cache_default',
-      'cache_discovery',
-      'cache_dynamic_page_cache',
-      'cache_entity',
-      'cache_menu',
-      'cache_migrate',
-      'cache_render',
-      'cache_toolbar',
-      'cachetags',
-      'watchdog',
-      'sessions',
-    ];
-    return $this->drushStack()
-      ->argForNextCommand(' > ' . escapeshellarg($file_path))
-      ->argForNextCommand('ordered-dump')
-      ->argForNextCommand('extra=--skip-comments')
-      ->argForNextCommand('structure-tables-list=' . escapeshellarg(implode(',', $tables)))
-      ->drush('sql-dump');
   }
 
 }

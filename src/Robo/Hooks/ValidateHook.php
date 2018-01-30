@@ -43,6 +43,19 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
   }
 
   /**
+   * Validates that the Database directory exists.
+   *
+   * hook validate @validateDatabaseExportDir
+   */
+  public function validateDatabaseExportDir(CommandData $commandData) {
+    // @fixme
+    if (!$this->getInspector()->isDatabaseExportPresent()
+      && isset($commandData->options()['result-file'])) {
+      throw new \Exception("Directory used for export dumps of databse not exist.");
+    }
+  }
+
+  /**
    * Validates that the repository root exists.
    *
    * @hook validate @validateRepoRootIsPresent

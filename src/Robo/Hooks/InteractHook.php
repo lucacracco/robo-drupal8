@@ -84,6 +84,17 @@ class InteractHook extends RoboDrupal8Tasks {
   }
 
   /**
+   * Prompts user to confirm command.
+   *
+   * @hook interact @interactConfirmCommand
+   */
+  public function interactConfirmCommand(InputInterface $input, OutputInterface $output, AnnotationData $annotationData) {
+    if (!$this->confirm("Confirm command?")) {
+      throw new \Exception("Abort command.");
+    }
+  }
+
+  /**
    * Prompts user to confirm overwrite of active config on rd8 setup.
    *
    * @hook interact @interactConfigIdentical

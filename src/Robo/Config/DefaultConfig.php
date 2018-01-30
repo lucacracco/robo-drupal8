@@ -67,6 +67,7 @@ class DefaultConfig extends RoboDrupal8Config {
     'drupal.database.namespace' => '',
     'drupal.database.driver' => 'mysql',
     'drupal.database.database' => NULL,
+    'drupal.database.dir_export' => '${project.root}/export-database/${drupal.site.machine_name}',
     // PHPCs.
     'phpcs.bin' => '',
     'phpcs.standard' => 'Drupal,DrupalPractice',

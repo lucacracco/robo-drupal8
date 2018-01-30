@@ -126,6 +126,16 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   }
 
   /**
+   * Determines if the database export directory exists.
+   *
+   * @return bool
+   *   TRUE if file exists.
+   */
+  public function isDatabaseExportPresent() {
+    return file_exists($this->getConfigValue('drupal.database.dir_export'));
+  }
+
+  /**
    * Determines if configuration directory sync directory exists.
    *
    * @return bool
