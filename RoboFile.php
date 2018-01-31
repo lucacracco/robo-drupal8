@@ -186,7 +186,7 @@ class RoboFile extends \Robo\Tasks implements \Psr\Log\LoggerAwareInterface {
       }
     }
     $this->taskFilesystemStack()
-      ->chmod($test_project_dir, 0775)
+      ->chmod($test_project_dir, 0775, 0000, TRUE)
       ->taskDeleteDir($test_project_dir)
       ->run();
   }
