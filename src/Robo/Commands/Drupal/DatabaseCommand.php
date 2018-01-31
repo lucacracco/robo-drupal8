@@ -36,8 +36,6 @@ class DatabaseCommand extends RoboDrupal8Tasks {
    *
    * @command drupal:database:import
    *
-   * @interactConfirmCommand
-   *
    * @validateMySqlAvailable
    */
   public function import($dump_file) {
@@ -52,25 +50,26 @@ class DatabaseCommand extends RoboDrupal8Tasks {
   /**
    * Export database.
    *
-   * @option result-file Where to save the dump file.
+   * @option directory Where to save the dump file.
    *
    * @command drupal:database:export
    *
    * @validateDatabaseExportDir
    * @validateDrupalIsInstalled
    */
-  public function export($opts = ['result-file' => NULL]) {
-    $path = !empty($opts['result-file']) ? $opts['result-file'] : $this->getConfigValue("drupal.database.dir_export");
+  public function export($opts = ['directory' => NULL]) {
+    $path = !empty($opts['directory']) ? $opts['directory'] : $this->getConfigValue("drupal.database.dir_export");
 
     if (empty($path) || !file_exists($path)) {
-      throw new \InvalidArgumentException("Path to save the dump is not found.");
+      throw new \InvalidArgumentException("Path \"$path\" where to save the dump is not found.");
     }
+
+    $path = $path . DIRECTORY_SEPARATOR . $this->getConfigValue("site") . "_" . date('Ymd_Hm') . ".sql";
 
     $this->invokeCommand('drupal:cache:rebuild');
 
     $this->taskDrush()
       ->drush("sql-dump")
-      ->option('ordered-dump')
       ->option('result-file', $path)
       ->printOutput(TRUE)
       ->run();
