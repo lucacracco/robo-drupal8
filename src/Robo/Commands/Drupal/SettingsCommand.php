@@ -49,6 +49,10 @@ class SettingsCommand extends RoboDrupal8Tasks {
     $local_settings_file = $this->getConfigValue('drupal.local_settings_file', NULL);
     $copy_map[$local_settings_file] = $site_dir . DIRECTORY_SEPARATOR . 'local.settings.php';
 
+    // Generate services.yml.
+    $services_file = $this->getConfigValue('drupal.services_file', NULL);
+    $copy_map[$services_file] = $site_dir . DIRECTORY_SEPARATOR . 'services.yml';
+
     // Generate local.drushrc.php.
     $local_drush_file = $this->getConfigValue('drupal.local_drushrc', NULL);
     $copy_map[$local_drush_file] = $site_dir . DIRECTORY_SEPARATOR . 'local.drushrc.php';
