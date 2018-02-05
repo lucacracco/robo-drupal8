@@ -24,7 +24,7 @@ class AllCommand extends RoboDrupal8Tasks {
 
     $commands = [
       'setup:build',
-      'setup:settings:hash-salt',
+      'drupal:settings:hash-salt',
     ];
     $commands[] = 'setup:build:install';
 //    $commands[] = 'setup:import:import';

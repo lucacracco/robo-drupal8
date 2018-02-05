@@ -7,16 +7,16 @@ use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Finder\Finder;
 
 /**
- * Defines commands in the "drupal:protect-site" namespace.
+ * Defines commands in the "drupal:filesystem:protect-site" namespace.
  *
  * @package Lucacracco\RoboDrupal8\Robo\Commands\Drupal
  */
-class ProtectSiteCommand extends RoboDrupal8Tasks {
+class FilesystemCommand extends RoboDrupal8Tasks {
 
   /**
    * Set correct permissions for files and folders in docroot/sites/*.
    *
-   * @command drupal:protect-site
+   * @command drupal:filesystem:protect-site
    */
   public function protectSite() {
     $taskFilesystemStack = $this->taskFilesystemStack();
@@ -45,6 +45,22 @@ class ProtectSiteCommand extends RoboDrupal8Tasks {
     if (!$result->wasSuccessful()) {
       throw new \Exception("Unable to set permissions for site directories.");
     }
+  }
+
+  public function clearSite() {
+    $taskFilesystemStack = $this->taskFilesystemStack();
+    $site_dir = $this->getConfigValue('docroot') . '/sites/' . $this->getConfigValue('site');
+
+    // Chmod all files.
+   $result =  $taskFilesystemStack
+      ->chmod($site_dir, 0775, 0000, TRUE)
+      ->run();
+
+    if (!$result->wasSuccessful()) {
+      throw new \Exception("Unable to set permissions for site directories.");
+    }
+
+
   }
 
 }

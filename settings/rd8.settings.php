@@ -5,7 +5,6 @@
  * Setup RD8 utility variables, include required files.
  */
 
-use Drupal\Component\Utility\Bytes;
 use Drupal\Core\DrupalKernel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -71,14 +70,6 @@ $site_dir = str_replace('sites/', '', $site_path);
 /*******************************************************************************
  * RD8 includes & RD8 default configuration.
  ******************************************************************************/
-
-// Prevent APCu memory exhaustion.
-// Es. Acquia assigns 8 MB for APCu, which is only adequate for small cache pools.
-$apc_shm_size = Bytes::toInt(ini_get('apc.shm_size'));
-$apcu_fix_size = Bytes::toInt('32M');
-if ($apc_shm_size < $apcu_fix_size) {
-  $settings['container_yamls'][] = __DIR__ . '/apcu_fix.yml';
-}
 
 // Includes caching configuration.
 require __DIR__ . '/cache.settings.php';

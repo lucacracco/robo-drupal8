@@ -126,7 +126,7 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
    */
   public function validateSettingsFilesPresent() {
     if (!$this->getInspector()->isHashSaltPresent()) {
-      throw new \Exception("salt.txt is not present. Please run `rd8 setup:settings` to generate it.");
+      throw new \Exception("salt.txt is not present. Please run `rd8 drupal:settings` to generate it.");
     }
     if (!$this->getInspector()->isDrupalLocalSettingsFilePresent()) {
       throw new \Exception("Could not find settings.php for this site.");

@@ -14,7 +14,7 @@ class SetupWizard extends Wizard {
   /**
    * Wizard for generating setup files.
    *
-   * Executes rd8 setup:settings command.
+   * Executes rd8 drupal:settings command.
    *
    * @throws \Exception
    */
@@ -33,7 +33,7 @@ class SetupWizard extends Wizard {
       if ($confirm) {
         $bin = $this->getConfigValue('composer.bin');
         $this->executor
-          ->execute("$bin/rd8 setup:settings")->printOutput(TRUE)->run();
+          ->execute("$bin/rd8 drupal:settings")->printOutput(TRUE)->run();
       }
       else {
         throw new \Exception("Settings.php or salt.txt is required.");

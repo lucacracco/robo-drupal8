@@ -11,7 +11,6 @@ $dir = dirname(DRUPAL_ROOT);
 
 // Use development service parameters.
 $settings['container_yamls'][] = $dir . '/docroot/sites/development.services.yml';
-$settings['container_yamls'][] = $dir . '/docroot/sites/blt.development.services.yml';
 
 // Allow access to update.php.
 $settings['update_free_access'] = TRUE;
@@ -61,7 +60,8 @@ $config['system.performance']['js']['preprocess'] = FALSE;
  *
  * Do not use this setting until after the site is installed.
  */
-// $settings['cache']['bins']['render'] = 'cache.backend.null';
+$settings['cache']['bins']['render'] = 'cache.backend.null';
+
 /**
  * Disable Dynamic Page Cache.
  *
@@ -69,7 +69,8 @@ $config['system.performance']['js']['preprocess'] = FALSE;
  * cacheability metadata is present (and hence the expected behavior). However,
  * in the early stages of development, you may want to disable it.
  */
-// $settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.null';
+$settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.null';
+
 /**
  * Allow test modules and themes to be installed.
  *
@@ -79,21 +80,20 @@ $config['system.performance']['js']['preprocess'] = FALSE;
  */
 $settings['extension_discovery_scan_tests'] = FALSE;
 
-
 /**
  * Configure static caches.
  *
- * Note: you should test with the config, bootstrap, and discovery caches enabled to
- * test that metadata is cached as expected. However, in the early stages of development,
- * you may want to disable them. Overrides to these bins must be explicitly set for each
- * bin to change the default configuration provided by Drupal core in core.services.yml.
- * See https://www.drupal.org/node/2754947
+ * Note: you should test with the config, bootstrap, and discovery caches
+ * enabled to test that metadata is cached as expected. However, in the early
+ * stages of development, you may want to disable them. Overrides to these bins
+ * must be explicitly set for each bin to change the default configuration
+ * provided by Drupal core in core.services.yml. See
+ * https://www.drupal.org/node/2754947
  */
 
 // $settings['cache']['bins']['bootstrap'] = 'cache.backend.null';
 // $settings['cache']['bins']['discovery'] = 'cache.backend.null';
 // $settings['cache']['bins']['config'] = 'cache.backend.null';
-
 
 /**
  * Enable access to rebuild.php.
@@ -122,13 +122,13 @@ $config['system.file']['path']['temporary'] = '/tmp';
  * Public/Private file path.
  */
 $settings['file_public_path'] = "sites/$site_dir/files";
-$settings['file_private_path'] = "..t/files-private/$site_dir";
+$settings['file_private_path'] = "../files-private/$site_dir";
 
 /**
  * Trusted host configuration.
  *
  * See full description in default.settings.php.
  */
-$settings['trusted_host_patterns'] = array(
+$settings['trusted_host_patterns'] = [
   '^.+$',
-);
+];

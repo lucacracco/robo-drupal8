@@ -26,9 +26,9 @@ class InstallCommand extends RoboDrupal8Tasks {
     $this->invokeCommand('composer:install');
     $this->install()->detectInteractive()->run();
     $this->invokeCommands([
-      //      'drupal:settings',
+      'drupal:settings',
       'drupal:update',
-      'drupal:protect-site',
+      'drupal:filesystem:protect-site',
       'drupal:core-cron',
       'drupal:extra:login-one-time-url',
     ]);
@@ -53,7 +53,7 @@ class InstallCommand extends RoboDrupal8Tasks {
     $this->installWithConfig()->detectInteractive()->run();
     $this->invokeCommands([
       'drupal:update',
-      'drupal:protect-site',
+      'drupal:filesystem:protect-site',
       'drupal:core-cron',
       'drupal:extra:login-one-time-url',
     ]);

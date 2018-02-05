@@ -39,10 +39,10 @@ class BuildCommand extends RoboDrupal8Tasks {
    */
   public function build() {
     $this->invokeCommands([
-      // setup:build:composer:install must run prior to setup:settings to ensure that
+      // setup:build:composer:install must run prior to drupal:settings to ensure that
       // scaffold files are present.
       'setup:build:composer:install',
-      // 'setup:settings',
+      // 'drupal:settings',
       // 'frontend',
     ]);
   }
