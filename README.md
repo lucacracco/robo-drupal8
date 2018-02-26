@@ -24,7 +24,7 @@ Usa `vendor/bin/rd8 list` per visualizzare tutti i commandi presenti e
 caricati.
 
 Se vuoi qualche dettaglio in più sui comandi, hooks, ecc.. implementati
-puoi leggerti la documentazione sui [Commandi](./documentation/commands.md).
+puoi leggerti la documentazione sui [Commandi](./documentation/commands-rd8.md).
 
 
 #### Validate
@@ -77,6 +77,7 @@ After use Robo Commands for create a environment to develop project.
 | `create:from-scratch`     | Create a new project using `composer require lucacracco/robo-drupal8`.                |
 | `create:from-symlink`     | Create a new project via symlink from current checkout of robo-drupal8.               |
 
+See all [commands](./documentation/commands.md) of project.
 
 ### ISSUES
 

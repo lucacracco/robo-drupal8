@@ -1,0 +1,75 @@
+version: "3"
+
+services:
+
+  mariadb:
+    image: wodby/mariadb:10.2-3.0.2
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: drupal
+      MYSQL_USER: drupal
+      MYSQL_PASSWORD: drupal
+
+  php:
+    image: wodby/drupal-php:7.1-dev-3.3.1
+    environment:PHP_FPM_USER
+      PHP_FPM_USER: 'wodby'
+      PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S mailhog:1025
+      PHP_FPM_CLEAR_ENV: "no"
+#      PHP_XDEBUG: 1
+#      PHP_XDEBUG_DEFAULT_ENABLE: 1
+#      PHP_XDEBUG_REMOTE_CONNECT_BACK: 0
+#      PHP_XDEBUG_REMOTE_HOST: "10.254.254.254"
+#      PHP_XDEBUG_PROFILER_OUTPUT_DIR: /mnt/files/xdebug/profiler
+#      PHP_XDEBUG_TRACE_OUTPUT_DIR: /mnt/files/xdebug/traces
+#      PHP_BLACKFIRE: 1
+    volumes:
+      - ./:/var/www/html
+
+  apache:
+    image: wodby/php-apache:2.4-2.0.2
+    depends_on:
+      - php
+    environment:
+      APACHE_USER: 'wodby'
+      APACHE_LOG_LEVEL: debug
+      APACHE_BACKEND_HOST: php
+      APACHE_SERVER_ROOT: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    labels:
+      - 'traefik.backend=apache'
+      - 'traefik.port=80'
+      - 'traefik.frontend.rule=Host:drupal.docker.localhost'
+
+  mailhog:
+    image: mailhog/mailhog
+    labels:
+      - 'traefik.backend=mailhog'
+      - 'traefik.port=8025'
+      - 'traefik.frontend.rule=Host:mailhog.drupal.docker.localhost'
+
+#  blackfire:
+#    image: blackfire/blackfire
+#    environment:
+#      BLACKFIRE_SERVER_ID: XXXXX
+#      BLACKFIRE_SERVER_TOKEN: YYYYY
+
+  portainer:
+    image: portainer/portainer
+    command: --no-auth -H unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - 'traefik.backend=portainer'
+      - 'traefik.port=9000'
+      - 'traefik.frontend.rule=Host:portainer.drupal.docker.localhost'
+
+  traefik:
+    image: traefik
+    command: -c /dev/null --web --docker --logLevel=INFO
+    ports:
+      - '8000:80'
+      - '8080:8080' # Dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

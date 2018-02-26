@@ -1,149 +1,859 @@
-# Commands
+Robo 1.2.1
+==========
 
-## List
+* [`fix-code`](#fix-code)
+* [`help`](#help)
+* [`list`](#list)
+* [`sniff-code`](#sniff-code)
+* [`update`](#selfupdate)
 
-### Composer
+**create:**
 
-**composer:install**
-- install composer dependecies
+* [`create:from-rd8-project`](#createfrom-rd8-project)
+* [`create:from-scratch`](#createfrom-scratch)
+* [`create:from-symlink`](#createfrom-symlink)
 
-**composer:update**
-- update composer dependecies
+**self:**
 
-**composer:require**
-- require library
+* [`self:update`](#selfupdate)
 
-### Git
+`fix-code`
+----------
 
-### Alias
+Fixes RD8 internal code via PHPCBF.
 
-Installa alias for use tool RoboDrupal8.
+### Usage
 
-### Docker (for 3.x version?)
+* `fix-code`
 
-Initialization, update or stop docker containers.
+Fixes RD8 internal code via PHPCBF.
 
-### Setup
+### Options
 
-**setup:build**
+#### `--help|-h`
 
-Build the project.
+Display this help message
 
-- install Drupal from configuration
-- install git hooks
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
 
-### Fix code
+#### `--quiet|-q`
 
-**fix:phpcbf**
+Do not output any message
 
-Fix the coding standard in the code changed.
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
 
-### Frontend
+#### `--verbose|-v|-vv|-vvv`
 
-Commands to build, test the front-end theme.
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
-**frontend:setup**
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
 
-Initialization the theme.
+#### `--version|-V`
 
-**frontend:build**
+Display this application version
 
-Build or rebuild the theme.
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
 
-**frontend:validate**
+#### `--ansi`
 
-Validate the theme.
+Force ANSI output
 
-### Test (for version 3.x?)
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
 
-Run test for code changed.
+#### `--no-ansi`
 
-### Drupal
+Disable ANSI output
 
-**drupal:install-scratch**
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
 
-Validate:
-- @validateMySqlAvailable
-- @validateDocrootIsPresent
+#### `--no-interaction|-n`
 
-Interact:
-- @interactMySqlConnection
+Do not ask any interactive question
 
-Process:
-- @composer:install
-- @drupal:install-scratch
-- @drupal:settings
-- @drupal:update
-- @drupal:protect-site
-- @drupal:core-cron
-- @drupal:one-time-login
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
 
-**drupal:install-from-config**
+#### `--simulate`
 
-Validate:
-- @validateMySqlAvailable
-- @validateMySqlConnection (todo)
-- @validateDocrootIsPresent
+Run in simulated mode (show what would have happened).
 
-Interact:
-- @interactMySqlConnection
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
 
-Process:
-- @composer:install
-- @drupal:settings
-- @drupal:config-installer
-- @drupal:update
-- @drupal:protect-site
-- @drupal:core-cron
-- @drupal:one-time-login
+#### `--progress-delay`
 
-**drupal:deploy**
+Number of seconds before progress bar is displayed in long-running task collections. Default: 2s.
 
-Validate:
-- @validateMySqlAvailable
-- @validateDrupalIsInstalled
-- @validateConfigSyncDirIsPresent
+* Accept value: yes
+* Is value required: yes
+* Is multiple: no
+* Default: `2`
 
-Process:
-- @composer:install
-- @drupal:update
-- @drupal:configuration-import
-- @drupal:entity-updates
-- @drupal:core-cron
+#### `--define|-D`
 
-**drupal:configuration-import**
+Define a configuration item value.
 
-Validate:
-- @validateConfigSyncDirIsPresent
-- @validateDrupalIsInstalled
+* Accept value: yes
+* Is value required: yes
+* Is multiple: yes
+* Default: `array ()`
 
-Process:
-- import configuration from sync dir
-- @drupal:cache-rebuild
+`help`
+------
 
-**drupal:configuration-export**
+Displays help for a command
 
-Validate:
-- @validateConfigSyncDirIsPresent
-- @validateDrupalIsInstalled
+### Usage
 
-Process:
-- export configuration from to sync dir
-- @drupal:cache-rebuild
+* `help [--format FORMAT] [--raw] [--] [<command_name>]`
 
-**drupal:update**
+The help command displays help for a given command:
 
-TODO.
+  php vendor/bin/robo help list
 
-**drupal:protect-site**
+You can also output the help in other formats by using the --format option:
 
-TODO.
+  php vendor/bin/robo help --format=xml list
 
-**drupal:one-time-login**
+To display the list of available commands, please use the list command.
 
-Validate:
-- @validateDrupalIsInstalled
+### Arguments
 
-Process:
-- recovery onetime-login for user
+#### `command_name`
 
+The command name
+
+* Is required: no
+* Is array: no
+* Default: `'help'`
+
+### Options
+
+#### `--format`
+
+The output format (txt, xml, json, or md)
+
+* Accept value: yes
+* Is value required: yes
+* Is multiple: no
+* Default: `'txt'`
+
+#### `--raw`
+
+To output raw command help
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--help|-h`
+
+Display this help message
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--quiet|-q`
+
+Do not output any message
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--verbose|-v|-vv|-vvv`
+
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--version|-V`
+
+Display this application version
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--ansi`
+
+Force ANSI output
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--no-ansi`
+
+Disable ANSI output
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--no-interaction|-n`
+
+Do not ask any interactive question
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--simulate`
+
+Run in simulated mode (show what would have happened).
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--progress-delay`
+
+Number of seconds before progress bar is displayed in long-running task collections. Default: 2s.
+
+* Accept value: yes
+* Is value required: yes
+* Is multiple: no
+* Default: `2`
+
+#### `--define|-D`
+
+Define a configuration item value.
+
+* Accept value: yes
+* Is value required: yes
+* Is multiple: yes
+* Default: `array ()`
+
+`list`
+------
+
+Lists commands
+
+### Usage
+
+* `list [--raw] [--format FORMAT] [-h|--help] [-q|--quiet] [-v|vv|vvv|--verbose] [-V|--version] [--ansi] [--no-ansi] [-n|--no-interaction] [--simulate] [--progress-delay PROGRESS-DELAY] [-D|--define DEFINE] [--] <command> [<namespace>]`
+
+The list command lists all commands:
+
+  php vendor/bin/robo list
+
+You can also display the commands for a specific namespace:
+
+  php vendor/bin/robo list test
+
+You can also output the information in other formats by using the --format option:
+
+  php vendor/bin/robo list --format=xml
+
+It's also possible to get raw list of commands (useful for embedding command runner):
+
+  php vendor/bin/robo list --raw
+
+### Arguments
+
+#### `namespace`
+
+The namespace name
+
+* Is required: no
+* Is array: no
+* Default: `NULL`
+
+### Options
+
+#### `--raw`
+
+To output raw command list
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--format`
+
+The output format (txt, xml, json, or md)
+
+* Accept value: yes
+* Is value required: yes
+* Is multiple: no
+* Default: `'txt'`
+
+`sniff-code`
+------------
+
+Sniffs RD8 internal code via PHPCS.
+
+### Usage
+
+* `sniff-code`
+
+Sniffs RD8 internal code via PHPCS.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--quiet|-q`
+
+Do not output any message
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--verbose|-v|-vv|-vvv`
+
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--version|-V`
+
+Display this application version
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--ansi`
+
+Force ANSI output
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--no-ansi`
+
+Disable ANSI output
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--no-interaction|-n`
+
+Do not ask any interactive question
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--simulate`
+
+Run in simulated mode (show what would have happened).
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--progress-delay`
+
+Number of seconds before progress bar is displayed in long-running task collections. Default: 2s.
+
+* Accept value: yes
+* Is value required: yes
+* Is multiple: no
+* Default: `2`
+
+#### `--define|-D`
+
+Define a configuration item value.
+
+* Accept value: yes
+* Is value required: yes
+* Is multiple: yes
+* Default: `array ()`
+
+`create:from-rd8-project`
+-------------------------
+
+Create a new project using `composer create-project lucacracco/robo-drupal8-project'.
+
+### Usage
+
+* `create:from-rd8-project [--project-dir [PROJECT-DIR]]`
+
+Create a new project using `composer create-project lucacracco/robo-drupal8-project'.
+
+### Options
+
+#### `--project-dir`
+
+The directory in which the test project will be created.
+
+* Accept value: yes
+* Is value required: no
+* Is multiple: no
+* Default: `'../test-rd8'`
+
+#### `--help|-h`
+
+Display this help message
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--quiet|-q`
+
+Do not output any message
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--verbose|-v|-vv|-vvv`
+
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--version|-V`
+
+Display this application version
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--ansi`
+
+Force ANSI output
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--no-ansi`
+
+Disable ANSI output
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--no-interaction|-n`
+
+Do not ask any interactive question
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--simulate`
+
+Run in simulated mode (show what would have happened).
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--progress-delay`
+
+Number of seconds before progress bar is displayed in long-running task collections. Default: 2s.
+
+* Accept value: yes
+* Is value required: yes
+* Is multiple: no
+* Default: `2`
+
+#### `--define|-D`
+
+Define a configuration item value.
+
+* Accept value: yes
+* Is value required: yes
+* Is multiple: yes
+* Default: `array ()`
+
+`create:from-scratch`
+---------------------
+
+Create a new project using `composer require lucacracco/robo-drupal8'.
+
+### Usage
+
+* `create:from-scratch [--project-dir [PROJECT-DIR]]`
+
+Create a new project using `composer require lucacracco/robo-drupal8'.
+
+### Options
+
+#### `--project-dir`
+
+The directory in which the test project will be created.
+
+* Accept value: yes
+* Is value required: no
+* Is multiple: no
+* Default: `'../test-rd8'`
+
+#### `--help|-h`
+
+Display this help message
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--quiet|-q`
+
+Do not output any message
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--verbose|-v|-vv|-vvv`
+
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--version|-V`
+
+Display this application version
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--ansi`
+
+Force ANSI output
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--no-ansi`
+
+Disable ANSI output
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--no-interaction|-n`
+
+Do not ask any interactive question
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--simulate`
+
+Run in simulated mode (show what would have happened).
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--progress-delay`
+
+Number of seconds before progress bar is displayed in long-running task collections. Default: 2s.
+
+* Accept value: yes
+* Is value required: yes
+* Is multiple: no
+* Default: `2`
+
+#### `--define|-D`
+
+Define a configuration item value.
+
+* Accept value: yes
+* Is value required: yes
+* Is multiple: yes
+* Default: `array ()`
+
+`create:from-symlink`
+---------------------
+
+Create a new project via symlink from current checkout of robo-drupal8.
+
+### Usage
+
+* `create:from-symlink [--project-dir [PROJECT-DIR]]`
+
+Local RD8 will be symlinked to project.
+
+### Options
+
+#### `--project-dir`
+
+The directory in which the test project will be created.
+
+* Accept value: yes
+* Is value required: no
+* Is multiple: no
+* Default: `'../test-rd8'`
+
+#### `--help|-h`
+
+Display this help message
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--quiet|-q`
+
+Do not output any message
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--verbose|-v|-vv|-vvv`
+
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--version|-V`
+
+Display this application version
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--ansi`
+
+Force ANSI output
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--no-ansi`
+
+Disable ANSI output
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--no-interaction|-n`
+
+Do not ask any interactive question
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--simulate`
+
+Run in simulated mode (show what would have happened).
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--progress-delay`
+
+Number of seconds before progress bar is displayed in long-running task collections. Default: 2s.
+
+* Accept value: yes
+* Is value required: yes
+* Is multiple: no
+* Default: `2`
+
+#### `--define|-D`
+
+Define a configuration item value.
+
+* Accept value: yes
+* Is value required: yes
+* Is multiple: yes
+* Default: `array ()`
+
+`self:update`
+-------------
+
+Updates the robo.phar to the latest version.
+
+### Usage
+
+* `self:update`
+* `update`
+
+The self-update command checks github for newer
+versions of robo and if found, installs the latest.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--quiet|-q`
+
+Do not output any message
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--verbose|-v|-vv|-vvv`
+
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--version|-V`
+
+Display this application version
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--ansi`
+
+Force ANSI output
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--no-ansi`
+
+Disable ANSI output
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--no-interaction|-n`
+
+Do not ask any interactive question
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--simulate`
+
+Run in simulated mode (show what would have happened).
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--progress-delay`
+
+Number of seconds before progress bar is displayed in long-running task collections. Default: 2s.
+
+* Accept value: yes
+* Is value required: yes
+* Is multiple: no
+* Default: `2`
+
+#### `--define|-D`
+
+Define a configuration item value.
+
+* Accept value: yes
+* Is value required: yes
+* Is multiple: yes
+* Default: `array ()`
