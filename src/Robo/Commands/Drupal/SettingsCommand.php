@@ -37,25 +37,22 @@ class SettingsCommand extends RoboDrupal8Tasks {
     $site_dir = $this->getConfigValue('docroot') . DIRECTORY_SEPARATOR . 'sites' . DIRECTORY_SEPARATOR . $this->getConfigValue('site');
 
     $settings_template_default = $site_dir . DIRECTORY_SEPARATOR . 'default.settings.php';
-    $settings_template = $this->getConfigValue('drupal.settings_file', $settings_template_default);
-    if (!file_exists($settings_template)) {
-      throw new \InvalidArgumentException("Settings template $settings_template not found.");
-    }
+    // $settings_template = $this->getConfigValue('drupal.settings_file', $settings_template_default);
 
     // Generate settings.php.
-    $copy_map[$settings_template] = $site_dir . DIRECTORY_SEPARATOR . 'settings.php';
+    $copy_map[$settings_template_default] = $site_dir . DIRECTORY_SEPARATOR . 'settings.php';
 
     // Generate local.settings.php.
-    $local_settings_file = $this->getConfigValue('drupal.local_settings_file', NULL);
-    $copy_map[$local_settings_file] = $site_dir . DIRECTORY_SEPARATOR . 'local.settings.php';
+    //$local_settings_file = $this->getConfigValue('drupal.local_settings_file', NULL);
+    //$copy_map[$local_settings_file] = $site_dir . DIRECTORY_SEPARATOR . 'local.settings.php';
 
     // Generate services.yml.
-    $services_file = $this->getConfigValue('drupal.services_file', NULL);
-    $copy_map[$services_file] = $site_dir . DIRECTORY_SEPARATOR . 'services.yml';
+    //$services_file = $this->getConfigValue('drupal.services_file', NULL);
+    //$copy_map[$services_file] = $site_dir . DIRECTORY_SEPARATOR . 'services.yml';
 
     // Generate local.drushrc.php.
-    $local_drush_file = $this->getConfigValue('drupal.local_drushrc', NULL);
-    $copy_map[$local_drush_file] = $site_dir . DIRECTORY_SEPARATOR . 'local.drushrc.php';
+    //$local_drush_file = $this->getConfigValue('drupal.local_drushrc', NULL);
+    //$copy_map[$local_drush_file] = $site_dir . DIRECTORY_SEPARATOR . 'local.drushrc.php';
 
     $task = $this->taskFilesystemStack()
       ->stopOnFail()
