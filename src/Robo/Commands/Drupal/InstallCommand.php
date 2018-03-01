@@ -81,7 +81,7 @@ class InstallCommand extends RoboDrupal8Tasks {
     $password = $this->getConfigValue('drupal.account.password', 'admin');
     $mail = $this->getConfigValue('drupal.account.mail', 'admin@localhost');
 
-    $profile = empty($profile) ? $this->getConfigValue('project.profile.name', 'minimal') : $profile;
+    $profile = empty($profile) ? $this->getConfigValue('drupal.site.profile', 'minimal') : $profile;
 
     $db_url = MySqlConnection::convertDatabaseFromDatabaseArray($this->getConfigValue('drupal.database'));
 
