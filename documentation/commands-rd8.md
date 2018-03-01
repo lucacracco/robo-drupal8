@@ -75,6 +75,10 @@ RoboDrupal8
 * setup:build
 * setup:build:composer:install
 * setup:build:install
+* setup:deploy
+* setup:from-config
+* setup:from-database
+* setup:scratch
 
 **tests:**
 
@@ -5515,6 +5519,502 @@ setup:build:install
   * `setup:build:install`
 
 Installs Drupal and sets correct file/directory permissions.
+
+### Options:
+
+**help:**
+
+* Name: `--help`
+* Shortcut: `-h`
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Display this help message
+* Default: `false`
+
+**quiet:**
+
+* Name: `--quiet`
+* Shortcut: `-q`
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Do not output any message
+* Default: `false`
+
+**verbose:**
+
+* Name: `--verbose`
+* Shortcut: `-v|-vv|-vvv`
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+* Default: `false`
+
+**version:**
+
+* Name: `--version`
+* Shortcut: `-V`
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Display this application version
+* Default: `false`
+
+**ansi:**
+
+* Name: `--ansi`
+* Shortcut: <none>
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Force ANSI output
+* Default: `false`
+
+**no-ansi:**
+
+* Name: `--no-ansi`
+* Shortcut: <none>
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Disable ANSI output
+* Default: `false`
+
+**no-interaction:**
+
+* Name: `--no-interaction`
+* Shortcut: `-n`
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Do not ask any interactive question
+* Default: `false`
+
+**yes:**
+
+* Name: `--yes`
+* Shortcut: `-y`
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Answer all confirmations with "yes"
+* Default: `false`
+
+**define:**
+
+* Name: `--define`
+* Shortcut: `-D`
+* Accept value: yes
+* Is value required: yes
+* Is multiple: yes
+* Description: Define a configuration item value.
+* Default: `array ()`
+
+**site:**
+
+* Name: `--site`
+* Shortcut: `-s`
+* Accept value: yes
+* Is value required: no
+* Is multiple: no
+* Description: URI of the drupal site to use (only needed in multisite environments).
+* Default: `'default'`
+
+setup:deploy
+------------
+
+* Description: Setup project and deploy the drupal site exist.
+* Usage:
+
+  * `setup:deploy [<local>]`
+
+Setup project and deploy the drupal site exist.
+
+### Arguments:
+
+**local:**
+
+* Name: local
+* Is required: no
+* Is array: no
+* Description: <none>
+* Default: `false`
+
+### Options:
+
+**help:**
+
+* Name: `--help`
+* Shortcut: `-h`
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Display this help message
+* Default: `false`
+
+**quiet:**
+
+* Name: `--quiet`
+* Shortcut: `-q`
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Do not output any message
+* Default: `false`
+
+**verbose:**
+
+* Name: `--verbose`
+* Shortcut: `-v|-vv|-vvv`
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+* Default: `false`
+
+**version:**
+
+* Name: `--version`
+* Shortcut: `-V`
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Display this application version
+* Default: `false`
+
+**ansi:**
+
+* Name: `--ansi`
+* Shortcut: <none>
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Force ANSI output
+* Default: `false`
+
+**no-ansi:**
+
+* Name: `--no-ansi`
+* Shortcut: <none>
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Disable ANSI output
+* Default: `false`
+
+**no-interaction:**
+
+* Name: `--no-interaction`
+* Shortcut: `-n`
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Do not ask any interactive question
+* Default: `false`
+
+**yes:**
+
+* Name: `--yes`
+* Shortcut: `-y`
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Answer all confirmations with "yes"
+* Default: `false`
+
+**define:**
+
+* Name: `--define`
+* Shortcut: `-D`
+* Accept value: yes
+* Is value required: yes
+* Is multiple: yes
+* Description: Define a configuration item value.
+* Default: `array ()`
+
+**site:**
+
+* Name: `--site`
+* Shortcut: `-s`
+* Accept value: yes
+* Is value required: no
+* Is multiple: no
+* Description: URI of the drupal site to use (only needed in multisite environments).
+* Default: `'default'`
+
+setup:from-config
+-----------------
+
+* Description: Setup project and install Drupal from configuration directory.
+* Usage:
+
+  * `setup:from-config [<local>]`
+
+Setup project and install Drupal from configuration directory.
+
+### Arguments:
+
+**local:**
+
+* Name: local
+* Is required: no
+* Is array: no
+* Description: <none>
+* Default: `false`
+
+### Options:
+
+**help:**
+
+* Name: `--help`
+* Shortcut: `-h`
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Display this help message
+* Default: `false`
+
+**quiet:**
+
+* Name: `--quiet`
+* Shortcut: `-q`
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Do not output any message
+* Default: `false`
+
+**verbose:**
+
+* Name: `--verbose`
+* Shortcut: `-v|-vv|-vvv`
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+* Default: `false`
+
+**version:**
+
+* Name: `--version`
+* Shortcut: `-V`
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Display this application version
+* Default: `false`
+
+**ansi:**
+
+* Name: `--ansi`
+* Shortcut: <none>
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Force ANSI output
+* Default: `false`
+
+**no-ansi:**
+
+* Name: `--no-ansi`
+* Shortcut: <none>
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Disable ANSI output
+* Default: `false`
+
+**no-interaction:**
+
+* Name: `--no-interaction`
+* Shortcut: `-n`
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Do not ask any interactive question
+* Default: `false`
+
+**yes:**
+
+* Name: `--yes`
+* Shortcut: `-y`
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Answer all confirmations with "yes"
+* Default: `false`
+
+**define:**
+
+* Name: `--define`
+* Shortcut: `-D`
+* Accept value: yes
+* Is value required: yes
+* Is multiple: yes
+* Description: Define a configuration item value.
+* Default: `array ()`
+
+**site:**
+
+* Name: `--site`
+* Shortcut: `-s`
+* Accept value: yes
+* Is value required: no
+* Is multiple: no
+* Description: URI of the drupal site to use (only needed in multisite environments).
+* Default: `'default'`
+
+setup:from-database
+-------------------
+
+* Description: Setup project and install Drupal from database.
+* Usage:
+
+  * `setup:from-database <database_dump> [<local>]`
+
+Setup project and install Drupal from database.
+
+### Arguments:
+
+**database_dump:**
+
+* Name: database_dump
+* Is required: yes
+* Is array: no
+* Description: <none>
+* Default: `NULL`
+
+**local:**
+
+* Name: local
+* Is required: no
+* Is array: no
+* Description: <none>
+* Default: `false`
+
+### Options:
+
+**help:**
+
+* Name: `--help`
+* Shortcut: `-h`
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Display this help message
+* Default: `false`
+
+**quiet:**
+
+* Name: `--quiet`
+* Shortcut: `-q`
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Do not output any message
+* Default: `false`
+
+**verbose:**
+
+* Name: `--verbose`
+* Shortcut: `-v|-vv|-vvv`
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+* Default: `false`
+
+**version:**
+
+* Name: `--version`
+* Shortcut: `-V`
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Display this application version
+* Default: `false`
+
+**ansi:**
+
+* Name: `--ansi`
+* Shortcut: <none>
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Force ANSI output
+* Default: `false`
+
+**no-ansi:**
+
+* Name: `--no-ansi`
+* Shortcut: <none>
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Disable ANSI output
+* Default: `false`
+
+**no-interaction:**
+
+* Name: `--no-interaction`
+* Shortcut: `-n`
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Do not ask any interactive question
+* Default: `false`
+
+**yes:**
+
+* Name: `--yes`
+* Shortcut: `-y`
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Description: Answer all confirmations with "yes"
+* Default: `false`
+
+**define:**
+
+* Name: `--define`
+* Shortcut: `-D`
+* Accept value: yes
+* Is value required: yes
+* Is multiple: yes
+* Description: Define a configuration item value.
+* Default: `array ()`
+
+**site:**
+
+* Name: `--site`
+* Shortcut: `-s`
+* Accept value: yes
+* Is value required: no
+* Is multiple: no
+* Description: URI of the drupal site to use (only needed in multisite environments).
+* Default: `'default'`
+
+setup:scratch
+-------------
+
+* Description: Setup project and install drupal scratch from RD8 configuration.
+* Usage:
+
+  * `setup:scratch [<local>]`
+
+Setup project and install drupal scratch from RD8 configuration.
+
+### Arguments:
+
+**local:**
+
+* Name: local
+* Is required: no
+* Is array: no
+* Description: <none>
+* Default: `false`
 
 ### Options:
 
