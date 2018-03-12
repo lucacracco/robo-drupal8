@@ -184,11 +184,11 @@ class RoboFile extends \Robo\Tasks implements \Psr\Log\LoggerAwareInterface {
         $this->say("Please run <comment>sudo rm -rf $test_project_dir</comment>");
         throw new \Exception("$test_project_dir already exists.");
       }
+      $this->taskFilesystemStack()
+        ->chmod($test_project_dir, 0775, 0000, TRUE)
+        ->taskDeleteDir($test_project_dir)
+        ->run();
     }
-    $this->taskFilesystemStack()
-      ->chmod($test_project_dir, 0775, 0000, TRUE)
-      ->taskDeleteDir($test_project_dir)
-      ->run();
   }
 
 }

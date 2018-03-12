@@ -3,14 +3,8 @@
   "description": "Example project used to create new projects with RD8.",
   "type": "project",
   "license": "GPL-2.0",
-  "authors": [
-    {
-      "name": "",
-      "role": ""
-    }
-  ],
   "repositories": {
-    "local": {
+    "robo-drupal8": {
       "type": "path",
       "url": "../robo-drupal8",
       "options": {
@@ -18,6 +12,8 @@
       }
     }
   },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "require": {
     "lucacracco/robo-drupal8": "*@dev",
     "wikimedia/composer-merge-plugin": "^1.4"
