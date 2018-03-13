@@ -13,7 +13,6 @@
     }
   },
   "minimum-stability": "dev",
-  "prefer-stable": true,
   "require": {
     "lucacracco/robo-drupal8": "*@dev",
     "wikimedia/composer-merge-plugin": "^1.4"
