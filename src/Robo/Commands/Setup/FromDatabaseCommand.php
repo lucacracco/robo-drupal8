@@ -15,9 +15,26 @@ class FromDatabaseCommand extends RoboDrupal8Tasks {
    * Setup project and install Drupal from database.
    *
    * @command setup:from-database
+   *
+   * @param $database_dump
+   *
+   * @throws \Exception
+   * @throws \Psr\Container\ContainerExceptionInterface
+   * @throws \Psr\Container\NotFoundExceptionInterface
    */
   public function fromDatabase($database_dump, $local = FALSE) {
-    // TODO: implement.
+    $this->invokeCommands([
+      'composer:install',
+      'drupal:install-scratch',
+    ]);
+    $this->invokeCommand('drupal:database:import', [$database_dump]);
+    $this->invokeCommands([
+      'drupal:settings',
+      'drupal:update',
+      'drupal:filesystem:protect-site',
+      'drupal:core-cron',
+      'drupal:extra:login-one-time-url',
+    ]);
   }
 
 }

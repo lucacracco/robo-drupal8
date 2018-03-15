@@ -15,9 +15,20 @@ class FromConfigCommand extends RoboDrupal8Tasks {
    * Setup project and install Drupal from configuration directory.
    *
    * @command setup:from-config
+   *
+   * @throws \Exception
+   * @throws \Psr\Container\ContainerExceptionInterface
+   * @throws \Psr\Container\NotFoundExceptionInterface
    */
-  public function fromConfig($local = FALSE) {
-    // TODO: implement.
+  public function fromConfig() {
+    $this->invokeCommands([
+      'composer:install',
+      'drupal:install-from-config',
+      'drupal:update',
+      'drupal:filesystem:protect-site',
+      'drupal:core-cron',
+      'drupal:extra:login-one-time-url',
+    ]);
   }
 
 }

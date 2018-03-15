@@ -15,9 +15,21 @@ class ScratchCommand extends RoboDrupal8Tasks {
    * Setup project and install drupal scratch from RD8 configuration.
    *
    * @command setup:scratch
+   *
+   * @throws \Exception
+   * @throws \Psr\Container\ContainerExceptionInterface
+   * @throws \Psr\Container\NotFoundExceptionInterface
    */
   public function scratch($local = FALSE) {
-    // TODO: implement.
+    $this->invokeCommands([
+      'composer:install',
+      'drupal:install-scratch',
+      'drupal:settings',
+      'drupal:update',
+      'drupal:filesystem:protect-site',
+      'drupal:core-cron',
+      'drupal:extra:login-one-time-url',
+    ]);
   }
 
 }

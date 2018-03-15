@@ -15,9 +15,19 @@ class DeployCommand extends RoboDrupal8Tasks {
    * Setup project and deploy the drupal site exist.
    *
    * @command setup:deploy
+   *
+   * @throws \Exception
+   * @throws \Psr\Container\ContainerExceptionInterface
+   * @throws \Psr\Container\NotFoundExceptionInterface
    */
-  public function deploy($local = FALSE) {
-    // TODO: implement.
+  public function deploy() {
+    $this->invokeCommands([
+      'composer:install',
+      'drupal:update',
+      'drupal:configuration:import',
+      'drupal:filesystem:protect-site',
+      'drupal:core-cron',
+    ]);
   }
 
 }
