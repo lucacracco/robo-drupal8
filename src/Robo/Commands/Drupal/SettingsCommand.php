@@ -14,7 +14,7 @@ use Robo\Contract\VerbosityThresholdInterface;
 class SettingsCommand extends RoboDrupal8Tasks {
 
   /**
-   * Generate default settinsg files for Drupal and drush and generate salt.txt.
+   * Generate default settings files for Drupal and drush and generate salt.txt.
    *
    * @command drupal:settings
    */
@@ -34,47 +34,55 @@ class SettingsCommand extends RoboDrupal8Tasks {
 
     // Array of copy files.
     $copy_map = [];
-    $site_dir = $this->getConfigValue('docroot') . DIRECTORY_SEPARATOR . 'sites' . DIRECTORY_SEPARATOR . $this->getConfigValue('site');
-
-    $settings_template_default = $site_dir . DIRECTORY_SEPARATOR . 'default.settings.php';
-    // $settings_template = $this->getConfigValue('drupal.settings_file', $settings_template_default);
+    $sites_dir = $this->getConfigValue('docroot') . DIRECTORY_SEPARATOR . 'sites';
+    $site_dir = $sites_dir . DIRECTORY_SEPARATOR . $this->getConfigValue('site');
 
     // Generate settings.php.
-    $copy_map[$settings_template_default] = $site_dir . DIRECTORY_SEPARATOR . 'settings.php';
+    $settings_template_default = $site_dir . DIRECTORY_SEPARATOR . 'default.settings.php';
+    $settings_template = $this->getConfigValueIfNotEmpty('drupal.settings_file', $settings_template_default);
+    $copy_map[$settings_template] = $site_dir . DIRECTORY_SEPARATOR . 'settings.php';
 
     // Generate local.settings.php.
-    //$local_settings_file = $this->getConfigValue('drupal.local_settings_file', NULL);
-    //$copy_map[$local_settings_file] = $site_dir . DIRECTORY_SEPARATOR . 'local.settings.php';
+    $local_settings_template_default = $sites_dir . DIRECTORY_SEPARATOR . 'example.settings.local.php';
+    $local_settings_template = $this->getConfigValueIfNotEmpty('drupal.local_settings_file', $local_settings_template_default);
+    $copy_map[$local_settings_template] = $site_dir . DIRECTORY_SEPARATOR . 'local.settings.php';
 
     // Generate services.yml.
-    //$services_file = $this->getConfigValue('drupal.services_file', NULL);
-    //$copy_map[$services_file] = $site_dir . DIRECTORY_SEPARATOR . 'services.yml';
+    $services_template_default = $site_dir . DIRECTORY_SEPARATOR . 'default.services.yml';
+    $services_template = $this->getConfigValueIfNotEmpty('drupal.services_file', $services_template_default);
+    $copy_map[$services_template] = $site_dir . DIRECTORY_SEPARATOR . 'services.yml';
 
     // Generate local.drushrc.php.
     //$local_drush_file = $this->getConfigValue('drupal.local_drushrc', NULL);
     //$copy_map[$local_drush_file] = $site_dir . DIRECTORY_SEPARATOR . 'local.drushrc.php';
 
-    $task = $this->taskFilesystemStack()
+    $task_copy_files = $this->taskFilesystemStack()
       ->stopOnFail()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->chmod($site_dir, 0777);
 
     // Copy files without overwriting.
     foreach ($copy_map as $from => $to) {
-      if (!file_exists($to)) {
-        $task->copy($from, $to);
+      if (!empty($from) && !file_exists($to)) {
+        $task_copy_files->copy($from, $to);
       }
     }
-
-    $result = $task->run();
-
-    //    foreach ($copy_map as $from => $to) {
-    //      $this->getConfig()->expandFileProperties($to);
-    //    }
-
-    if (!$result->wasSuccessful()) {
-      throw new \Exception("Unable to copy files settings files.");
+    $task_copy_files_result = $task_copy_files->run();
+    if (!$task_copy_files_result->wasSuccessful()) {
+      throw new \Exception("Unable to copy files settings files: " . $task_copy_files_result->getMessage());
     }
+    $this->say("Files copied.");
+
+    // Set permission to settings.php.
+    $task_permission_files = $this->taskFilesystemStack()
+      ->chmod($site_dir . DIRECTORY_SEPARATOR . 'settings.php', 0644)
+      ->stopOnFail()
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
+    $task_permission_files_result = $task_permission_files->run();
+    if (!$task_permission_files_result->wasSuccessful()) {
+      throw new \Exception("Unable to set permissions: " . $task_permission_files_result->getMessage());
+    }
+    $this->say("Permission files applied.");
   }
 
   /**

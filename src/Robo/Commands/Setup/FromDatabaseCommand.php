@@ -24,6 +24,7 @@ class FromDatabaseCommand extends RoboDrupal8Tasks {
    */
   public function fromDatabase($database_dump, $local = FALSE) {
     $this->invokeCommands([
+      'install-alias',
       'composer:install',
       'drupal:install-scratch',
     ]);
@@ -33,7 +34,6 @@ class FromDatabaseCommand extends RoboDrupal8Tasks {
       'drupal:update',
       'drupal:filesystem:protect-site',
       'drupal:core-cron',
-      'drupal:extra:login-one-time-url',
     ]);
   }
 

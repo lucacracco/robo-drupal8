@@ -47,19 +47,36 @@ class FilesystemCommand extends RoboDrupal8Tasks {
     }
   }
 
+  /**
+   * Clear files and folders in ./sites/[site]/*.
+   *
+   * @command drupal:filesystem:clear
+   */
   public function clearSite() {
     $taskFilesystemStack = $this->taskFilesystemStack();
     $site_dir = $this->getConfigValue('docroot') . '/sites/' . $this->getConfigValue('site');
 
     // Chmod all files.
-   $result =  $taskFilesystemStack
-      ->chmod($site_dir, 0775, 0000, TRUE)
-      ->run();
+    $task_remove_files = $taskFilesystemStack
+      ->chmod($site_dir, 0775, 0000, TRUE);
+
+    $map_files_to_remove = [
+      $site_dir . DIRECTORY_SEPARATOR . 'settings.php',
+      $site_dir . DIRECTORY_SEPARATOR . 'settings.local.php',
+      $site_dir . DIRECTORY_SEPARATOR . 'services.yml',
+    ];
+
+    foreach ($map_files_to_remove as $to_remove) {
+      if (file_exists($to_remove)) {
+        $task_remove_files->remove($to_remove);
+      }
+    }
+    $result = $task_remove_files->run();
 
     if (!$result->wasSuccessful()) {
-      throw new \Exception("Unable to set permissions for site directories.");
+      throw new \Exception("Unable to delete files and folders: " . $result->getMessage());
     }
-
+    $this->say("Clear files and folder.");
 
   }
 

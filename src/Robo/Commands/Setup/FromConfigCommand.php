@@ -22,12 +22,12 @@ class FromConfigCommand extends RoboDrupal8Tasks {
    */
   public function fromConfig() {
     $this->invokeCommands([
+      'install-alias',
       'composer:install',
       'drupal:install-from-config',
       'drupal:update',
       'drupal:filesystem:protect-site',
       'drupal:core-cron',
-      'drupal:extra:login-one-time-url',
     ]);
   }
 

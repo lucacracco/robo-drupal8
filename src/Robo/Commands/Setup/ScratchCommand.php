@@ -22,13 +22,13 @@ class ScratchCommand extends RoboDrupal8Tasks {
    */
   public function scratch($local = FALSE) {
     $this->invokeCommands([
+      'install-alias',
       'composer:install',
       'drupal:install-scratch',
       'drupal:settings',
       'drupal:update',
       'drupal:filesystem:protect-site',
       'drupal:core-cron',
-      'drupal:extra:login-one-time-url',
     ]);
   }
 
