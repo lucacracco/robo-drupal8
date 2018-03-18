@@ -12,7 +12,7 @@ class RoboFile extends \Robo\Tasks implements \Psr\Log\LoggerAwareInterface {
   /**
    * Directory used for test.
    */
-  const RD8_TEST_DIR = '../test-rd8';
+  const RD8_TEST_DIR = 'test-rd8';
 
   /**
    * Template project dir.
@@ -71,7 +71,7 @@ class RoboFile extends \Robo\Tasks implements \Psr\Log\LoggerAwareInterface {
     $this->taskExecStack()
       ->dir($test_project_dir)
       ->exec("rm -rf $test_project_dir/vendor")
-      ->exec("composer install")
+      ->exec("composer install --prefer-dist")
       ->run();
   }
 

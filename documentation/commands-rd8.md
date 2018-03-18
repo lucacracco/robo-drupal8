@@ -1,6588 +1,5831 @@
-RoboDrupal8
-===========
+RoboDrupal8 2.x
+===============
 
-* dcc
-* dce
-* dci
-* frontend
-* help
-* install-alias
-* list
-* tests
-* validate
+* [`dcc`](#drupalcacherebuild)
+* [`dce`](#drupalconfigurationexport)
+* [`dci`](#drupalconfigurationimport)
+* [`frontend`](#frontend)
+* [`help`](#help)
+* [`install-alias`](#install-alias)
+* [`list`](#list)
+* [`tests`](#tests)
+* [`validate`](#validate)
 
 **composer:**
 
-* composer:install
-* composer:require
-* composer:update
-* composer:validate
+* [`composer:install`](#composerinstall)
+* [`composer:require`](#composerrequire)
+* [`composer:update`](#composerupdate)
+* [`composer:validate`](#composervalidate)
 
 **config:**
 
-* config:dump
-* config:export
-* config:get
-* config:save
+* [`config:dump`](#configdump)
+* [`config:export`](#configexport)
+* [`config:get`](#configget)
+* [`config:save`](#configsave)
 
 **drupal:**
 
-* drupal:cache:rebuild
-* drupal:configuration:export
-* drupal:configuration:import
-* drupal:core-cron
-* drupal:database:drop
-* drupal:database:export
-* drupal:database:import
-* drupal:extension:enable
-* drupal:extension:uninstall
-* drupal:extra:login-one-time-url
-* drupal:extra:maintenance-mode
-* drupal:filesystem:protect-site
-* drupal:install-from-config
-* drupal:install-scratch
-* drupal:locale:check
-* drupal:locale:update
-* drupal:settings
-* drupal:settings:generate
-* drupal:settings:hash-salt
-* drupal:update
-* drupal:update:database
-* drupal:update:entities
+* [`drupal:cache:rebuild`](#drupalcacherebuild)
+* [`drupal:configuration:export`](#drupalconfigurationexport)
+* [`drupal:configuration:import`](#drupalconfigurationimport)
+* [`drupal:core-cron`](#drupalcore-cron)
+* [`drupal:database:drop`](#drupaldatabasedrop)
+* [`drupal:database:export`](#drupaldatabaseexport)
+* [`drupal:database:import`](#drupaldatabaseimport)
+* [`drupal:extension:enable`](#drupalextensionenable)
+* [`drupal:extension:uninstall`](#drupalextensionuninstall)
+* [`drupal:extra:login-one-time-url`](#drupalextralogin-one-time-url)
+* [`drupal:extra:maintenance-mode`](#drupalextramaintenance-mode)
+* [`drupal:filesystem:clear`](#drupalfilesystemclear)
+* [`drupal:filesystem:protect-site`](#drupalfilesystemprotect-site)
+* [`drupal:install-from-config`](#drupalinstall-from-config)
+* [`drupal:install-scratch`](#drupalinstall-scratch)
+* [`drupal:locale:check`](#drupallocalecheck)
+* [`drupal:locale:update`](#drupallocaleupdate)
+* [`drupal:settings`](#drupalsettings)
+* [`drupal:settings:generate`](#drupalsettingsgenerate)
+* [`drupal:settings:hash-salt`](#drupalsettingshash-salt)
+* [`drupal:update`](#drupalupdate)
+* [`drupal:update:database`](#drupalupdatedatabase)
+* [`drupal:update:entities`](#drupalupdateentities)
 
 **examples:**
 
-* examples:init
+* [`examples:init`](#examplesinit)
 
 **fix:**
 
-* fix:phpcbf
+* [`fix:phpcbf`](#fixphpcbf)
 
 **frontend:**
 
-* frontend:build
-* frontend:setup
-* frontend:test
+* [`frontend:build`](#frontendbuild)
+* [`frontend:setup`](#frontendsetup)
+* [`frontend:test`](#frontendtest)
 
 **git:**
 
-* git:commit-msg
-* git:git-hooks
-* git:pre-commit
+* [`git:commit-msg`](#gitcommit-msg)
+* [`git:git-hooks`](#gitgit-hooks)
+* [`git:pre-commit`](#gitpre-commit)
 
 **setup:**
 
-* setup:build
-* setup:build:composer:install
-* setup:build:install
-* setup:deploy
-* setup:from-config
-* setup:from-database
-* setup:scratch
+* [`setup:deploy`](#setupdeploy)
+* [`setup:from-config`](#setupfrom-config)
+* [`setup:from-database`](#setupfrom-database)
+* [`setup:scratch`](#setupscratch)
 
 **tests:**
 
-* tests:all
-* tests:security-updates
+* [`tests:all`](#tests)
+* [`tests:security-updates`](#testssecurity-updates)
 
 **validate:**
 
-* validate:all
-* validate:composer
-* validate:phpcs
-* validate:phpcs:files
+* [`validate:all`](#validate)
+* [`validate:composer`](#validatecomposer)
+* [`validate:phpcs`](#validatephpcs)
+* [`validate:phpcs:files`](#validatephpcsfiles)
 
-frontend
---------
-
-* Description: Runs all frontend targets.
-* Usage:
-
-  * `frontend`
+`frontend`
+----------
 
 Runs all frontend targets.
 
-### Options:
+### Usage
 
-**help:**
+* `frontend`
 
-* Name: `--help`
-* Shortcut: `-h`
+Runs all frontend targets.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-help
-----
+`help`
+------
 
-* Description: Displays help for a command
-* Usage:
+Displays help for a command
 
-  * `help [--format FORMAT] [--raw] [--] [<command_name>]`
+### Usage
 
-The <info>help</info> command displays help for a given command:
+* `help [--format FORMAT] [--raw] [--] [<command_name>]`
 
-  <info>php ./vendor/bin/rd8 help list</info>
+The help command displays help for a given command:
 
-You can also output the help in other formats by using the <comment>--format</comment> option:
+  php ./vendor/bin/rd8 help list
 
-  <info>php ./vendor/bin/rd8 help --format=xml list</info>
+You can also output the help in other formats by using the --format option:
 
-To display the list of available commands, please use the <info>list</info> command.
+  php ./vendor/bin/rd8 help --format=xml list
 
-### Arguments:
+To display the list of available commands, please use the list command.
 
-**command_name:**
+### Arguments
 
-* Name: command_name
+#### `command_name`
+
+The command name
+
 * Is required: no
 * Is array: no
-* Description: The command name
 * Default: `'help'`
 
-### Options:
+### Options
 
-**format:**
+#### `--format`
 
-* Name: `--format`
-* Shortcut: <none>
+The output format (txt, xml, json, or md)
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: no
-* Description: The output format (txt, xml, json, or md)
 * Default: `'txt'`
 
-**raw:**
+#### `--raw`
 
-* Name: `--raw`
-* Shortcut: <none>
+To output raw command help
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: To output raw command help
 * Default: `false`
 
-**help:**
+#### `--help|-h`
 
-* Name: `--help`
-* Shortcut: `-h`
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-install-alias
--------------
-
-* Description: Installs the RD8 alias for command line usage.
-* Usage:
-
-  * `install-alias`
+`install-alias`
+---------------
 
 Installs the RD8 alias for command line usage.
 
-### Options:
+### Usage
 
-**help:**
+* `install-alias`
 
-* Name: `--help`
-* Shortcut: `-h`
+Installs the RD8 alias for command line usage.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-list
-----
+`list`
+------
 
-* Description: Lists commands
-* Usage:
+Lists commands
 
-  * `list [--raw] [--format FORMAT] [-h|--help] [-q|--quiet] [-v|vv|vvv|--verbose] [-V|--version] [--ansi] [--no-ansi] [-n|--no-interaction] [-y|--yes] [-D|--define DEFINE] [-s|--site [SITE]] [--] <command> [<namespace>]`
+### Usage
 
-The <info>list</info> command lists all commands:
+* `list [--raw] [--format FORMAT] [-h|--help] [-q|--quiet] [-v|vv|vvv|--verbose] [-V|--version] [--ansi] [--no-ansi] [-n|--no-interaction] [-y|--yes] [-D|--define DEFINE] [-s|--site [SITE]] [--] [<command>] [<namespace>]`
 
-  <info>php ./vendor/bin/rd8 list</info>
+The list command lists all commands:
+
+  php ./vendor/bin/rd8 list
 
 You can also display the commands for a specific namespace:
 
-  <info>php ./vendor/bin/rd8 list test</info>
+  php ./vendor/bin/rd8 list test
 
-You can also output the information in other formats by using the <comment>--format</comment> option:
+You can also output the information in other formats by using the --format option:
 
-  <info>php ./vendor/bin/rd8 list --format=xml</info>
+  php ./vendor/bin/rd8 list --format=xml
 
 It's also possible to get raw list of commands (useful for embedding command runner):
 
-  <info>php ./vendor/bin/rd8 list --raw</info>
+  php ./vendor/bin/rd8 list --raw
 
-### Arguments:
+### Arguments
 
-**namespace:**
+#### `namespace`
 
-* Name: namespace
+The namespace name
+
 * Is required: no
 * Is array: no
-* Description: The namespace name
 * Default: `NULL`
 
-### Options:
+### Options
 
-**raw:**
+#### `--raw`
 
-* Name: `--raw`
-* Shortcut: <none>
+To output raw command list
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: To output raw command list
 * Default: `false`
 
-**format:**
+#### `--format`
 
-* Name: `--format`
-* Shortcut: <none>
+The output format (txt, xml, json, or md)
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: no
-* Description: The output format (txt, xml, json, or md)
 * Default: `'txt'`
 
-tests
------
-
-* Description: Runs all tests, including Behat, PHPUnit, and security updates check.
-* Usage:
-
-  * `tests`
-  * `tests:all`
+`tests`
+-------
 
 Runs all tests, including Behat, PHPUnit, and security updates check.
 
-### Options:
+### Usage
 
-**help:**
+* `tests`
+* `tests:all`
 
-* Name: `--help`
-* Shortcut: `-h`
+Runs all tests, including Behat, PHPUnit, and security updates check.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-validate
---------
-
-* Description: Runs all code validation commands.
-* Usage:
-
-  * `validate`
-  * `validate:all`
+`validate`
+----------
 
 Runs all code validation commands.
 
-### Options:
+### Usage
 
-**help:**
+* `validate`
+* `validate:all`
 
-* Name: `--help`
-* Shortcut: `-h`
+Runs all code validation commands.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-composer:install
-----------------
-
-* Description: Install packages.
-* Usage:
-
-  * `composer:install [--dev] [--source] [--format FORMAT]`
+`composer:install`
+------------------
 
 Install packages.
 
-### Options:
+### Usage
 
-**dev:**
+* `composer:install [--dev] [--source] [--format [FORMAT]]`
 
-* Name: `--dev`
-* Shortcut: <none>
+Install packages.
+
+### Options
+
+#### `--dev`
+
+Whether package should be added to require-dev.
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Whether package should be added to require-dev.
 * Default: `false`
 
-**source:**
+#### `--source`
 
-* Name: `--source`
-* Shortcut: <none>
+Forces installation from package sources when possible, including VCS information.
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Forces installation from package sources when possible, including VCS information.
 * Default: `false`
 
-**format:**
+#### `--format`
 
-* Name: `--format`
-* Shortcut: <none>
+Format the result data. Available formats: csv,json,list,php,print-r,string,tsv,var_export,xml,yaml
+
 * Accept value: yes
-* Is value required: yes
+* Is value required: no
 * Is multiple: no
-* Description: Format the result data. Available formats: csv,json,list,php,print-r,string,tsv,var_export,xml,yaml
 * Default: `'yaml'`
 
-**help:**
+#### `--help|-h`
 
-* Name: `--help`
-* Shortcut: `-h`
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-composer:require
-----------------
-
-* Description: Requires a composer package.
-* Usage:
-
-  * `composer:require [--dev] [--format FORMAT] [--] <package_name> <package_version>`
+`composer:require`
+------------------
 
 Requires a composer package.
 
-### Arguments:
+### Usage
 
-**package_name:**
+* `composer:require [--dev] [--format [FORMAT]] [--] <package_name> <package_version>`
 
-* Name: package_name
+Requires a composer package.
+
+### Arguments
+
+#### `package_name`
+
 * Is required: yes
 * Is array: no
-* Description: <none>
 * Default: `NULL`
 
-**package_version:**
+#### `package_version`
 
-* Name: package_version
 * Is required: yes
 * Is array: no
-* Description: <none>
 * Default: `NULL`
 
-### Options:
+### Options
 
-**dev:**
+#### `--dev`
 
-* Name: `--dev`
-* Shortcut: <none>
+Whether package should be added to require-dev.
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Whether package should be added to require-dev.
 * Default: `false`
 
-**format:**
+#### `--format`
 
-* Name: `--format`
-* Shortcut: <none>
+Format the result data. Available formats: csv,json,list,php,print-r,string,tsv,var_export,xml,yaml
+
 * Accept value: yes
-* Is value required: yes
+* Is value required: no
 * Is multiple: no
-* Description: Format the result data. Available formats: csv,json,list,php,print-r,string,tsv,var_export,xml,yaml
 * Default: `'yaml'`
 
-**help:**
+#### `--help|-h`
 
-* Name: `--help`
-* Shortcut: `-h`
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-composer:update
----------------
-
-* Description: Update packages.
-* Usage:
-
-  * `composer:update [--dev] [--source] [--format FORMAT]`
+`composer:update`
+-----------------
 
 Update packages.
 
-### Options:
+### Usage
 
-**dev:**
+* `composer:update [--dev] [--source] [--format [FORMAT]]`
 
-* Name: `--dev`
-* Shortcut: <none>
+Update packages.
+
+### Options
+
+#### `--dev`
+
+Whether package should be added to require-dev.
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Whether package should be added to require-dev.
 * Default: `false`
 
-**source:**
+#### `--source`
 
-* Name: `--source`
-* Shortcut: <none>
+Forces installation from package sources when possible, including VCS information.
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Forces installation from package sources when possible, including VCS information.
 * Default: `false`
 
-**format:**
+#### `--format`
 
-* Name: `--format`
-* Shortcut: <none>
+Format the result data. Available formats: csv,json,list,php,print-r,string,tsv,var_export,xml,yaml
+
 * Accept value: yes
-* Is value required: yes
+* Is value required: no
 * Is multiple: no
-* Description: Format the result data. Available formats: csv,json,list,php,print-r,string,tsv,var_export,xml,yaml
 * Default: `'yaml'`
 
-**help:**
+#### `--help|-h`
 
-* Name: `--help`
-* Shortcut: `-h`
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-composer:validate
------------------
-
-* Description: Validates root composer.json and composer.lock files.
-* Usage:
-
-  * `composer:validate`
+`composer:validate`
+-------------------
 
 Validates root composer.json and composer.lock files.
 
-### Options:
+### Usage
 
-**help:**
+* `composer:validate`
 
-* Name: `--help`
-* Shortcut: `-h`
+Validates root composer.json and composer.lock files.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-config:dump
------------
-
-* Description: Dumps all configuration values.
-* Usage:
-
-  * `config:dump`
+`config:dump`
+-------------
 
 Dumps all configuration values.
 
-### Options:
+### Usage
 
-**help:**
+* `config:dump`
 
-* Name: `--help`
-* Shortcut: `-h`
+Dumps all configuration values.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-config:export
--------------
-
-* Description: Export all configurations values.
-* Usage:
-
-  * `config:export [--file [FILE]]`
+`config:export`
+---------------
 
 Export all configurations values.
 
-### Options:
+### Usage
 
-**file:**
+* `config:export [--file [FILE]]`
 
-* Name: `--file`
-* Shortcut: <none>
+Export all configurations values.
+
+### Options
+
+#### `--file`
+
+File to save dump yaml configurations.
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: File to save dump yaml configurations.
 * Default: `''`
 
-**help:**
+#### `--help|-h`
 
-* Name: `--help`
-* Shortcut: `-h`
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-config:get
-----------
-
-* Description: Gets the value of a config variable.
-* Usage:
-
-  * `config:get <key>`
+`config:get`
+------------
 
 Gets the value of a config variable.
 
-### Arguments:
+### Usage
 
-**key:**
+* `config:get <key>`
 
-* Name: key
+Gets the value of a config variable.
+
+### Arguments
+
+#### `key`
+
+The key for the configuration item to get.
+
 * Is required: yes
 * Is array: no
-* Description: The key for the configuration item to get.
 * Default: `NULL`
 
-### Options:
+### Options
 
-**help:**
+#### `--help|-h`
 
-* Name: `--help`
-* Shortcut: `-h`
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-config:save
------------
-
-* Description: Export all configurations values.
-* Usage:
-
-  * `config:save [--file] [--] <file_path>`
+`config:save`
+-------------
 
 Export all configurations values.
 
-### Arguments:
+### Usage
 
-**file_path:**
+* `config:save [--file] [--] <file_path>`
 
-* Name: file_path
+Export all configurations values.
+
+### Arguments
+
+#### `file_path`
+
 * Is required: yes
 * Is array: no
-* Description: <none>
 * Default: `NULL`
 
-### Options:
+### Options
 
-**file:**
+#### `--file`
 
-* Name: `--file`
-* Shortcut: <none>
+File to save dump yaml configurations.
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: File to save dump yaml configurations.
 * Default: `false`
 
-**help:**
+#### `--help|-h`
 
-* Name: `--help`
-* Shortcut: `-h`
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-drupal:cache:rebuild
---------------------
-
-* Description: Clear cache of drupal.
-* Usage:
-
-  * `drupal:cache:rebuild`
-  * `dcc`
+`drupal:cache:rebuild`
+----------------------
 
 Clear cache of drupal.
 
-### Options:
+### Usage
 
-**help:**
+* `drupal:cache:rebuild`
+* `dcc`
 
-* Name: `--help`
-* Shortcut: `-h`
+Clear cache of drupal.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-drupal:configuration:export
----------------------------
-
-* Description: Export configuration of drupal.
-* Usage:
-
-  * `drupal:configuration:export [--report] [--] [<destination>]`
-  * `dce`
+`drupal:configuration:export`
+-----------------------------
 
 Export configuration of drupal.
 
-### Arguments:
+### Usage
 
-**destination:**
+* `drupal:configuration:export [--report] [--] [<config_export>]`
+* `dce`
 
-* Name: destination
+Export configuration of drupal.
+
+### Arguments
+
+#### `config_export`
+
+Destination directory_sync to save the configurations.
+
 * Is required: no
 * Is array: no
-* Description: Destination directory_sync to save the configurations.
 * Default: `'sync'`
 
-### Options:
+### Options
 
-**report:**
+#### `--report`
 
-* Name: `--report`
-* Shortcut: <none>
+Print output command
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Print output command
 * Default: `false`
 
-**help:**
+#### `--help|-h`
 
-* Name: `--help`
-* Shortcut: `-h`
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-drupal:configuration:import
----------------------------
-
-* Description: Import configuration of drupal.
-* Usage:
-
-  * `drupal:configuration:import [--report]`
-  * `dci`
+`drupal:configuration:import`
+-----------------------------
 
 Import configuration of drupal.
 
-### Options:
+### Usage
 
-**report:**
+* `drupal:configuration:import [--report]`
+* `dci`
 
-* Name: `--report`
-* Shortcut: <none>
+Import configuration of drupal.
+
+### Options
+
+#### `--report`
+
+Print output command
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Print output command
 * Default: `false`
 
-**help:**
+#### `--help|-h`
 
-* Name: `--help`
-* Shortcut: `-h`
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-drupal:core-cron
-----------------
-
-* Description: Launch drupal core cron.
-* Usage:
-
-  * `drupal:core-cron`
+`drupal:core-cron`
+------------------
 
 Launch drupal core cron.
 
-### Options:
+### Usage
 
-**help:**
+* `drupal:core-cron`
 
-* Name: `--help`
-* Shortcut: `-h`
+Launch drupal core cron.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-drupal:database:drop
---------------------
-
-* Description: Drop tables.
-* Usage:
-
-  * `drupal:database:drop`
+`drupal:database:drop`
+----------------------
 
 Drop tables.
 
-### Options:
+### Usage
 
-**help:**
+* `drupal:database:drop`
 
-* Name: `--help`
-* Shortcut: `-h`
+Drop tables.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-drupal:database:export
-----------------------
-
-* Description: Export database.
-* Usage:
-
-  * `drupal:database:export [--directory [DIRECTORY]]`
+`drupal:database:export`
+------------------------
 
 Export database.
 
-### Options:
+### Usage
 
-**directory:**
+* `drupal:database:export [--directory [DIRECTORY]]`
 
-* Name: `--directory`
-* Shortcut: <none>
+Export database.
+
+### Options
+
+#### `--directory`
+
+Where to save the dump file.
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: Where to save the dump file.
 * Default: `NULL`
 
-**help:**
+#### `--help|-h`
 
-* Name: `--help`
-* Shortcut: `-h`
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-drupal:database:import
-----------------------
-
-* Description: Import database.
-* Usage:
-
-  * `drupal:database:import <dump_file>`
+`drupal:database:import`
+------------------------
 
 Import database.
 
-### Arguments:
+### Usage
 
-**dump_file:**
+* `drupal:database:import <dump_file>`
 
-* Name: dump_file
+Import database.
+
+### Arguments
+
+#### `dump_file`
+
+Path of dump file to import.
+
 * Is required: yes
 * Is array: no
-* Description: Path of dump file to import.
 * Default: `NULL`
 
-### Options:
+### Options
 
-**help:**
+#### `--help|-h`
 
-* Name: `--help`
-* Shortcut: `-h`
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-drupal:extension:enable
------------------------
-
-* Description: Enable module.
-* Usage:
-
-  * `drupal:extension:enable <module>`
+`drupal:extension:enable`
+-------------------------
 
 Enable module.
 
-### Arguments:
+### Usage
 
-**module:**
+* `drupal:extension:enable <module>`
 
-* Name: module
+Enable module.
+
+### Arguments
+
+#### `module`
+
 * Is required: yes
 * Is array: no
-* Description: <none>
 * Default: `NULL`
 
-### Options:
+### Options
 
-**help:**
+#### `--help|-h`
 
-* Name: `--help`
-* Shortcut: `-h`
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-drupal:extension:uninstall
---------------------------
-
-* Description: Uninstall module.
-* Usage:
-
-  * `drupal:extension:uninstall <module>`
+`drupal:extension:uninstall`
+----------------------------
 
 Uninstall module.
 
-### Arguments:
+### Usage
 
-**module:**
+* `drupal:extension:uninstall <module>`
 
-* Name: module
+Uninstall module.
+
+### Arguments
+
+#### `module`
+
 * Is required: yes
 * Is array: no
-* Description: <none>
 * Default: `NULL`
 
-### Options:
+### Options
 
-**help:**
+#### `--help|-h`
 
-* Name: `--help`
-* Shortcut: `-h`
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-drupal:extra:login-one-time-url
--------------------------------
-
-* Description: Display one-time login url.
-* Usage:
-
-  * `drupal:extra:login-one-time-url [--name [NAME]]`
+`drupal:extra:login-one-time-url`
+---------------------------------
 
 Display one-time login url.
 
-### Options:
+### Usage
 
-**name:**
+* `drupal:extra:login-one-time-url [--name [NAME]]`
 
-* Name: `--name`
-* Shortcut: <none>
+Display one-time login url.
+
+### Options
+
+#### `--name`
+
+A user name to log in as. If not provided, defaults to uid=1.
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: A user name to log in as. If not provided, defaults to uid=1.
 * Default: `'1'`
 
-**help:**
+#### `--help|-h`
 
-* Name: `--help`
-* Shortcut: `-h`
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-drupal:extra:maintenance-mode
------------------------------
-
-* Description: Active/disable maintenance_mode in Drupal site.
-* Usage:
-
-  * `drupal:extra:maintenance-mode [<active>]`
+`drupal:extra:maintenance-mode`
+-------------------------------
 
 Active/disable maintenance_mode in Drupal site.
 
-### Arguments:
+### Usage
 
-**active:**
+* `drupal:extra:maintenance-mode [<active>]`
 
-* Name: active
+Active/disable maintenance_mode in Drupal site.
+
+### Arguments
+
+#### `active`
+
 * Is required: no
 * Is array: no
-* Description: <none>
 * Default: `true`
 
-### Options:
+### Options
 
-**help:**
+#### `--help|-h`
 
-* Name: `--help`
-* Shortcut: `-h`
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-drupal:filesystem:protect-site
-------------------------------
+`drupal:filesystem:clear`
+-------------------------
 
-* Description: Set correct permissions for files and folders in docroot/sites/*.
-* Usage:
+Clear files and folders in ./sites/[site]/*.
 
-  * `drupal:filesystem:protect-site`
+### Usage
+
+* `drupal:filesystem:clear`
+
+Clear files and folders in ./sites/[site]/*.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--quiet|-q`
+
+Do not output any message
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--verbose|-v|-vv|-vvv`
+
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--version|-V`
+
+Display this application version
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--ansi`
+
+Force ANSI output
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--no-ansi`
+
+Disable ANSI output
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--no-interaction|-n`
+
+Do not ask any interactive question
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--yes|-y`
+
+Answer all confirmations with "yes"
+
+* Accept value: no
+* Is value required: no
+* Is multiple: no
+* Default: `false`
+
+#### `--define|-D`
+
+Define a configuration item value.
+
+* Accept value: yes
+* Is value required: yes
+* Is multiple: yes
+* Default: `array ()`
+
+#### `--site|-s`
+
+URI of the drupal site to use (only needed in multisite environments).
+
+* Accept value: yes
+* Is value required: no
+* Is multiple: no
+* Default: `'default'`
+
+`drupal:filesystem:protect-site`
+--------------------------------
 
 Set correct permissions for files and folders in docroot/sites/*.
 
-### Options:
+### Usage
 
-**help:**
+* `drupal:filesystem:protect-site`
 
-* Name: `--help`
-* Shortcut: `-h`
+Set correct permissions for files and folders in docroot/sites/*.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-drupal:install-from-config
---------------------------
-
-* Description: Install from configuration.
-* Usage:
-
-  * `drupal:install-from-config`
+`drupal:install-from-config`
+----------------------------
 
 Install from configuration.
 
-### Options:
+### Usage
 
-**help:**
+* `drupal:install-from-config`
 
-* Name: `--help`
-* Shortcut: `-h`
+Install from configuration.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-drupal:install-scratch
-----------------------
-
-* Description: Install scratch Drupal.
-* Usage:
-
-  * `drupal:install-scratch`
+`drupal:install-scratch`
+------------------------
 
 Install scratch Drupal.
 
-### Options:
+### Usage
 
-**help:**
+* `drupal:install-scratch`
 
-* Name: `--help`
-* Shortcut: `-h`
+Install scratch Drupal.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-drupal:locale:check
--------------------
-
-* Description: Checks for available translation updates.
-* Usage:
-
-  * `drupal:locale:check`
+`drupal:locale:check`
+---------------------
 
 Checks for available translation updates.
 
-### Options:
+### Usage
 
-**help:**
+* `drupal:locale:check`
 
-* Name: `--help`
-* Shortcut: `-h`
+Checks for available translation updates.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-drupal:locale:update
---------------------
-
-* Description: Imports the available translation updates.
-* Usage:
-
-  * `drupal:locale:update`
+`drupal:locale:update`
+----------------------
 
 Imports the available translation updates.
 
-### Options:
+### Usage
 
-**help:**
+* `drupal:locale:update`
 
-* Name: `--help`
-* Shortcut: `-h`
+Imports the available translation updates.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-drupal:settings
----------------
+`drupal:settings`
+-----------------
 
-* Description: Generate default settinsg files for Drupal and drush and generate salt.txt.
-* Usage:
+Generate default settings files for Drupal and drush and generate salt.txt.
 
-  * `drupal:settings`
+### Usage
 
-Generate default settinsg files for Drupal and drush and generate salt.txt.
+* `drupal:settings`
 
-### Options:
+Generate default settings files for Drupal and drush and generate salt.txt.
 
-**help:**
+### Options
 
-* Name: `--help`
-* Shortcut: `-h`
+#### `--help|-h`
+
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-drupal:settings:generate
-------------------------
-
-* Description: Generates default settings files for Drupal and drush.
-* Usage:
-
-  * `drupal:settings:generate`
+`drupal:settings:generate`
+--------------------------
 
 Generates default settings files for Drupal and drush.
 
-### Options:
+### Usage
 
-**help:**
+* `drupal:settings:generate`
 
-* Name: `--help`
-* Shortcut: `-h`
+Generates default settings files for Drupal and drush.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-drupal:settings:hash-salt
--------------------------
-
-* Description: Writes a hash salt to ${project.root}/salt.txt if one does not exist.
-* Usage:
-
-  * `drupal:settings:hash-salt`
+`drupal:settings:hash-salt`
+---------------------------
 
 Writes a hash salt to ${project.root}/salt.txt if one does not exist.
 
-### Options:
+### Usage
 
-**help:**
+* `drupal:settings:hash-salt`
 
-* Name: `--help`
-* Shortcut: `-h`
+Writes a hash salt to ${project.root}/salt.txt if one does not exist.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-drupal:update
--------------
-
-* Description: Update drupal core and entities.
-* Usage:
-
-  * `drupal:update`
+`drupal:update`
+---------------
 
 Update drupal core and entities.
 
-### Options:
+### Usage
 
-**help:**
+* `drupal:update`
 
-* Name: `--help`
-* Shortcut: `-h`
+Update drupal core and entities.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-drupal:update:database
-----------------------
-
-* Description: Drupal update database command.
-* Usage:
-
-  * `drupal:update:database [--entity-updates]`
+`drupal:update:database`
+------------------------
 
 Drupal update database command.
 
-### Options:
+### Usage
 
-**entity-updates:**
+* `drupal:update:database [--entity-updates]`
 
-* Name: `--entity-updates`
-* Shortcut: <none>
+Drupal update database command.
+
+### Options
+
+#### `--entity-updates`
+
+Run automatic entity schema updates at the end of any update hooks.
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Run automatic entity schema updates at the end of any update hooks.
 * Default: `false`
 
-**help:**
+#### `--help|-h`
 
-* Name: `--help`
-* Shortcut: `-h`
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-drupal:update:entities
-----------------------
-
-* Description: Drupal update entities command.
-* Usage:
-
-  * `drupal:update:entities`
+`drupal:update:entities`
+------------------------
 
 Drupal update entities command.
 
-### Options:
+### Usage
 
-**help:**
+* `drupal:update:entities`
 
-* Name: `--help`
-* Shortcut: `-h`
+Drupal update entities command.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-examples:init
--------------
-
-* Description: Generate example files for writing custom commands and hooks.
-* Usage:
-
-  * `examples:init`
+`examples:init`
+---------------
 
 Generate example files for writing custom commands and hooks.
 
-### Options:
+### Usage
 
-**help:**
+* `examples:init`
 
-* Name: `--help`
-* Shortcut: `-h`
+Generate example files for writing custom commands and hooks.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-fix:phpcbf
-----------
-
-* Description: Fixes and beautifies custom code according to Drupal Coding standards.
-* Usage:
-
-  * `fix:phpcbf [<directory>]`
+`fix:phpcbf`
+------------
 
 Fixes and beautifies custom code according to Drupal Coding standards.
 
-### Arguments:
+### Usage
 
-**directory:**
+* `fix:phpcbf [<directory>]`
 
-* Name: directory
+Fixes and beautifies custom code according to Drupal Coding standards.
+
+### Arguments
+
+#### `directory`
+
 * Is required: no
 * Is array: no
-* Description: <none>
 * Default: `''`
 
-### Options:
+### Options
 
-**help:**
+#### `--help|-h`
 
-* Name: `--help`
-* Shortcut: `-h`
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-frontend:build
---------------
-
-* Description: Executes frontend-build target hook.
-* Usage:
-
-  * `frontend:build`
+`frontend:build`
+----------------
 
 Executes frontend-build target hook.
 
-### Options:
+### Usage
 
-**help:**
+* `frontend:build`
 
-* Name: `--help`
-* Shortcut: `-h`
+Executes frontend-build target hook.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-frontend:setup
---------------
-
-* Description: Executes frontend-setup target hook.
-* Usage:
-
-  * `frontend:setup`
+`frontend:setup`
+----------------
 
 Executes frontend-setup target hook.
 
-### Options:
+### Usage
 
-**help:**
+* `frontend:setup`
 
-* Name: `--help`
-* Shortcut: `-h`
+Executes frontend-setup target hook.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-frontend:test
--------------
-
-* Description: Executes frontend-test target hook.
-* Usage:
-
-  * `frontend:test`
+`frontend:test`
+---------------
 
 Executes frontend-test target hook.
 
-### Options:
+### Usage
 
-**help:**
+* `frontend:test`
 
-* Name: `--help`
-* Shortcut: `-h`
+Executes frontend-test target hook.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-git:commit-msg
---------------
-
-* Description: Validates a git commit message.
-* Usage:
-
-  * `git:commit-msg <message>`
+`git:commit-msg`
+----------------
 
 Validates a git commit message.
 
-### Arguments:
+### Usage
 
-**message:**
+* `git:commit-msg <message>`
 
-* Name: message
+Validates a git commit message.
+
+### Arguments
+
+#### `message`
+
 * Is required: yes
 * Is array: no
-* Description: <none>
 * Default: `NULL`
 
-### Options:
+### Options
 
-**help:**
+#### `--help|-h`
 
-* Name: `--help`
-* Shortcut: `-h`
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-git:git-hooks
--------------
-
-* Description: Installs RD8 git hooks to local .git/hooks directory.
-* Usage:
-
-  * `git:git-hooks`
+`git:git-hooks`
+---------------
 
 Installs RD8 git hooks to local .git/hooks directory.
 
-### Options:
+### Usage
 
-**help:**
+* `git:git-hooks`
 
-* Name: `--help`
-* Shortcut: `-h`
+Installs RD8 git hooks to local .git/hooks directory.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-git:pre-commit
---------------
+`git:pre-commit`
+----------------
 
-* Description: Validates staged files.
-* Usage:
+Validates staged files.
 
-  * `git:pre-commit [--format FORMAT] [--] <changed_files>`
+### Usage
+
+* `git:pre-commit [--format [FORMAT]] [--] <changed_files>`
 
 TODO: load changed_files from git staged.
 TODO: implement other validation.
 
-### Arguments:
+### Arguments
 
-**changed_files:**
+#### `changed_files`
 
-* Name: changed_files
+A list of staged files, separated by \n.
+
 * Is required: yes
 * Is array: no
-* Description: A list of staged files, separated by \n.
 * Default: `NULL`
 
-### Options:
+### Options
 
-**format:**
+#### `--format`
 
-* Name: `--format`
-* Shortcut: <none>
+Format the result data. Available formats: csv,json,list,php,print-r,string,tsv,var_export,xml,yaml
+
 * Accept value: yes
-* Is value required: yes
+* Is value required: no
 * Is multiple: no
-* Description: Format the result data. Available formats: csv,json,list,php,print-r,string,tsv,var_export,xml,yaml
 * Default: `'yaml'`
 
-**help:**
+#### `--help|-h`
 
-* Name: `--help`
-* Shortcut: `-h`
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-setup:build
------------
-
-* Description: Generates all required files for a full build.
-* Usage:
-
-  * `setup:build`
-
-//interactConfigIdentical
-
-### Options:
-
-**help:**
-
-* Name: `--help`
-* Shortcut: `-h`
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Description: Display this help message
-* Default: `false`
-
-**quiet:**
-
-* Name: `--quiet`
-* Shortcut: `-q`
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Description: Do not output any message
-* Default: `false`
-
-**verbose:**
-
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
-* Default: `false`
-
-**version:**
-
-* Name: `--version`
-* Shortcut: `-V`
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Description: Display this application version
-* Default: `false`
-
-**ansi:**
-
-* Name: `--ansi`
-* Shortcut: <none>
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Description: Force ANSI output
-* Default: `false`
-
-**no-ansi:**
-
-* Name: `--no-ansi`
-* Shortcut: <none>
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Description: Disable ANSI output
-* Default: `false`
-
-**no-interaction:**
-
-* Name: `--no-interaction`
-* Shortcut: `-n`
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Description: Do not ask any interactive question
-* Default: `false`
-
-**yes:**
-
-* Name: `--yes`
-* Shortcut: `-y`
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Description: Answer all confirmations with "yes"
-* Default: `false`
-
-**define:**
-
-* Name: `--define`
-* Shortcut: `-D`
-* Accept value: yes
-* Is value required: yes
-* Is multiple: yes
-* Description: Define a configuration item value.
-* Default: `array ()`
-
-**site:**
-
-* Name: `--site`
-* Shortcut: `-s`
-* Accept value: yes
-* Is value required: no
-* Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
-* Default: `'default'`
-
-setup:build:composer:install
-----------------------------
-
-* Description: Installs Composer dependencies.
-* Usage:
-
-  * `setup:build:composer:install`
-
-Installs Composer dependencies.
-
-### Options:
-
-**help:**
-
-* Name: `--help`
-* Shortcut: `-h`
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Description: Display this help message
-* Default: `false`
-
-**quiet:**
-
-* Name: `--quiet`
-* Shortcut: `-q`
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Description: Do not output any message
-* Default: `false`
-
-**verbose:**
-
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
-* Default: `false`
-
-**version:**
-
-* Name: `--version`
-* Shortcut: `-V`
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Description: Display this application version
-* Default: `false`
-
-**ansi:**
-
-* Name: `--ansi`
-* Shortcut: <none>
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Description: Force ANSI output
-* Default: `false`
-
-**no-ansi:**
-
-* Name: `--no-ansi`
-* Shortcut: <none>
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Description: Disable ANSI output
-* Default: `false`
-
-**no-interaction:**
-
-* Name: `--no-interaction`
-* Shortcut: `-n`
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Description: Do not ask any interactive question
-* Default: `false`
-
-**yes:**
-
-* Name: `--yes`
-* Shortcut: `-y`
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Description: Answer all confirmations with "yes"
-* Default: `false`
-
-**define:**
-
-* Name: `--define`
-* Shortcut: `-D`
-* Accept value: yes
-* Is value required: yes
-* Is multiple: yes
-* Description: Define a configuration item value.
-* Default: `array ()`
-
-**site:**
-
-* Name: `--site`
-* Shortcut: `-s`
-* Accept value: yes
-* Is value required: no
-* Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
-* Default: `'default'`
-
-setup:build:install
--------------------
-
-* Description: Installs Drupal and sets correct file/directory permissions.
-* Usage:
-
-  * `setup:build:install`
-
-Installs Drupal and sets correct file/directory permissions.
-
-### Options:
-
-**help:**
-
-* Name: `--help`
-* Shortcut: `-h`
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Description: Display this help message
-* Default: `false`
-
-**quiet:**
-
-* Name: `--quiet`
-* Shortcut: `-q`
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Description: Do not output any message
-* Default: `false`
-
-**verbose:**
-
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
-* Default: `false`
-
-**version:**
-
-* Name: `--version`
-* Shortcut: `-V`
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Description: Display this application version
-* Default: `false`
-
-**ansi:**
-
-* Name: `--ansi`
-* Shortcut: <none>
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Description: Force ANSI output
-* Default: `false`
-
-**no-ansi:**
-
-* Name: `--no-ansi`
-* Shortcut: <none>
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Description: Disable ANSI output
-* Default: `false`
-
-**no-interaction:**
-
-* Name: `--no-interaction`
-* Shortcut: `-n`
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Description: Do not ask any interactive question
-* Default: `false`
-
-**yes:**
-
-* Name: `--yes`
-* Shortcut: `-y`
-* Accept value: no
-* Is value required: no
-* Is multiple: no
-* Description: Answer all confirmations with "yes"
-* Default: `false`
-
-**define:**
-
-* Name: `--define`
-* Shortcut: `-D`
-* Accept value: yes
-* Is value required: yes
-* Is multiple: yes
-* Description: Define a configuration item value.
-* Default: `array ()`
-
-**site:**
-
-* Name: `--site`
-* Shortcut: `-s`
-* Accept value: yes
-* Is value required: no
-* Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
-* Default: `'default'`
-
-setup:deploy
-------------
-
-* Description: Setup project and deploy the drupal site exist.
-* Usage:
-
-  * `setup:deploy [<local>]`
+`setup:deploy`
+--------------
 
 Setup project and deploy the drupal site exist.
 
-### Arguments:
+### Usage
 
-**local:**
+* `setup:deploy`
 
-* Name: local
-* Is required: no
-* Is array: no
-* Description: <none>
-* Default: `false`
+Setup project and deploy the drupal site exist.
 
-### Options:
+### Options
 
-**help:**
+#### `--help|-h`
 
-* Name: `--help`
-* Shortcut: `-h`
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-setup:from-config
------------------
-
-* Description: Setup project and install Drupal from configuration directory.
-* Usage:
-
-  * `setup:from-config [<local>]`
+`setup:from-config`
+-------------------
 
 Setup project and install Drupal from configuration directory.
 
-### Arguments:
+### Usage
 
-**local:**
+* `setup:from-config`
 
-* Name: local
-* Is required: no
-* Is array: no
-* Description: <none>
-* Default: `false`
+Setup project and install Drupal from configuration directory.
 
-### Options:
+### Options
 
-**help:**
+#### `--help|-h`
 
-* Name: `--help`
-* Shortcut: `-h`
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-setup:from-database
--------------------
-
-* Description: Setup project and install Drupal from database.
-* Usage:
-
-  * `setup:from-database <database_dump> [<local>]`
+`setup:from-database`
+---------------------
 
 Setup project and install Drupal from database.
 
-### Arguments:
+### Usage
 
-**database_dump:**
+* `setup:from-database <database_dump> [<local>]`
 
-* Name: database_dump
+Setup project and install Drupal from database.
+
+### Arguments
+
+#### `database_dump`
+
 * Is required: yes
 * Is array: no
-* Description: <none>
 * Default: `NULL`
 
-**local:**
+#### `local`
 
-* Name: local
 * Is required: no
 * Is array: no
-* Description: <none>
 * Default: `false`
 
-### Options:
+### Options
 
-**help:**
+#### `--help|-h`
 
-* Name: `--help`
-* Shortcut: `-h`
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-setup:scratch
--------------
-
-* Description: Setup project and install drupal scratch from RD8 configuration.
-* Usage:
-
-  * `setup:scratch [<local>]`
+`setup:scratch`
+---------------
 
 Setup project and install drupal scratch from RD8 configuration.
 
-### Arguments:
+### Usage
 
-**local:**
+* `setup:scratch [<local>]`
 
-* Name: local
+Setup project and install drupal scratch from RD8 configuration.
+
+### Arguments
+
+#### `local`
+
 * Is required: no
 * Is array: no
-* Description: <none>
 * Default: `false`
 
-### Options:
+### Options
 
-**help:**
+#### `--help|-h`
 
-* Name: `--help`
-* Shortcut: `-h`
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-tests:security-updates
-----------------------
-
-* Description: Check local Drupal installation for security updates.
-* Usage:
-
-  * `tests:security-updates`
+`tests:security-updates`
+------------------------
 
 Check local Drupal installation for security updates.
 
-### Options:
+### Usage
 
-**help:**
+* `tests:security-updates`
 
-* Name: `--help`
-* Shortcut: `-h`
+Check local Drupal installation for security updates.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-validate:composer
------------------
-
-* Description: Validates root composer.json and composer.lock files.
-* Usage:
-
-  * `validate:composer`
+`validate:composer`
+-------------------
 
 Validates root composer.json and composer.lock files.
 
-### Options:
+### Usage
 
-**help:**
+* `validate:composer`
 
-* Name: `--help`
-* Shortcut: `-h`
+Validates root composer.json and composer.lock files.
+
+### Options
+
+#### `--help|-h`
+
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-validate:phpcs
---------------
+`validate:phpcs`
+----------------
 
-* Description: Executes PHP Code Sniffer against all phpcs.filesets files.
-* Usage:
+Executes PHP Code Sniffer against all phpcs.filesets files.
 
-  * `validate:phpcs [<directory>]`
+### Usage
+
+* `validate:phpcs [<directory>]`
 
 By default, these include custom themes, modules, and tests.
 
-### Arguments:
+### Arguments
 
-**directory:**
+#### `directory`
 
-* Name: directory
 * Is required: no
 * Is array: no
-* Description: <none>
 * Default: `''`
 
-### Options:
+### Options
 
-**help:**
+#### `--help|-h`
 
-* Name: `--help`
-* Shortcut: `-h`
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`
 
-validate:phpcs:files
---------------------
+`validate:phpcs:files`
+----------------------
 
-* Description: Executes PHP Code Sniffer against a list of files, if in phpcs.filesets.
-* Usage:
+Executes PHP Code Sniffer against a list of files, if in phpcs.filesets.
 
-  * `validate:phpcs:files <file_list>`
+### Usage
+
+* `validate:phpcs:files <file_list>`
 
 This command will execute PHP Codesniffer against a list of files if those
 files are a subset of the phpcs.filesets filesets.
 
-### Arguments:
+### Arguments
 
-**file_list:**
+#### `file_list`
 
-* Name: file_list
+A list of files to scan, separated by \n.
+
 * Is required: yes
 * Is array: no
-* Description: A list of files to scan, separated by \n.
 * Default: `NULL`
 
-### Options:
+### Options
 
-**help:**
+#### `--help|-h`
 
-* Name: `--help`
-* Shortcut: `-h`
+Display this help message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this help message
 * Default: `false`
 
-**quiet:**
+#### `--quiet|-q`
 
-* Name: `--quiet`
-* Shortcut: `-q`
+Do not output any message
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not output any message
 * Default: `false`
 
-**verbose:**
+#### `--verbose|-v|-vv|-vvv`
 
-* Name: `--verbose`
-* Shortcut: `-v|-vv|-vvv`
+Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 * Default: `false`
 
-**version:**
+#### `--version|-V`
 
-* Name: `--version`
-* Shortcut: `-V`
+Display this application version
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Display this application version
 * Default: `false`
 
-**ansi:**
+#### `--ansi`
 
-* Name: `--ansi`
-* Shortcut: <none>
+Force ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Force ANSI output
 * Default: `false`
 
-**no-ansi:**
+#### `--no-ansi`
 
-* Name: `--no-ansi`
-* Shortcut: <none>
+Disable ANSI output
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Disable ANSI output
 * Default: `false`
 
-**no-interaction:**
+#### `--no-interaction|-n`
 
-* Name: `--no-interaction`
-* Shortcut: `-n`
+Do not ask any interactive question
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Do not ask any interactive question
 * Default: `false`
 
-**yes:**
+#### `--yes|-y`
 
-* Name: `--yes`
-* Shortcut: `-y`
+Answer all confirmations with "yes"
+
 * Accept value: no
 * Is value required: no
 * Is multiple: no
-* Description: Answer all confirmations with "yes"
 * Default: `false`
 
-**define:**
+#### `--define|-D`
 
-* Name: `--define`
-* Shortcut: `-D`
+Define a configuration item value.
+
 * Accept value: yes
 * Is value required: yes
 * Is multiple: yes
-* Description: Define a configuration item value.
 * Default: `array ()`
 
-**site:**
+#### `--site|-s`
 
-* Name: `--site`
-* Shortcut: `-s`
+URI of the drupal site to use (only needed in multisite environments).
+
 * Accept value: yes
 * Is value required: no
 * Is multiple: no
-* Description: URI of the drupal site to use (only needed in multisite environments).
 * Default: `'default'`

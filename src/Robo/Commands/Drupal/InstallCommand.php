@@ -24,6 +24,7 @@ class InstallCommand extends RoboDrupal8Tasks {
    */
   public function drupalInstallScratch() {
     $this->install()->detectInteractive()->run();
+    $this->getInspector()->clearState();
   }
 
   /**
@@ -40,6 +41,7 @@ class InstallCommand extends RoboDrupal8Tasks {
   public function drupalInstallFromConfig() {
     $this->invokeCommand('drupal:settings');
     $this->installWithConfig()->detectInteractive()->run();
+    $this->getInspector()->clearState();
   }
 
   /**
