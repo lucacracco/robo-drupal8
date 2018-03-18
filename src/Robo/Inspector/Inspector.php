@@ -176,23 +176,6 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   }
 
   /**
-   * Determines if Drupal settings.php contains required RD8 includes.
-   *
-   * @return bool
-   *   TRUE if settings.php is valid for RD8 usage.
-   */
-  public function isDrupalSettingsFileValid() {
-    $settings_file_contents = file_get_contents($this->getConfigValue('drupal.settings_file'));
-    if (!strstr($settings_file_contents,
-      '/../vendor/lucacracco/robo-drupal8/settings/rd8.settings.php')
-    ) {
-      return FALSE;
-    }
-
-    return TRUE;
-  }
-
-  /**
    * Checks that Drupal is installed, caches result.
    *
    * This method caches its result in $this->drupalIsInstalled.
@@ -334,23 +317,6 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   }
 
   /**
-   * Verifies that installed minimum git version is met.
-   *
-   * @param string $minimum_version
-   *   The minimum git version that is required.
-   *
-   * @return bool
-   *   TRUE if minimum version is satisfied.
-   */
-  public function isGitMinimumVersionSatisfied($minimum_version) {
-    exec("git --version | cut -d' ' -f3", $output, $exit_code);
-    if (version_compare($output[0], $minimum_version, '>=')) {
-      return TRUE;
-    }
-    return FALSE;
-  }
-
-  /**
    * Determines if all file in a given array exist.
    *
    * @return bool
@@ -422,4 +388,5 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
       $this->logger->warning("The xDebug extension is loaded. This will significantly decrease performance.");
     }
   }
+
 }

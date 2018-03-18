@@ -17,7 +17,6 @@ class SecurityUpdatesCommand extends RoboDrupal8Tasks {
    * @command tests:security-updates
    * @description Check local Drupal installation for security updates.
    *
-   * @interactInstallDrupal
    * @validateDrupalIsInstalled
    */
   public function testsSecurityUpdates() {

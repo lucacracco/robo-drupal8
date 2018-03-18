@@ -100,10 +100,6 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
     if (!$this->getInspector()->isDrupalSettingsFilePresent()) {
       throw new \Exception("Could not find settings.php for this site.");
     }
-
-    if (!$this->getInspector()->isDrupalSettingsFileValid()) {
-      throw new \Exception("Robo-Drupal8 settings are not included in settings file.");
-    }
   }
 
   /**

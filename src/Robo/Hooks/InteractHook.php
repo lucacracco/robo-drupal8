@@ -53,17 +53,6 @@ class InteractHook extends RoboDrupal8Tasks {
   }
 
   /**
-   * Runs wizard for installing Drupal.
-   *
-   * @hook interact @interactInstallDrupal
-   */
-  public function interactInstallDrupal(InputInterface $input, OutputInterface $output, AnnotationData $annotationData) {
-    /** @var \Lucacracco\RoboDrupal8\Robo\Wizards\SetupWizard $setup_wizard */
-    $setup_wizard = $this->getContainer()->get(SetupWizard::class);
-    $setup_wizard->wizardInstallDrupal();
-  }
-
-  /**
    * Runs wizard for MySQL connection config.
    *
    * @hook interact @interactMySqlConnection
@@ -109,7 +98,6 @@ class InteractHook extends RoboDrupal8Tasks {
       if (!$confirm) {
         throw new \Exception("The active configuration is not identical to the configuration in the export directory.");
       }
-
     }
   }
 
@@ -125,4 +113,5 @@ class InteractHook extends RoboDrupal8Tasks {
       }
     }
   }
+
 }

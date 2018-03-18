@@ -127,6 +127,8 @@ class ConfigInitializer {
   }
 
   /**
+   * TODO: how load environment settings?.
+   *
    * @return $this
    */
   public function loadEnvironmentConfig() {

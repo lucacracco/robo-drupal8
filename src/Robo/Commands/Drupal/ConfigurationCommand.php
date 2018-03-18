@@ -37,8 +37,7 @@ class ConfigurationCommand extends RoboDrupal8Tasks {
    * @command drupal:configuration:export
    * @aliases dce
    *
-   * @arg destination Destination directory_sync to save the
-   *   configurations.
+   * @arg config_export Destination directory_sync to save the configurations.
    * @option report Print output command
    *
    * @interactGenerateConfigurationDirectorySync
@@ -46,11 +45,11 @@ class ConfigurationCommand extends RoboDrupal8Tasks {
    * @validateDrupalIsInstalled
    * @validateDrupalConfigurationDirectorySync
    */
-  public function export($destination = 'sync', $opts = ['report' => FALSE]) {
+  public function export($config_export = 'sync', $opts = ['report' => FALSE]) {
     $this->invokeCommand('drupal:cache:rebuild');
     $this->taskDrush()
       ->drush('config-export')
-      ->option('destination', $destination)
+      ->arg($config_export)
       ->printOutput((boolean) $opts['report'])
       ->run();
   }

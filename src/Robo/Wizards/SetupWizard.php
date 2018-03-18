@@ -2,8 +2,6 @@
 
 namespace Lucacracco\RoboDrupal8\Robo\Wizards;
 
-use Robo\LoadAllTasks;
-
 /**
  * Class SetupWizard.
  *
@@ -65,41 +63,12 @@ class SetupWizard extends Wizard {
   }
 
   /**
-   * Wizard for installing Drupal.
-   *
-   * Executes rd8 setup:build:install.
-   */
-  public function wizardInstallDrupal() {
-    if (!$this->getInspector()->isMySqlAvailable()) {
-      return FALSE;
-    }
-    if (!$this->getInspector()->isDrupalInstalled()) {
-      $this->logger->warning('Drupal is not installed.');
-      $confirm = $this->confirm("Do you want to install Drupal?");
-      if ($confirm) {
-        $bin = $this->getConfigValue('composer.bin');
-        $this->executor
-          ->execute("$bin/rd8 setup")
-          ->detectInteractive()
-          ->run();
-        $this->getInspector()->clearState();
-      }
-    }
-  }
-
-  /**
    * Wizard for insert mysql connection.
    *
    * @throws \Exception
    */
   public function wizardMySqlConnection() {
-    $required_config = [
-      'database',
-      'host',
-      'port',
-      'user',
-      'pass',
-    ];
+    $required_config = ['database', 'host', 'port', 'user', 'pass',];
 
     $update_config = FALSE;
     foreach ($required_config as $required) {
