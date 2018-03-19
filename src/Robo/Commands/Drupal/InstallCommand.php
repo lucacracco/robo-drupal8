@@ -35,12 +35,25 @@ class InstallCommand extends RoboDrupal8Tasks {
    * @interactMySqlConnection
    * @interactDrupalIsAlreadyInstalled
    *
-   * @validateMySqlAvailable
    * @validateDocrootIsPresent
    */
   public function drupalInstallFromConfig() {
-    $this->invokeCommand('drupal:settings');
     $this->installWithConfig()->detectInteractive()->run();
+    $this->getInspector()->clearState();
+  }
+
+  /**
+   * Install from configuration with config_installer.
+   *
+   * @command drupal:install-from-config-installer
+   *
+   * @interactMySqlConnection
+   * @interactDrupalIsAlreadyInstalled
+   *
+   * @validateDocrootIsPresent
+   */
+  public function drupalInstallFromConfigInstaller() {
+    $this->installWithConfigInstaller()->detectInteractive()->run();
     $this->getInspector()->clearState();
   }
 
@@ -50,8 +63,22 @@ class InstallCommand extends RoboDrupal8Tasks {
    * @return \Lucacracco\RoboDrupal8\Robo\Tasks\DrushTask
    */
   protected function installWithConfig() {
+    $task = $this->install();
+    $config_directories = "../" . $this->getConfigValue("drupal.config_directories.sync");
+    $task->option('config-dir', $config_directories);
+    return $task;
+  }
+
+  /**
+   * Installs Drupal and imports configuration with config_installer.
+   *
+   * @return \Lucacracco\RoboDrupal8\Robo\Tasks\DrushTask
+   */
+  protected function installWithConfigInstaller() {
     $task = $this->install('config_installer');
-    $task->option('config-dir', $this->getConfigValue("drupal.config_directories.sync"));
+    $config_directories_sync = $this->getConfigValue("drupal.config_directories.sync");
+    $config_directories_sync = "../" . $config_directories_sync;
+    $task->rawArg('config_installer_sync_configure_form.sync_directory=' . $config_directories_sync);
     return $task;
   }
 

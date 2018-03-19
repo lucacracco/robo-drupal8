@@ -64,6 +64,7 @@ class FilesystemCommand extends RoboDrupal8Tasks {
       $site_dir . DIRECTORY_SEPARATOR . 'settings.php',
       $site_dir . DIRECTORY_SEPARATOR . 'settings.local.php',
       $site_dir . DIRECTORY_SEPARATOR . 'services.yml',
+      $site_dir . DIRECTORY_SEPARATOR . 'files',
     ];
 
     foreach ($map_files_to_remove as $to_remove) {

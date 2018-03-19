@@ -24,6 +24,7 @@ class ScratchCommand extends RoboDrupal8Tasks {
     $this->invokeCommands([
       'install-alias',
       'composer:install',
+      'drupal:filesystem:clear',
       'drupal:install-scratch',
       'drupal:settings',
       'drupal:update',

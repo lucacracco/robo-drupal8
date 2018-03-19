@@ -24,7 +24,8 @@ class FromConfigCommand extends RoboDrupal8Tasks {
     $this->invokeCommands([
       'install-alias',
       'composer:install',
-      'drupal:install-from-config',
+      'drupal:filesystem:clear',
+      'drupal:install-from-config-installer',
       'drupal:update',
       'drupal:filesystem:protect-site',
       'drupal:core-cron',
