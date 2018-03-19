@@ -114,5 +114,6 @@ fabric.properties
 
 ### Project template
 /docker-compose.yml
+/composer.lock
 .idea
 /vendor
