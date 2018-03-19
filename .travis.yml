@@ -1,0 +1,25 @@
+sudo: true
+language: php
+dist: trusty
+
+php:
+  - 7.1
+
+env:
+  global:
+    - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
+    - RD8_DIR=$TRAVIS_BUILD_DIR
+
+before_install:
+  - phpenv config-rm xdebug.ini
+  - composer self-update
+  - composer validate --no-check-all --ansi
+  - composer install
+
+install:
+  - source ${RD8_DIR}/scripts/travis/setup_environment
+
+scripts:
+  - ${RD8_DIR}/vendor/bin/robo create:from-symlink
+  - cp ${RD8_DIR}/template/_travis.yml ${RD8_DIR}/../test-rd8/robo-drupal8/config/sites/default.yml
+  - ${RD8_DIR}/../test-rd8/vendor/bin/rd8 setup:scratch

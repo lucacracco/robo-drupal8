@@ -1,0 +1,29 @@
+# Override Project configuration.
+project:
+  machine_name: 'rd8-project'
+  # Used for enforcing correct git commit msg syntax.
+  prefix: 'RD8'
+  human_name: 'RooDrupal8 Test Project'
+
+# Override Composer.
+bin.path: vendor/bin
+composer:
+  bin: ${repo.root}/${bin.path}
+  extra: ''
+
+# Override File and Directory locations.
+docroot: ${repo.root}/docroot
+
+# Drupal.
+drupal:
+  site_name: default
+  account:
+    mail: default@localhost
+    username: default
+    password: default
+  db:
+    database: drupal
+    user: drupal
+    pass: drupal
+    host: localhost
+    port: 3306
