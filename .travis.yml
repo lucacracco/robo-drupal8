@@ -9,6 +9,7 @@ env:
   global:
     - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
     - RD8_DIR=$TRAVIS_BUILD_DIR
+    - BUILD_DIR=$TRAVIS_BUILD_DIR
 
 before_install:
   - phpenv config-rm xdebug.ini
