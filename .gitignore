@@ -116,3 +116,4 @@ fabric.properties
 /composer.lock
 .idea
 /vendor
+/tests

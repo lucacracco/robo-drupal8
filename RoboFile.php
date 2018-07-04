@@ -12,7 +12,7 @@ class RoboFile extends \Robo\Tasks implements \Psr\Log\LoggerAwareInterface {
   /**
    * Directory used for test.
    */
-  const RD8_TEST_DIR = '../test-rd8';
+  const RD8_TEST_DIR = 'tests/build';
 
   /**
    * Template project dir.
@@ -55,16 +55,20 @@ class RoboFile extends \Robo\Tasks implements \Psr\Log\LoggerAwareInterface {
     $test_project_dir = $this->rd8Root . "/" . $options['project-dir'];
     $this->prepareTestProjectDir($test_project_dir);
 
-    // Clone directory test.
-    $this->taskFilesystemStack()
-      ->mkdir($test_project_dir)
-      ->mirror($this->rd8Root . "/" . self::RD8_TPL_TEST_DIR, $test_project_dir)
+    // Create project test.
+    $this->taskExecStack()
+      ->dir($test_project_dir)
+      ->exec("COMPOSER_PROCESS_TIMEOUT=2000 composer create-project drupal-composer/drupal-project:8.x-dev " . self::RD8_TEST_DIR . " --no-interaction")
       ->run();
 
-    // Replace in composer.json test the relative path to absolute.
-    $this->taskReplaceInFile($test_project_dir . "/composer.json")
-      ->from("../robo-drupal8")
-      ->to($this->rd8Root)
+    $this->taskExecStack()
+      ->dir($test_project_dir)
+      ->exec("composer config repositories.lucacracco/robo-drupal8 '{\"type\": \"path\",\"url\": \"{$this->rd8Root}\",\"options\": {\"symlink\": true}}'")
+      ->run();
+
+    $this->taskExecStack()
+      ->dir($test_project_dir)
+      ->exec("composer require lucacracco/robo-drupal8:dev-2.x-dev")
       ->run();
 
     // Run composer install after clear vendor directory.
@@ -76,49 +80,27 @@ class RoboFile extends \Robo\Tasks implements \Psr\Log\LoggerAwareInterface {
   }
 
   /**
-   * Create a new project using `composer create-project
-   * lucacracco/robo-drupal8-project'.
+   * Create a new project using `drupal-composer/drupal-project:8.x-dev'.
    *
    * @option project-dir The directory in which the test project will be
    *   created.
    */
-  public function createFromRd8Project($options = ['project-dir' => self::RD8_TEST_DIR]) {
+  public function createWithDrupalComposerProject($options = ['project-dir' => self::RD8_TEST_DIR]) {
     $test_project_dir = $this->rd8Root . "/" . $options['project-dir'];
     $this->prepareTestProjectDir($test_project_dir);
 
-    $this->yell("Creating project from lucacracco/robo-drupal8-project.");
+    $this->yell("Creating project with drupal-composer/drupal-project:8.x-dev.");
 
     // Create project test.
     $this->taskExecStack()
-      ->dir($this->rd8Root . "/..")
-      ->exec("COMPOSER_PROCESS_TIMEOUT=2000 composer create-project lucacracco/robo-drupal8-project " . self::RD8_TEST_DIR . " --no-interaction")
-      ->run();
-  }
-
-  /**
-   * Create a new project using `composer require lucacracco/robo-drupal8'.
-   *
-   * @option project-dir The directory in which the test project will be
-   *   created.
-   */
-  public function createFromScratch($options = ['project-dir' => self::RD8_TEST_DIR]) {
-    $test_project_dir = $this->rd8Root . "/" . $options['project-dir'];
-    $this->prepareTestProjectDir($test_project_dir);
-
-    // Create directory for project test.
-    $this->taskFilesystemStack()->mkdir("$test_project_dir")->run();
-
-    // Init composer.json.
-    $this->taskExecStack()
       ->dir($test_project_dir)
-      ->exec("composer init --name=acme/project --stability=dev --no-interaction")
-      ->exec("composer config prefer-stable true")
+      ->exec("COMPOSER_PROCESS_TIMEOUT=2000 composer create-project drupal-composer/drupal-project:8.x-dev " . self::RD8_TEST_DIR . " --no-interaction")
       ->run();
 
     // Add required.
     $this->taskExecStack()
       ->dir($test_project_dir)
-      ->exec("composer require lucacracco/robo-drupal8 2.x")
+      ->exec("composer require lucacracco/robo-drupal8:2.x")
       ->run();
   }
 
@@ -160,7 +142,7 @@ class RoboFile extends \Robo\Tasks implements \Psr\Log\LoggerAwareInterface {
   ]) {
     switch ($options['project-type']) {
       case 'standalone':
-        $this->createFromRd8Project($options);
+        $this->createWithDrupalComposerProject($options);
         break;
 
       case 'symlink':
