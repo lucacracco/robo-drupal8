@@ -21,10 +21,10 @@ class ExamplesCommand extends RoboDrupal8Tasks {
     $result = $this->taskFilesystemStack()
       ->copy(
         $this->getConfigValue('rd8.root') . '/scripts/robo-drupal8/examples/Commands/ExampleCommand.php',
-        $this->getConfigValue('repo.root') . '/robo-drupal8/src/Commands/ExampleCommand.php', FALSE)
+        $this->getConfigValue('project.root') . '/robo-drupal8/src/Commands/ExampleCommand.php', FALSE)
       ->copy(
         $this->getConfigValue('rd8.root') . '/scripts/robo-drupal8/examples/Hooks/ExampleHook.php',
-        $this->getConfigValue('repo.root') . '/robo-drupal8/src/Hooks/ExampleHook.php', FALSE)
+        $this->getConfigValue('project.root') . '/robo-drupal8/src/Hooks/ExampleHook.php', FALSE)
       ->stopOnFail()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();

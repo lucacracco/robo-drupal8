@@ -3,7 +3,6 @@
 namespace Lucacracco\RoboDrupal8\Robo\Hooks;
 
 use Lucacracco\RoboDrupal8\Robo\RoboDrupal8Tasks;
-use Lucacracco\RoboDrupal8\Robo\Wizards\SetupWizard;
 use Consolidation\AnnotatedCommand\AnnotationData;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -28,28 +27,6 @@ class InteractHook extends RoboDrupal8Tasks {
    */
   public function setOutput(OutputInterface $output) {
     $this->output = $output;
-  }
-
-  /**
-   * Runs wizard for generating settings files.
-   *
-   * @hook interact @interactGenerateSettingsFiles
-   */
-  public function interactGenerateSettingsFiles(InputInterface $input, OutputInterface $output, AnnotationData $annotationData) {
-    /** @var \Lucacracco\RoboDrupal8\Robo\Wizards\SetupWizard $setup_wizard */
-    $setup_wizard = $this->getContainer()->get(SetupWizard::class);
-    $setup_wizard->wizardGenerateSettingsFiles();
-  }
-
-  /**
-   * Runs wizard for generating configuration directory sync.
-   *
-   * @hook interact @interactGenerateConfigurationDirectorySync
-   */
-  public function interactGenerateConfigurationDirectorySync(InputInterface $input, OutputInterface $output, AnnotationData $annotationData) {
-    /** @var \Lucacracco\RoboDrupal8\Robo\Wizards\SetupWizard $setup_wizard */
-    $setup_wizard = $this->getContainer()->get(SetupWizard::class);
-    $setup_wizard->wizardGenerateConfigurationDirectorySync();
   }
 
   /**

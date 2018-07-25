@@ -22,9 +22,8 @@ class FromDatabaseCommand extends RoboDrupal8Tasks {
    * @throws \Psr\Container\ContainerExceptionInterface
    * @throws \Psr\Container\NotFoundExceptionInterface
    */
-  public function fromDatabase($database_dump, $local = FALSE) {
+  public function fromDatabase($database_dump) {
     $this->invokeCommands([
-      'install-alias',
       'composer:install',
       'drupal:filesystem:clear',
       'drupal:install-scratch',

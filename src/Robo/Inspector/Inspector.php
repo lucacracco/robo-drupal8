@@ -77,7 +77,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   public function execute($command) {
     /** @var \Robo\Common\ProcessExecutor $process_executor */
     $process_executor = Robo::process(new Process($command));
-    return $process_executor->dir($this->getConfigValue('repo.root'))
+    return $process_executor->dir($this->getConfigValue('project.root'))
       ->printOutput(FALSE)
       ->printMetadata(FALSE)
       ->interactive(FALSE);
@@ -112,7 +112,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if file exists.
    */
   public function isRepoRootPresent() {
-    return file_exists($this->getConfigValue('repo.root'));
+    return file_exists($this->getConfigValue('project.root'));
   }
 
   /**
@@ -162,7 +162,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if file exists.
    */
   public function isHashSaltPresent() {
-    return file_exists($this->getConfigValue('repo.root') . '/salt.txt');
+    return file_exists($this->getConfigValue('project.root') . '/salt.txt');
   }
 
   /**

@@ -8,8 +8,8 @@ project:
 # Override Composer.
 bin.path: vendor/bin
 composer:
-  bin: ${repo.root}/${bin.path}
+  bin: ${project.root}/${bin.path}
   extra: ''
 
 # Override File and Directory locations.
-docroot: ${repo.root}/docroot
+docroot: ${project.root}/web

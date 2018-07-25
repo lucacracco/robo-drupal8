@@ -44,13 +44,13 @@ class InstallCommand extends RoboDrupal8Tasks {
   /**
    * Install from configuration with config_installer.
    *
-   * @command drupal:install-from-config-installer
+   * @command drupal:install-with-config-installer
    *
    * @interactDrupalIsAlreadyInstalled
    *
    * @validateDocrootIsPresent
    */
-  public function drupalInstallFromConfigInstaller() {
+  public function drupalInstallWithConfigInstaller() {
     $this->installWithConfigInstaller()->detectInteractive()->run();
     $this->getInspector()->clearState();
   }

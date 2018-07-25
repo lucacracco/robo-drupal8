@@ -20,8 +20,7 @@ class AllCommand extends RoboDrupal8Tasks {
   public function tests() {
     $this->invokeCommands([
       'tests:phpunit',
-      'tests:security-updates',
-      'frontend:test',
+      'tests:security-updates'
     ]);
   }
 

@@ -2,7 +2,6 @@
 
 namespace Lucacracco\RoboDrupal8\Robo;
 
-use Lucacracco\RoboDrupal8\Robo\Wizards\SetupWizard;
 use Consolidation\AnnotatedCommand\CommandFileDiscovery;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
@@ -103,9 +102,6 @@ class RoboDrupal8 implements ContainerAwareInterface, LoggerAwareInterface {
     $container
       ->inflector(InspectorAwareInterface::class)
       ->invokeMethod('setInspector', ['inspector']);
-    $container
-      ->add(SetupWizard::class)
-      ->withArgument('executor');
 
     /** @var \Consolidation\AnnotatedCommand\AnnotatedCommandFactory $factory */
     $factory = $container->get('commandFactory');
@@ -154,7 +150,7 @@ class RoboDrupal8 implements ContainerAwareInterface, LoggerAwareInterface {
    * Registers custom commands and hooks defined project.
    */
   private function addPluginsCommandsAndHooks() {
-    $repo_root = $this->getConfig()->get('repo.root');
+    $repo_root = $this->getConfig()->get('project.root');
     $commands = $this->getCommands([
       'path' => $repo_root . '/robo-drupal8/src/Commands',
       'namespace' => 'Lucacracco\RoboDrupal8\Custom\Commands',

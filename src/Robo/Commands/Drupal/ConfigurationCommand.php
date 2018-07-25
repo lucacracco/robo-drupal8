@@ -40,8 +40,6 @@ class ConfigurationCommand extends RoboDrupal8Tasks {
    * @arg config_export Destination directory_sync to save the configurations.
    * @option report Print output command
    *
-   * @interactGenerateConfigurationDirectorySync
-   *
    * @validateDrupalIsInstalled
    * @validateDrupalConfigurationDirectorySync
    */

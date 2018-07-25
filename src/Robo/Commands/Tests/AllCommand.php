@@ -2,12 +2,10 @@
 
 namespace Lucacracco\RoboDrupal8\Robo\Commands\Tests;
 
-use Lucacracco\RoboDrupal8\Robo\RoboDrupal8Tasks;
-
 /**
  * Defines commands in the "tests" namespace.
  */
-class AllCommand extends RoboDrupal8Tasks {
+class AllCommand extends TestsCommandBase {
 
   /**
    * Runs all tests, including Behat, PHPUnit, and security updates check.
@@ -22,7 +20,6 @@ class AllCommand extends RoboDrupal8Tasks {
       // 'tests:behat',
       // 'tests:phpunit',
       'tests:security-updates',
-      'frontend:test',
     ]);
   }
 

@@ -2,12 +2,10 @@
 
 namespace Lucacracco\RoboDrupal8\Robo\Commands\Tests;
 
-use Lucacracco\RoboDrupal8\Robo\RoboDrupal8Tasks;
-
 /**
  * Defines commands in the "tests" namespace.
  */
-class SecurityUpdatesCommand extends RoboDrupal8Tasks {
+class SecurityUpdatesCommand extends TestsCommandBase {
 
   /**
    * Check local Drupal installation for security updates.

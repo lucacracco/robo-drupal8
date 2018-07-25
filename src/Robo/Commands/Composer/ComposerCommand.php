@@ -98,7 +98,7 @@ class ComposerCommand extends RoboDrupal8Tasks {
         $command .= "&& composer update";
         $task = $this->taskExec($command)
           ->printOutput(TRUE)
-          ->dir($this->getConfigValue('repo.root'));
+          ->dir($this->getConfigValue('project.root'));
         $result = $task->run();
         if (!$result->wasSuccessful()) {
           throw new \Exception("Unable to install {$package_name} package.");

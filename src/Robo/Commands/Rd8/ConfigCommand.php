@@ -64,22 +64,4 @@ class ConfigCommand extends RoboDrupal8Tasks {
     }
   }
 
-  /**
-   * Export all configurations values.
-   *
-   * @command config:save
-   *
-   * @option file File to save dump yaml configurations.
-   */
-  public function save($file_path) {
-    $config = $this->getConfig()->export();
-    ksort($config);
-    $yaml = Yaml::dump($config, 8, 2);
-
-    $this->say("Save configuration");
-
-    file_put_contents($file_path, $yaml);
-    $this->writeln($file_path);
-  }
-
 }

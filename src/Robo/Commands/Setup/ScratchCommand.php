@@ -20,9 +20,8 @@ class ScratchCommand extends RoboDrupal8Tasks {
    * @throws \Psr\Container\ContainerExceptionInterface
    * @throws \Psr\Container\NotFoundExceptionInterface
    */
-  public function scratch($local = FALSE) {
+  public function scratch() {
     $this->invokeCommands([
-      'install-alias',
       'composer:install',
       'drupal:filesystem:clear',
       'drupal:install-scratch',

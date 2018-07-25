@@ -7,9 +7,12 @@ drupal:
     mail: admin@localhost
     username: admin
     password: admin
-  db:
-    database: drupal
-    user: drupal
-    pass: drupal
-    host: mysql
-    port: 3306
+  databases:
+    default:
+      default:
+        database: drupal
+        username: drupal
+        password: drupal
+        host: mariadb
+        port: 3306
+        driver: mysql

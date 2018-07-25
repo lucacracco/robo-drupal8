@@ -50,7 +50,7 @@ class PhpUnitCommand extends RoboDrupal8Tasks {
   public function initialize() {
     $this->reportsDir = $this->getConfigValue('reports.localDir') . '/phpunit';
     $this->reportFile = $this->reportsDir . '/results.xml';
-    $this->testsDir = $this->getConfigValue('repo.root') . '/tests/phpunit';
+    $this->testsDir = $this->getConfigValue('project.root') . '/tests/phpunit';
     $this->phpunitConfig = $this->getConfigValue('phpunit');
   }
 
