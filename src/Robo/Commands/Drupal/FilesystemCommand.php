@@ -7,7 +7,7 @@ use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Finder\Finder;
 
 /**
- * Defines commands in the "drupal:filesystem:protect-site" namespace.
+ * Defines commands in the "drupal:filesystem:*" namespace.
  *
  * @package Lucacracco\RoboDrupal8\Robo\Commands\Drupal
  */
@@ -78,7 +78,6 @@ class FilesystemCommand extends RoboDrupal8Tasks {
       throw new \Exception("Unable to delete files and folders: " . $result->getMessage());
     }
     $this->say("Clear files and folder.");
-
   }
 
 }

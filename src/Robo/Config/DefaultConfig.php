@@ -53,10 +53,10 @@ class DefaultConfig extends RoboDrupal8Config {
     'drupal.locale' => 'en',
     'drupal.settings_file' => '${docroot}/sites/${site}/default.settings.php',
     'drupal.services_file' => '${docroot}/sites/${site}/default.services.yml',
-    'drupal.local_settings_file' => '',
+    'drupal.local_settings_file' => '${docroot}/sites/example.settings.local.php',
     'drupal.url' => 'http://${drupal.site.machine_name}.${project.machine_name}',
     //    'drupal.root' => 'web',
-    'drupal.config_directories.sync' => '${project.root}/config/${drupal.site.machine_name}/sync',
+    'drupal.config_directories.sync' => '${project.root}/config/sync',
     // Database connection.
     'drupal.databases.default.default.database' => 'databasename',
     'drupal.databases.default.default.username' => 'sqlusername',

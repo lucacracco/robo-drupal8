@@ -35,6 +35,7 @@ class InstallCommand extends RoboDrupal8Tasks {
    * @interactDrupalIsAlreadyInstalled
    *
    * @validateDocrootIsPresent
+   * @validateDrupalConfigurationDirectorySync
    */
   public function drupalInstallFromConfig() {
     $this->installWithConfig()->detectInteractive()->run();
@@ -49,6 +50,7 @@ class InstallCommand extends RoboDrupal8Tasks {
    * @interactDrupalIsAlreadyInstalled
    *
    * @validateDocrootIsPresent
+   * @validateDrupalConfigurationDirectorySync
    */
   public function drupalInstallWithConfigInstaller() {
     $this->installWithConfigInstaller()->detectInteractive()->run();
@@ -84,16 +86,22 @@ class InstallCommand extends RoboDrupal8Tasks {
    * Get base install TaskCommand.
    *
    * @return \Lucacracco\RoboDrupal8\Robo\Tasks\DrushTask
+   *
+   * @throws \Exception
    */
   protected function install($profile = '') {
 
     $username = $this->getConfigValue('drupal.account.username', 'admin');
     $password = $this->getConfigValue('drupal.account.password', 'admin');
     $mail = $this->getConfigValue('drupal.account.mail', 'admin@localhost');
-
     $profile = empty($profile) ? $this->getConfigValue('drupal.site.profile', 'minimal') : $profile;
+    $database_config = $this->getConfigValue('drupal.databases.default.default', NULL);
 
-    $db_url = MySqlConnection::convertDatabaseFromDatabaseArray($this->getConfigValue('drupal.database'));
+    if (empty($database_config)) {
+      throw new \Exception("Database configuration is missing.");
+    }
+
+    $db_url = MySqlConnection::convertDatabaseFromDatabaseArray($database_config);
 
     /** @var \Lucacracco\RoboDrupal8\Robo\Tasks\DrushTask $task */
     $task = $this->taskDrush()

@@ -6,6 +6,7 @@ use function file_exists;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use Lucacracco\RoboDrupal8\Robo\Common\Executor;
+use Lucacracco\RoboDrupal8\Robo\Common\MySqlConnection;
 use Lucacracco\RoboDrupal8\Robo\Config\ConfigAwareTrait;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -247,8 +248,16 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    */
   public function getMySqlAvailable() {
     $this->logger->debug("Verifying that MySQL is available...");
+    $database_config = $this->getConfigValue('drupal.databases.default.default', NULL);
+    if (empty($database_config)) {
+      return FALSE;
+    }
+    $db_url = MySqlConnection::convertDatabaseFromDatabaseArray($database_config);
+
+    // TODO: convert use mysql-cli?
+
     /** @var \Robo\Result $result */
-    $result = $this->executor->drush("sqlq \"SHOW DATABASES\"")
+    $result = $this->executor->execute("drush sqlq \"SHOW DATABASES\" --db-url=$db_url")
       ->run();
 
     return $result->wasSuccessful();
@@ -352,7 +361,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
 
   /**
    * Determines if Drupal is installed.
-   *
+   *${drupal.site.machine_name}
    * This method does not cache its result.
    *
    * @return bool
@@ -360,7 +369,9 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    */
   protected function getDrupalInstalled() {
     $this->logger->debug("Verifying that Drupal is installed...");
-    $result = $this->executor->drush("sqlq \"SHOW TABLES LIKE 'config'\"")
+
+    // TODO: convert to use drush.
+    $result = $this->executor->execute("drush sqlq \"SHOW TABLES LIKE 'config'\"")
       ->run();
     $output = trim($result->getMessage());
     $installed = $result->wasSuccessful() && $output == 'config';

@@ -70,14 +70,14 @@ class MySqlConnection {
   }
 
   /**
-   * Convert dataase from database array.
+   * Convert database from database array.
    *
    * @param array $database_info
    *
    * @return string
    */
   public static function convertDatabaseFromDatabaseArray($database_info) {
-    return $database_info['driver'] . '://' . $database_info['user'] . ':' . $database_info['pass'] . '@' . $database_info['host'] . ':' . $database_info['port'] . '/' . $database_info['database'];
+    return $database_info['driver'] . '://' . $database_info['username'] . ':' . $database_info['password'] . '@' . $database_info['host'] . ':' . $database_info['port'] . '/' . $database_info['database'];
   }
 
 }
