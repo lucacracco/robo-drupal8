@@ -94,11 +94,12 @@ class ConfigInitializer {
     $this->loadProjectConfig();
     $this->loadSiteConfig();
     $this->loadEnvironmentConfig();
-
     return $this;
   }
 
   /**
+   * Load default configuration from RoboDrupal8.
+   *
    * @return $this
    */
   public function loadDefaultConfig() {
@@ -107,26 +108,29 @@ class ConfigInitializer {
   }
 
   /**
+   * Load project configurations.
+   *
    * @return $this
    */
   public function loadProjectConfig() {
-    $this->processor->extend($this->loader->load($this->config->get('project.root') . '/robo-drupal8/_project.yml'));
+    $this->processor->extend($this->loader->load("{$this->config->get('project.root')}/rd8.project.yml"));
+    $this->processor->extend($this->loader->load("{$this->config->get('project.root')}/rd8.{$this->site}.yml"));
     return $this;
   }
 
   /**
+   * Load site configurations.
    *
    * @return $this
    */
   public function loadSiteConfig() {
-    if ($this->site) {
-      $this->processor->extend($this->loader->load($this->config->get('project.root') . '/robo-drupal8/config/sites/' . $this->site . '.yml'));
-      $this->processor->extend($this->loader->load($this->config->get('docroot') . '/sites/' . $this->site . '/' . $this->site . '.yml'));
-    }
+    $this->processor->extend($this->loader->load("{$this->config->get('docroot')}/sites/{$this->site}/rd8.{$this->site}.yml"));
     return $this;
   }
 
   /**
+   * Load environment configurations.
+   *
    * TODO: how load environment settings?.
    *
    * @return $this
@@ -139,26 +143,28 @@ class ConfigInitializer {
 
     // Default environment configuration.
     $environment = $this->input->hasParameterOption('environment');
-    $this->processor->extend($this->loader->load($this->config->get('project.root') . '/robo-drupal8/' . $environment . '.yml'));
+    $this->processor->extend($this->loader->load("{$this->config->get('project.root')}/rd8.{$this->site}.{$environment}.yml"));
 
     // Custom environment configuration based to site.
-    if ($this->site) {
-      $this->processor->extend($this->loader->load($this->config->get('project.root') . '/robo-drupal8/config/sites/' . $this->site . '.' . $environment . '.yml'));
-      $this->processor->extend($this->loader->load($this->config->get('docroot') . '/sites/' . $this->site . '/' . $this->site . '.' . $environment . '.yml'));
-    }
+    $this->processor->extend($this->loader->load("{$this->config->get('docroot')}/sites/{$this->site}/rd8.{$this->site}.{$environment}.yml"));
     return $this;
   }
 
   /**
+   * Process configuration files.
+   *
    * @return $this
    */
   public function processConfigFiles() {
-    $this->config->import($this->processor->export());
+    $this->config->replace($this->processor->export());
     $this->config->populateHelperConfig();
+    $this->config->get('project.human_name');
     return $this;
   }
 
   /**
+   * Return the default site target.
+   *
    * @return mixed|string
    */
   protected function getDefaultSite() {

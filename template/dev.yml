@@ -1,6 +1,0 @@
-# Use this file for override configuration for environment "dev".
-
-# Example for Drush.
-
-#drush:
-#  bin: drush

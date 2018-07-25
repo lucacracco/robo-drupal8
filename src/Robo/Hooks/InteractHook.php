@@ -53,26 +53,6 @@ class InteractHook extends RoboDrupal8Tasks {
   }
 
   /**
-   * Runs wizard for MySQL connection config.
-   *
-   * @hook interact @interactMySqlConnection
-   */
-  public function interactMySqlConnection(InputInterface $input, OutputInterface $output, AnnotationData $annotationData) {
-    /** @var \Lucacracco\RoboDrupal8\Robo\Wizards\SetupWizard $setup_wizard */
-    $setup_wizard = $this->getContainer()->get(SetupWizard::class);
-    $update_config = $setup_wizard->wizardMySqlConnection();
-
-    if ($update_config && $this->confirm("Save the config?")) {
-      $this->invokeCommand(
-        'config:save',
-        [
-          'file_path' => $this->getConfigValue('project.root') . DIRECTORY_SEPARATOR . 'robo-drupal8' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'sites' . DIRECTORY_SEPARATOR . $this->getConfigValue('site') . '.yml',
-        ]
-      );
-    }
-  }
-
-  /**
    * Prompts user to confirm command.
    *
    * @hook interact @interactConfirmCommand

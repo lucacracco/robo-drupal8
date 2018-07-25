@@ -4,14 +4,14 @@ namespace Lucacracco\RoboDrupal8\Robo\Tasks;
 
 use Robo\Exception\TaskException;
 use Robo\Task\CommandStack;
-use Robo\Contract\VerbosityThresholdInterface;
 use Robo\Common\CommandArguments;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class DrushTask.
+ * Runs Drush commands in stack.
  *
- * Runs Drush commands in stack. You can use `stopOnFail()` to point that stack
- * should be terminated on first fail.
+ * You can use `stopOnFail()` to point that stack should be terminated on
+ * first fail.
  *
  * ``` php
  * $this->taskDrush()
@@ -105,8 +105,6 @@ class DrushTask extends CommandStack {
    *   The drush command to execute. Do NOT include "drush" prefix.
    *
    * @return $this
-   *
-   * @throws \Robo\Exception\TaskException
    */
   public function drush($command) {
     // Clear out options associated with previous drush command.
@@ -341,31 +339,34 @@ class DrushTask extends CommandStack {
     if ($this->verbose !== FALSE) {
       $verbosity_threshold = $this->verbosityThreshold();
       switch ($verbosity_threshold) {
-        case VerbosityThresholdInterface::VERBOSITY_VERBOSE:
+        case OutputInterface::VERBOSITY_VERBOSE:
           $this->verbose(TRUE);
           break;
 
-        case VerbosityThresholdInterface::VERBOSITY_VERY_VERBOSE:
+        case OutputInterface::VERBOSITY_VERY_VERBOSE:
           $this->veryVerbose(TRUE);
           break;
 
-        case VerbosityThresholdInterface::VERBOSITY_DEBUG:
+        case OutputInterface::VERBOSITY_DEBUG:
           $this->debug(TRUE);
           break;
       }
     }
-    if ($this->verbosityThreshold() >= VerbosityThresholdInterface::VERBOSITY_VERBOSE
+    if ($this->verbosityThreshold() >= OutputInterface::VERBOSITY_VERBOSE
       && $this->verbose !== FALSE) {
       $this->verbose(TRUE);
     }
 
-    if ($this->debug) {
+    if (($this->debug || $this->getConfig()->get('drush.debug'))
+      && $this->getConfig()->get('drush.debug') !== FALSE) {
       $this->option('-vvv');
     }
-    elseif ($this->veryVerbose) {
+    elseif (($this->veryVerbose || $this->getConfig()->get('drush.veryVerbose'))
+      && $this->getConfig()->get('drush.veryVerbose') !== FALSE) {
       $this->option('-vv');
     }
-    elseif ($this->verbose) {
+    elseif (($this->verbose || $this->getConfig()->get('drush.verbose'))
+      && $this->getConfig()->get('drush.verbose') !== FALSE) {
       $this->option('-v');
     }
 

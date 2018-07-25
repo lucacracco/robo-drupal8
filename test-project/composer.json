@@ -1,36 +1,64 @@
 {
-  "name": "lucacracco/robodrupal8-project",
-  "description": "Example project used to create new projects with RD8.",
+  "name": "lucacracco/robodrupal8-test-project",
+  "description": "Project test for Drupal 8 Robo",
   "type": "project",
-  "license": "GPL-2.0",
-  "repositories": {
-    "robo-drupal8": {
+  "license": "GPL-2.0-or-later",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packages.drupal.org/8"
+    },
+    {
       "type": "path",
       "url": "../robo-drupal8",
       "options": {
         "symlink": true
       }
     }
-  },
-  "minimum-stability": "dev",
+  ],
   "require": {
-    "lucacracco/robo-drupal8": "*@dev",
+    "composer/installers": "^1.2",
+    "cweagans/composer-patches": "^1.6",
+    "drupal-composer/drupal-scaffold": "^2.5",
+    "drupal/console": "^1.0.2",
+    "drupal/core": "~8.5.3",
+    "drush/drush": "^9.0.0",
+    "vlucas/phpdotenv": "^2.4",
+    "webflo/drupal-finder": "^1.0.0",
+    "webmozart/path-util": "^2.3",
+    "lucacracco/robo-drupal8": "@dev",
     "wikimedia/composer-merge-plugin": "^1.4"
   },
+  "conflict": {
+    "drupal/drupal": "*"
+  },
+  "minimum-stability": "dev",
+  "config": {
+    "sort-packages": true
+  },
+  "autoload": {
+    "classmap": [
+      "scripts/composer/ScriptHandler.php"
+    ],
+    "files": [
+      "load.environment.php"
+    ]
+  },
+  "scripts": {
+    "pre-install-cmd": [
+      "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
+    ],
+    "pre-update-cmd": [
+      "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
+    ],
+    "post-install-cmd": [
+      "DrupalProject\\composer\\ScriptHandler::createRequiredFiles"
+    ],
+    "post-update-cmd": [
+      "DrupalProject\\composer\\ScriptHandler::createRequiredFiles"
+    ]
+  },
   "extra": {
-    "merge-plugin": {
-      "require": [
-        "../robo-drupal8/composer.required.json",
-        "../robo-drupal8/composer.suggested.json"
-      ],
-      "include": [
-        "../robo-drupal8/composer.overrides.json"
-      ],
-      "merge-extra": true,
-      "merge-extra-deep": true,
-      "merge-scripts": true,
-      "replace": true
-    },
     "installer-paths": {
       "web/core": [
         "type:drupal-core"
@@ -47,9 +75,29 @@
       "web/themes/contrib/{$name}": [
         "type:drupal-theme"
       ],
-      "drush/contrib/{$name}": [
+      "drush/Commands/{$name}": [
         "type:drupal-drush"
       ]
+    },
+    "drupal-scaffold": {
+      "initial": {
+        ".editorconfig": "../.editorconfig",
+        ".gitattributes": "../.gitattributes"
+      }
+    },
+    "merge-plugin": {
+      "require": [
+        "../robo-drupal8/composer.required.json",
+        "../robo-drupal8/composer.suggested.json"
+      ],
+      "include": [
+        "../robo-drupal8/composer.overrides.json"
+      ],
+      "merge-extra": true,
+      "merge-extra-deep": true,
+      "merge-scripts": true,
+      "replace": false,
+      "ignore-duplicates": true
     }
   }
 }

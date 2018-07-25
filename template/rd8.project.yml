@@ -14,14 +14,6 @@ composer:
 # Override File and Directory locations.
 docroot: ${repo.root}/docroot
 
-# Drush.
-drush:
-  aliases:
-    local: ""
-  default_alias: ${drush.aliases.local}
-
-# TODO: Drupal console.
-
 # Git.
 git:
   commit-msg:

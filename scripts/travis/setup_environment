@@ -3,7 +3,7 @@
 set -ev
 
 # Allow MySQL to finish starting.
-sleep 3
+sleep 5
 
 export PATH=${COMPOSER_BIN}:$PATH
 

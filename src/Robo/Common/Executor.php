@@ -3,6 +3,7 @@
 namespace Lucacracco\RoboDrupal8\Robo\Common;
 
 use Lucacracco\RoboDrupal8\Robo\Config\ConfigAwareTrait;
+use GuzzleHttp\Client;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Robo\Collection\CollectionBuilder;
@@ -25,6 +26,8 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   use LoggerAwareTrait;
 
   /**
+   * A copy of the Robo builder.
+   *
    * @var \Robo\Collection\CollectionBuilder|\Lucacracco\RoboDrupal8\Robo\RoboDrupal8Tasks
    */
   protected $builder;
@@ -33,6 +36,8 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
    * Executor constructor.
    *
    * @param \Robo\Collection\CollectionBuilder $builder
+   *   This is a copy of the collection builder, required for calling various
+   *   Robo tasks from non-command files.
    */
   public function __construct(CollectionBuilder $builder) {
     $this->builder = $builder;
@@ -41,7 +46,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   /**
    * Returns $this->builder.
    *
-   * @return \Robo\Collection\CollectionBuilder|\Lucacracco\RoboDrupal8\Robo\RoboDrupal8Tasks
+   * @return \Lucacracco\RoboDrupal8\Robo\RoboDrupal8Tasks
    *   The builder.
    */
   public function getBuilder() {
@@ -75,14 +80,16 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
     $bin = $this->getConfigValue('composer.bin');
     /** @var \Robo\Common\ProcessExecutor $process_executor */
     $drush_alias = $this->getConfigValue('drush.alias');
-    if (!empty($drush_alias)) {
-      $drush_alias = "@$drush_alias";
-    }
-
-    $command_string = "'$bin/drush' $drush_alias $command";
+    $command_string = "'$bin/drush' @$drush_alias $command";
 
     if ($this->input()->hasOption('yes') && $this->input()->getOption('yes')) {
       $command_string .= ' -y';
+    }
+
+    // URIs do not work on remote drush aliases in Drush 9. Instead, it is
+    // expected that the alias define the uri in its configuration.
+    if ($drush_alias != 'self') {
+      $command_string .= ' --uri=' . $this->getConfigValue('site');
     }
 
     $process_executor = Robo::process(new Process($command_string));

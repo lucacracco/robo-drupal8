@@ -4,14 +4,15 @@
  * Execute RD8 commands via Robo.
  */
 
+// Start Timer.
+$timer = new \Robo\Common\TimeKeeper();
+$timer->start();
+
 // Initialize input and output.
 $input = new \Symfony\Component\Console\Input\ArgvInput($_SERVER['argv']);
 $output = new \Symfony\Component\Console\Output\ConsoleOutput();
 
-
-// Start Timer.
-$timer = new \Robo\Common\TimeKeeper();
-$timer->start();
+// Print start datetime.
 $output->writeln("<comment>Start: " . date("j F Y - g:i a") . "</comment>");
 
 // Initialize configuration.

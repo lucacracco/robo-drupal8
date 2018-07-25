@@ -1,6 +1,6 @@
 {
   "require": {
-    "drupal/devel": "^1.2",
+    "drupal/devel": "^1.0",
     "drupal/qa_accounts": "^1.0.0-alpha1",
     "drupal/seckit": "^1.0.0-alpha2",
     "drupal/security_review": "^1.3",

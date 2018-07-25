@@ -17,7 +17,7 @@ class DefaultConfig extends RoboDrupal8Config {
    *
    * @var array
    */
-  protected $default = [
+  protected $rd8_default_values = [
     // Project
     'project.root' => '.',
     'project.machine_name' => 'rd8',
@@ -58,16 +58,14 @@ class DefaultConfig extends RoboDrupal8Config {
     //    'drupal.root' => 'web',
     'drupal.config_directories.sync' => '${project.root}/config/${drupal.site.machine_name}/sync',
     // Database connection.
-    'drupal.database.scheme' => NULL,
-    'drupal.database.user' => NULL,
-    'drupal.database.pass' => NULL,
-    'drupal.database.host' => NULL,
-    'drupal.database.port' => NULL,
-    'drupal.database.path' => NULL,
-    'drupal.database.prefix' => '',
-    'drupal.database.namespace' => '',
-    'drupal.database.driver' => 'mysql',
-    'drupal.database.database' => NULL,
+    'drupal.databases.default.default.database' => 'databasename',
+    'drupal.databases.default.default.username' => 'sqlusername',
+    'drupal.databases.default.default.password' => 'sqlpassword',
+    'drupal.databases.default.default.host' => 'localhost',
+    'drupal.databases.default.default.port' => '3306',
+    'drupal.databases.default.default.driver' => 'mysql',
+    'drupal.databases.default.default.prefix' => '',
+    'drupal.databases.default.default.collation' => 'utf8mb4_general_ci',
     'drupal.database.dir_export' => '${project.root}/export-database/${drupal.site.machine_name}',
     // PHPCs.
     'phpcs.bin' => '',
@@ -86,12 +84,14 @@ class DefaultConfig extends RoboDrupal8Config {
    */
   public function __construct($project_root) {
     parent::__construct();
+
     $this->initDefaultConfigs();
+
     $drupalFinder = new DrupalFinder();
     $drupalFinder->locateRoot($project_root);
     $this->set('project.root', $project_root);
     $this->set('docroot', $drupalFinder->getDrupalRoot());
-    $this->set('rd8.root', $this->getRd8Root());
+    $this->set('rd8.root', $drupalFinder->getVendorDir() . "/lucacracco/robo-drupal8");
     $this->set('composer.bin', $drupalFinder->getVendorDir() . '/bin');
   }
 
@@ -112,32 +112,10 @@ class DefaultConfig extends RoboDrupal8Config {
    * @param $site
    */
   public function setSite($site) {
-    $this->config->set('site', $site);
+    $this->set('site', $site);
     if (!$this->get('drush.uri')) {
       $this->set('drush.uri', $site);
     }
-  }
-
-  /**
-   * Gets the RD8 root directory. E.g., /vendor/lucacracco/robo-drupal8.
-   *
-   * @return string
-   *   THe filepath for the Drupal docroot.
-   *
-   * @throws \Exception
-   */
-  protected function getRd8Root() {
-    $possible_rd8_roots = [
-      dirname(dirname(dirname(dirname(__FILE__)))),
-      dirname(dirname(dirname(__FILE__))),
-    ];
-    foreach ($possible_rd8_roots as $possible_rd8_root) {
-      if (file_exists("$possible_rd8_root/template")) {
-        return $possible_rd8_root;
-      }
-    }
-
-    throw new \Exception('Could not find the Drupal docroot directory');
   }
 
   /**
@@ -173,7 +151,7 @@ class DefaultConfig extends RoboDrupal8Config {
    * Init configurations.
    */
   protected function initDefaultConfigs() {
-    foreach ($this->default as $key => $value) {
+    foreach ($this->rd8_default_values as $key => $value) {
       $this->set($key, $value);
     }
   }

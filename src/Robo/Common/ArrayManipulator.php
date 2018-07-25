@@ -65,7 +65,7 @@ class ArrayManipulator {
   /**
    * Flattens a multidimensional array to a flat array with dot-notated keys.
    *
-   * This is the inverse of expandFromDotNotatedKeys(). E.g.,
+   * This is the inverse of expandFromDotNotatedKeys(), e.g.,
    * ['drush' => ['alias' => 'self']] would be flattened to
    * [drush.alias => 'self'].
    *
@@ -82,7 +82,7 @@ class ArrayManipulator {
   /**
    * Flattens a multidimensional array to a flat array, using custom glue.
    *
-   * This is the inverse of expandFromDotNotatedKeys(). E.g.,
+   * This is the inverse of expandFromDotNotatedKeys(), e.g.,
    * ['drush' => ['alias' => 'self']] would be flattened to
    * [drush.alias => 'self'].
    *
@@ -121,11 +121,17 @@ class ArrayManipulator {
    */
   public static function convertArrayToFlatTextArray(array $array) {
     $rows = [];
-    $max_line_length = 80;
+    $max_line_length = 60;
     foreach ($array as $key => $value) {
       if (is_array($value)) {
         $flattened_array = self::flattenToDotNotatedKeys($value);
         foreach ($flattened_array as $sub_key => $sub_value) {
+          if ($sub_value === TRUE) {
+            $sub_value = 'true';
+          }
+          elseif ($sub_value === FALSE) {
+            $sub_value = 'false';
+          }
           $rows[] = [
             "$key.$sub_key",
             wordwrap($sub_value, $max_line_length, "\n", TRUE),

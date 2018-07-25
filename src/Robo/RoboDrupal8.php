@@ -28,6 +28,9 @@ use Robo\Runner as RoboRunner;
  */
 class RoboDrupal8 implements ContainerAwareInterface, LoggerAwareInterface {
 
+  /**
+   * Version of RoboDrupal8.
+   */
   const VERSION = '2.x';
 
   use ConfigAwareTrait;

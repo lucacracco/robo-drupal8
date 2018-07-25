@@ -17,9 +17,9 @@ class InstallCommand extends RoboDrupal8Tasks {
    *
    * @command drupal:install-scratch
    *
-   * @interactMySqlConnection
    * @interactDrupalIsAlreadyInstalled
    *
+   * @validateMySqlAvailable
    * @validateDocrootIsPresent
    */
   public function drupalInstallScratch() {
@@ -32,7 +32,6 @@ class InstallCommand extends RoboDrupal8Tasks {
    *
    * @command drupal:install-from-config
    *
-   * @interactMySqlConnection
    * @interactDrupalIsAlreadyInstalled
    *
    * @validateDocrootIsPresent
@@ -47,7 +46,6 @@ class InstallCommand extends RoboDrupal8Tasks {
    *
    * @command drupal:install-from-config-installer
    *
-   * @interactMySqlConnection
    * @interactDrupalIsAlreadyInstalled
    *
    * @validateDocrootIsPresent

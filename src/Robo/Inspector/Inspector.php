@@ -255,7 +255,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   }
 
   /**
-   * Checks to see if RD( alias is installed on CLI.
+   * Checks to see if RD8 alias is installed on CLI.
    *
    * @return bool
    *   TRUE if RD8 alias is installed.
@@ -334,17 +334,6 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   }
 
   /**
-   * Throws an exception if the minimum PHP version is not met.
-   */
-  public function warnIfPhpOutdated() {
-    $minimum_php_version = 5.6;
-    $current_php_version = phpversion();
-    if ($current_php_version < $minimum_php_version) {
-      throw new \Exception("Robo-Drupal8 requires PHP $minimum_php_version or greater. You are using $current_php_version.");
-    }
-  }
-
-  /**
    * Determines if the active config is identical to sync directory.
    *
    * @return bool
@@ -377,16 +366,6 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
     $installed = $result->wasSuccessful() && $output == 'config';
 
     return $installed;
-  }
-
-  /**
-   * Warns the user if the xDebug extension is loaded.
-   */
-  protected function warnIfXdebugLoaded() {
-    $xdebug_loaded = extension_loaded('xdebug');
-    if ($xdebug_loaded) {
-      $this->logger->warning("The xDebug extension is loaded. This will significantly decrease performance.");
-    }
   }
 
 }

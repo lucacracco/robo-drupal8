@@ -1,0 +1,18 @@
+# Use this file for override configuration for site default.
+
+# Drupal info.
+drupal:
+  site_name: Test project
+  account:
+    mail: admin@localhost
+    username: admin
+    password: admin
+  databases:
+    default:
+      default:
+        database: drupal
+        username: drupal
+        password: drupal
+        host: mariadb
+        port: 3306
+        driver: mysql

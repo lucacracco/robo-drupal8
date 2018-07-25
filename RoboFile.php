@@ -12,7 +12,7 @@ class RoboFile extends \Robo\Tasks implements \Psr\Log\LoggerAwareInterface {
   /**
    * Directory used for test.
    */
-  const RD8_TEST_DIR = 'tests/build';
+  const RD8_TEST_DIR = '../tests/rd8';
 
   /**
    * Template project dir.
@@ -55,27 +55,30 @@ class RoboFile extends \Robo\Tasks implements \Psr\Log\LoggerAwareInterface {
     $test_project_dir = $this->rd8Root . "/" . $options['project-dir'];
     $this->prepareTestProjectDir($test_project_dir);
 
-    // Create project test.
-    $this->taskExecStack()
-      ->dir($test_project_dir)
-      ->exec("COMPOSER_PROCESS_TIMEOUT=2000 composer create-project drupal-composer/drupal-project:8.x-dev " . self::RD8_TEST_DIR . " --no-interaction")
+    // Clone directory test.
+    $this->taskFilesystemStack()
+      ->mkdir($test_project_dir)
+      ->mirror($this->rd8Root . "/" . self::RD8_TPL_TEST_DIR, $test_project_dir)
       ->run();
 
-    $this->taskExecStack()
-      ->dir($test_project_dir)
-      ->exec("composer config repositories.lucacracco/robo-drupal8 '{\"type\": \"path\",\"url\": \"{$this->rd8Root}\",\"options\": {\"symlink\": true}}'")
+    // Replace in composer.json test the relative path to absolute.
+    $this->taskReplaceInFile($test_project_dir . "/composer.json")
+      ->from("../robo-drupal8")
+      ->to($this->rd8Root)
       ->run();
 
-    $this->taskExecStack()
-      ->dir($test_project_dir)
-      ->exec("composer require lucacracco/robo-drupal8:dev-2.x-dev")
-      ->run();
-
-    // Run composer install after clear vendor directory.
+    // Run composer install.
     $this->taskExecStack()
       ->dir($test_project_dir)
       ->exec("rm -rf $test_project_dir/vendor")
       ->exec("composer install --prefer-dist")
+      ->run();
+
+    // Re-install library for secure use symlink.
+    $this->taskExecStack()
+      ->dir($test_project_dir)
+      ->exec("rm -rf $test_project_dir/vendor/lucacracco")
+      ->exec("composer install")
       ->run();
   }
 
