@@ -18,7 +18,7 @@
   ],
   "require": {
     "composer/installers": "^1.2",
-    "cweagans/composer-patches": "^1.6",
+    "cweagans/composer-patches": "^1.6.5",
     "drupal-composer/drupal-scaffold": "^2.5",
     "drupal/console": "^1.0.2",
     "drupal/core": "~8.5.3",
@@ -29,10 +29,14 @@
     "lucacracco/robo-drupal8": "@dev",
     "wikimedia/composer-merge-plugin": "^1.4"
   },
+  "require-dev": {
+    "webflo/drupal-core-require-dev": "~8.5.3"
+  },
   "conflict": {
     "drupal/drupal": "*"
   },
   "minimum-stability": "dev",
+  "prefer-stable": true,
   "config": {
     "sort-packages": true
   },
@@ -59,6 +63,9 @@
     ]
   },
   "extra": {
+    "patchLevel": {
+      "drupal/core": "-p2"
+    },
     "installer-paths": {
       "web/core": [
         "type:drupal-core"

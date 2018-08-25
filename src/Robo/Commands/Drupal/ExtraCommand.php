@@ -14,7 +14,7 @@ class ExtraCommand extends RoboDrupal8Tasks {
   /**
    * Display one-time login url.
    *
-   * @command drupal:extra:login-one-time-url
+   * @command drupal:login-one-time-url
    *
    * @option name A user name to log in as. If not provided, defaults to uid=1.
    *
@@ -34,7 +34,7 @@ class ExtraCommand extends RoboDrupal8Tasks {
    *
    * @param bool $active
    *
-   * @command drupal:extra:maintenance-mode
+   * @command drupal:maintenance-mode
    *
    * @validateDrupalIsInstalled
    *

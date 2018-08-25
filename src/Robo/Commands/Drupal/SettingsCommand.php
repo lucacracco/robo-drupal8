@@ -26,7 +26,7 @@ class SettingsCommand extends RoboDrupal8Tasks {
   }
 
   /**
-   * Generates default settings files for Drupal and drush.
+   * Generates default settings files for Drupal.
    *
    * @command drupal:settings:generate
    */
@@ -36,6 +36,42 @@ class SettingsCommand extends RoboDrupal8Tasks {
     $copy_map = [];
     $sites_dir = $this->getConfigValue('docroot') . DIRECTORY_SEPARATOR . 'sites';
     $site_dir = $sites_dir . DIRECTORY_SEPARATOR . $this->getConfigValue('site');
+
+    // TODO: complete implementation for use twig engine.
+    //    // Load filesSystemStack.
+    //    $task_copy_files = $this->taskFilesystemStack()
+    //      ->stopOnFail()
+    //      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+    //      ->chmod($site_dir, 0777);
+    //
+    //    // Load
+    //    $task_create_files =  $this->collectionBuilder();
+    //
+    //    foreach(['default.settings', 'default.services', 'example.settings.local'] as $template){
+    //
+    //      if(!$this->getConfigValueIfNotEmpty($template, FALSE)){
+    //
+    //        // Template not defined, use the default tempalte.
+    //        $to = "";
+    //        if (file_exists($to)) {
+    //          $task_copy_files->remove($to);
+    //        }
+    //        $from = $site_dir . DIRECTORY_SEPARATOR . "{$template}.php";
+    //        $task_copy_files->copy($from, $to);
+    //        continue;
+    //      }
+    //
+    //      $template_file = $this->getConfigValueIfNotEmpty($template);
+    //      $templates_folder = $template_file;
+    //      $template_name = $template_file;
+    //      $twig_loader = new \Twig_Loader_Filesystem($templates_folder);
+    //      $twig = new \Twig_Environment($twig_loader);
+    //      $file_rendered = $twig->render($template_name, $this->getConfig()->export());
+    //      $task_create_files->taskWriteToFile($template_file)
+    //        ->text($file_rendered);
+    //    }
+
+    // TODO: remove after implementation use of twig engine.
 
     // Generate settings.php.
     $settings_template_default = $site_dir . DIRECTORY_SEPARATOR . 'default.settings.php';

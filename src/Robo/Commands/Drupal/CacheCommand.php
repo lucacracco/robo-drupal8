@@ -12,14 +12,14 @@ use Lucacracco\RoboDrupal8\Robo\RoboDrupal8Tasks;
 class CacheCommand extends RoboDrupal8Tasks {
 
   /**
-   * Clear cache of drupal.
+   * Cache rebuild of drupal.
    *
    * @command drupal:cache:rebuild
    * @aliases dcc
    *
    * @validateDrupalIsInstalled
    */
-  public function clear() {
+  public function cacheRebuild() {
     $this->taskDrush()
       ->drush('cache-rebuild')
       ->printOutput(TRUE)

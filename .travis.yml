@@ -22,6 +22,6 @@ install:
 
 scripts:
   - ${RD8_DIR}/vendor/bin/robo create:from-symlink
-  - cp ${RD8_DIR}/template/_travis.yml ${RD8_DIR}/../tests/rd8/rd8.default.yml
-  - ${RD8_DIR}/../tests/rd8/vendor/bin/rd8 setup:scratch
+  - cp ${RD8_DIR}/rd8/_travis.yml ${RD8_DIR}/../tests/rd8/rd8.default.yml
+  # - ${RD8_DIR}/../tests/rd8/vendor/bin/rd8 setup:scratch
   # TODO: Add other commands.

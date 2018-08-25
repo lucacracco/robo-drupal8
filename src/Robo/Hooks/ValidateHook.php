@@ -83,10 +83,7 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
    * @hook validate @validateDrupalIsInstalled
    */
   public function validateDrupalIsInstalled(CommandData $commandData) {
-    if (!$this->getInspector()
-      ->isDrupalInstalled()
-    ) {
-
+    if (!$this->getInspector()->isDrupalInstalled()) {
       throw new \Exception("Drupal is not installed");
     }
   }

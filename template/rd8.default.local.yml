@@ -1,5 +1,0 @@
-# Use this file for override configuration for environment "local".
-
-# Drupal info.
-drupal:
-  site_name: Test local project

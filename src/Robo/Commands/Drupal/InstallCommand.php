@@ -61,6 +61,8 @@ class InstallCommand extends RoboDrupal8Tasks {
    * Installs Drupal and imports configuration.
    *
    * @return \Lucacracco\RoboDrupal8\Robo\Tasks\DrushTask
+   *
+   * @throws \Exception
    */
   protected function installWithConfig() {
     $task = $this->install();
@@ -73,6 +75,8 @@ class InstallCommand extends RoboDrupal8Tasks {
    * Installs Drupal and imports configuration with config_installer.
    *
    * @return \Lucacracco\RoboDrupal8\Robo\Tasks\DrushTask
+   *
+   * @throws \Exception
    */
   protected function installWithConfigInstaller() {
     $task = $this->install('config_installer');

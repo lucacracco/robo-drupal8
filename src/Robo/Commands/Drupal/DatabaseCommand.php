@@ -50,6 +50,8 @@ class DatabaseCommand extends RoboDrupal8Tasks {
   /**
    * Export database.
    *
+   * TODO: add gzip dump.
+   *
    * @option directory Where to save the dump file.
    *
    * @command drupal:database:export
