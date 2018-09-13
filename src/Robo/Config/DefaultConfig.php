@@ -152,7 +152,7 @@ class DefaultConfig extends RoboDrupal8Config {
    */
   protected function initDefaultConfigs() {
     foreach ($this->rd8_default_values as $key => $value) {
-      $this->set($key, $value);
+      $this->setDefault($key, $value);
     }
   }
 

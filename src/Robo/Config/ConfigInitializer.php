@@ -158,7 +158,6 @@ class ConfigInitializer {
   public function processConfigFiles() {
     $this->config->replace($this->processor->export());
     $this->config->populateHelperConfig();
-    $this->config->get('project.human_name');
     return $this;
   }
 

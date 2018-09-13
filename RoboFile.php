@@ -75,11 +75,11 @@ class RoboFile extends \Robo\Tasks implements \Psr\Log\LoggerAwareInterface {
       ->run();
 
     // Re-install library for secure use symlink.
-    $this->taskExecStack()
-      ->dir($test_project_dir)
-      ->exec("rm -rf $test_project_dir/vendor/lucacracco")
-      ->exec("composer install")
-      ->run();
+    //$this->taskExecStack()
+    //  ->dir($test_project_dir)
+    //  ->exec("rm -rf $test_project_dir/vendor/lucacracco")
+    //  ->exec("composer install")
+    //  ->run();
   }
 
   /**
