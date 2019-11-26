@@ -17,10 +17,11 @@ class FilesystemCommand extends RoboDrupal8Tasks {
    * Set correct permissions for files and folders in docroot/sites/*.
    *
    * @command drupal:filesystem:protect-site
+   * @hidden
    */
   public function protectSite() {
     $taskFilesystemStack = $this->taskFilesystemStack();
-    $multisite_dir = $this->getConfigValue('docroot') . '/sites/' . $this->getConfigValue('site');
+    $multisite_dir = $this->getConfigValue('project.docroot') . '/sites/' . $this->getConfigValue('site');
     $finder = new Finder();
     $dirs = $finder
       ->in($multisite_dir)
@@ -51,10 +52,11 @@ class FilesystemCommand extends RoboDrupal8Tasks {
    * Clear files and folders in ./sites/[site]/*.
    *
    * @command drupal:filesystem:clear
+   * @hidden
    */
   public function clearSite() {
     $taskFilesystemStack = $this->taskFilesystemStack();
-    $site_dir = $this->getConfigValue('docroot') . '/sites/' . $this->getConfigValue('site');
+    $site_dir = $this->getConfigValue('project.docroot') . '/sites/' . $this->getConfigValue('site');
 
     // Chmod all files.
     $task_remove_files = $taskFilesystemStack
@@ -78,6 +80,35 @@ class FilesystemCommand extends RoboDrupal8Tasks {
       throw new \Exception("Unable to delete files and folders: " . $result->getMessage());
     }
     $this->say("Clear files and folder.");
+  }
+
+  /**
+   * Create the folders used by site.
+   *
+   * TODO: complete
+   *
+   * @command drupal:filesystem:mkdirs
+   * @hidden
+   */
+  public function mkdirs() {
+    $taskFilesystemStack = $this->taskFilesystemStack();
+    $site_dir = $this->getConfigValue('project.docroot') . '/sites/' . $this->getConfigValue('site');
+
+    $map_dirs = [
+      // TODO:
+    ];
+
+    foreach ($map_dirs as $to_create) {
+      if (!file_exists($to_create)) {
+        $taskFilesystemStack->mkdir($to_create);
+      }
+    }
+    $result = $taskFilesystemStack->run();
+
+    if (!$result->wasSuccessful()) {
+      throw new \Exception("Unable to create folders: " . $result->getMessage());
+    }
+    $this->say("Create folders complete.");
   }
 
 }

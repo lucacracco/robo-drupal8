@@ -3,6 +3,7 @@
 namespace Lucacracco\RoboDrupal8\Robo\Config;
 
 use Consolidation\Config\Loader\YamlConfigLoader;
+use Robo\Common\IO;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
@@ -12,6 +13,8 @@ use Symfony\Component\Console\Output\ConsoleOutput;
  * @package Lucacracco\RoboDrupal8\Robo\Config
  */
 class ConfigInitializer {
+
+  use IO;
 
   /**
    * @var \Lucacracco\RoboDrupal8\Robo\Config\DefaultConfig
@@ -24,14 +27,14 @@ class ConfigInitializer {
   protected $input;
 
   /**
-   * @var \Symfony\Component\Console\Output\ConsoleOutput
-   */
-  protected $output;
-
-  /**
    * @var \Consolidation\Config\Loader\YamlConfigLoader
    */
   protected $loader;
+
+  /**
+   * @var \Symfony\Component\Console\Output\ConsoleOutput
+   */
+  protected $output;
 
   /**
    * @var \Lucacracco\RoboDrupal8\Robo\Config\YamlConfigProcessor
@@ -67,11 +70,16 @@ class ConfigInitializer {
    */
   public function initialize() {
     if (!$this->site) {
-      $site = $this->getDefaultSite();
+      $site = $this->determineSite();
       $this->setSite($site);
     }
+    $this->determineEnvironment();
     $this->loadConfigFiles();
     $this->processConfigFiles();
+
+    // Print debug information.
+    $this->io()
+      ->note("Site \"{$this->site}\"; Environment: \"{$this->environment}\"");
 
     return $this->config;
   }
@@ -93,7 +101,6 @@ class ConfigInitializer {
     $this->loadDefaultConfig();
     $this->loadProjectConfig();
     $this->loadSiteConfig();
-    $this->loadEnvironmentConfig();
     return $this;
   }
 
@@ -113,8 +120,8 @@ class ConfigInitializer {
    * @return $this
    */
   public function loadProjectConfig() {
-    $this->processor->extend($this->loader->load("{$this->config->get('project.root')}/rd8.project.yml"));
-    $this->processor->extend($this->loader->load("{$this->config->get('project.root')}/rd8.{$this->site}.yml"));
+    $this->processor->extend($this->loader->load("{$this->config->get('rd8.dir')}/rd8.project.yml"));
+    $this->processor->extend($this->loader->load("{$this->config->get('rd8.dir')}/rd8.project.{$this->environment}.yml"));
     return $this;
   }
 
@@ -124,29 +131,51 @@ class ConfigInitializer {
    * @return $this
    */
   public function loadSiteConfig() {
-    $this->processor->extend($this->loader->load("{$this->config->get('docroot')}/sites/{$this->site}/rd8.{$this->site}.yml"));
+    if ($this->site) {
+      $possible_configuration_files = [
+        // Load from build directory.
+        $this->config->get('rd8.dir') . DIRECTORY_SEPARATOR . "rd8.{$this->site}.yml",
+        $this->config->get('rd8.dir') . DIRECTORY_SEPARATOR . "rd8.{$this->site}.{$this->environment}.yml",
+      ];
+      $found_config_site = FALSE;
+      foreach ($possible_configuration_files as $path) {
+        if (file_exists($path)) {
+          $this->processor->extend($this->loader->load($path));
+          $found_config_site = TRUE;
+        }
+      }
+
+      if (!$found_config_site) {
+        $this->io()
+          ->warning("Not found a configuration for site \"{$this->site}\". Please use option \"--site=[SITE]\".");
+      }
+    }
     return $this;
   }
 
   /**
-   * Load environment configurations.
-   *
-   * TODO: how load environment settings?.
-   *
    * @return $this
    */
-  public function loadEnvironmentConfig() {
-
-    if (!$this->input->hasParameterOption('environment')) {
-      return $this;
+  public function determineEnvironment() {
+    // Support --environment=ci.
+    if ($this->input->hasParameterOption('--environment')) {
+      $environment = $this->input->getParameterOption('--environment');
+    }
+    // Support --define environment=ci.
+    elseif ($this->input->hasParameterOption('environment')) {
+      $environment = ltrim($this->input->getParameterOption('environment'), '=');
+    }
+    // Support RD8_ENV=ci.
+    elseif (getenv("RD8_ENV")) {
+      $environment = getenv("RD8_ENV");
+    }
+    else {
+      $environment = 'local';
     }
 
-    // Default environment configuration.
-    $environment = $this->input->hasParameterOption('environment');
-    $this->processor->extend($this->loader->load("{$this->config->get('project.root')}/rd8.{$this->site}.{$environment}.yml"));
+    $this->environment = $environment;
+    $this->config->set('environment', $environment);
 
-    // Custom environment configuration based to site.
-    $this->processor->extend($this->loader->load("{$this->config->get('docroot')}/sites/{$this->site}/rd8.{$this->site}.{$environment}.yml"));
     return $this;
   }
 
@@ -162,17 +191,20 @@ class ConfigInitializer {
   }
 
   /**
-   * Return the default site target.
+   * Return the site target.
    *
    * @return mixed|string
    */
-  protected function getDefaultSite() {
+  protected function determineSite() {
+    $site = 'default';
     if ($this->input->hasParameterOption('site')) {
       $site = $this->input->getParameterOption('site');
-      $this->output->writeln("<comment>Target Site: $site.</comment>");
     }
-    else {
-      $site = 'default';
+    elseif ($this->input->hasParameterOption('--site')) {
+      $site = $this->input->getParameterOption('--site');
+    }
+    elseif ($this->input->hasParameterOption('-s')) {
+      $site = ltrim($this->input->getParameterOption('-s'), '=');
     }
     return $site;
   }

@@ -21,12 +21,13 @@ class ComposerCommand extends RoboDrupal8Tasks {
    *
    * @return \Robo\Result
    */
-  public function install($options = ['dev' => FALSE, 'source' => FALSE]) {
+  public function install($options = ['dev' => TRUE, 'source' => FALSE]) {
+    $dev = $options['dev'] && $this->getConfigValue('composer.dev', TRUE);
     /** @var \Robo\Task\Composer\Install $task */
     $task = $this->taskComposerInstall()
       ->printOutput(TRUE)
       ->dir($this->getConfigValue('project.root'))
-      ->dev($options['dev']);
+      ->dev($dev);
     if ($options['source']) {
       $task->preferSource();
     }
@@ -44,12 +45,13 @@ class ComposerCommand extends RoboDrupal8Tasks {
    *
    * @return \Robo\Result
    */
-  public function update($options = ['dev' => FALSE, 'source' => FALSE]) {
+  public function update($options = ['dev' => NULL, 'source' => FALSE]) {
+    $dev = $options['dev'] && $this->getConfigValue('composer.dev', TRUE);
     /** @var \Robo\Task\Composer\Install $task */
     $task = $this->taskComposerInstall()
       ->printOutput(TRUE)
       ->dir($this->getConfigValue('project.root'))
-      ->dev($options['dev']);
+      ->dev($dev);
     if ($options['source']) {
       $task->preferSource();
     }
@@ -70,14 +72,13 @@ class ComposerCommand extends RoboDrupal8Tasks {
    * @throws \Exception
    */
   public function requirePackage($package_name, $package_version, $options = ['dev' => FALSE]) {
+    $dev = $options['dev'] && $this->getConfigValue('composer.dev', TRUE);
 
     /** @var \Robo\Task\Composer\RequireDependency $task */
     $task = $this->taskComposerRequire()
       ->printOutput(TRUE)
-      ->dir($this->getConfigValue('project.root'));
-    if ($options['dev']) {
-      $task->dev(TRUE);
-    }
+      ->dir($this->getConfigValue('project.root'))
+      ->dev($dev);
     if ($package_version) {
       $task->dependency($package_name, $package_version);
     }

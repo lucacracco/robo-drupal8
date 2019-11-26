@@ -80,12 +80,14 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
   /**
    * Validates that Drupal is installed.
    *
+   * TODO: complete.
+   *
    * @hook validate @validateDrupalIsInstalled
    */
   public function validateDrupalIsInstalled(CommandData $commandData) {
-    if (!$this->getInspector()->isDrupalInstalled()) {
-      throw new \Exception("Drupal is not installed");
-    }
+    //if (!$this->getInspector()->isDrupalInstalled()) {
+    //  throw new \Exception("Drupal is not installed");
+    //}
   }
 
   /**
@@ -121,7 +123,7 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
     if (!$this->getInspector()->isHashSaltPresent()) {
       throw new \Exception("salt.txt is not present. Please run `rd8 drupal:settings` to generate it.");
     }
-    if (!$this->getInspector()->isDrupalLocalSettingsFilePresent()) {
+    if (!$this->getInspector()->isDrupalSettingsFilePresent()) {
       throw new \Exception("Could not find settings.php for this site.");
     }
   }

@@ -95,7 +95,6 @@
     "merge-plugin": {
       "require": [
         "../robo-drupal8/composer.required.json",
-        "../robo-drupal8/composer.suggested.json"
       ],
       "include": [
         "../robo-drupal8/composer.overrides.json"

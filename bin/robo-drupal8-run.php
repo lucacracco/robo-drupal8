@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Execute RD8 commands via Robo.
+ * Execute RoboDrupal8 commands via Robo.
  */
 
 // Start Timer.

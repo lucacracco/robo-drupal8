@@ -18,7 +18,7 @@ class PhpCbfCommand extends RoboDrupal8Tasks {
     $this->say('Fixing and beautifying code...');
 
     $bin = $this->getConfigValue('composer.bin');
-    $dir = empty($directory) ? $this->getConfigValue('docroot') : $directory;
+    $dir = empty($directory) ? $this->getConfigValue('project.docroot') : $directory;
     $result = $this->taskExec("$bin/phpcbf")
       ->dir($dir)
       ->run();

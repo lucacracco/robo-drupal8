@@ -20,7 +20,7 @@ class PhpcsCommand extends RoboDrupal8Tasks {
    */
   public function sniffFileSets($directory = '') {
     $bin = $this->getConfigValue('composer.bin');
-    $dir = empty($directory) ? $this->getConfigValue('docroot') : $directory;
+    $dir = empty($directory) ? $this->getConfigValue('project.docroot') : $directory;
     $result = $this->taskExecStack()
       ->dir($dir)
       ->exec("$bin/phpcs")

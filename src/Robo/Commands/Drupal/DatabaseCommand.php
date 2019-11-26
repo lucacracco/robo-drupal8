@@ -15,6 +15,7 @@ class DatabaseCommand extends RoboDrupal8Tasks {
    * Drop tables.
    *
    * @command drupal:database:drop
+   * @hidden
    *
    * @interactConfirmCommand
    */
@@ -50,8 +51,6 @@ class DatabaseCommand extends RoboDrupal8Tasks {
   /**
    * Export database.
    *
-   * TODO: add gzip dump.
-   *
    * @option directory Where to save the dump file.
    *
    * @command drupal:database:export
@@ -60,7 +59,7 @@ class DatabaseCommand extends RoboDrupal8Tasks {
    * @validateDrupalIsInstalled
    */
   public function export($opts = ['directory' => NULL]) {
-    $path = !empty($opts['directory']) ? $opts['directory'] : $this->getConfigValue("drupal.database.dir_export");
+    $path = !empty($opts['directory']) ? $opts['directory'] : $this->getConfigValue("drupal.databases.backup_dir");
 
     if (empty($path) || !file_exists($path)) {
       throw new \InvalidArgumentException("Path \"$path\" where to save the dump is not found.");
@@ -71,7 +70,8 @@ class DatabaseCommand extends RoboDrupal8Tasks {
     $this->invokeCommand('drupal:cache:rebuild');
 
     $this->taskDrush()
-      ->drush("sql-dump")
+      ->drush('sql-dump')
+      ->option('gzip')
       ->option('result-file', $path)
       ->printOutput(TRUE)
       ->run();

@@ -61,14 +61,16 @@ class InteractHook extends RoboDrupal8Tasks {
   /**
    * Prompts user to confirm overwrite installation.
    *
+   * TODO: resume when isDrupalInstalled() work.
+   *
    * @hook interact @interactDrupalIsAlreadyInstalled
    */
   public function interactDrupalIsAlreadyInstalled(InputInterface $input, OutputInterface $output, AnnotationData $annotationData) {
-    if ($this->getInspector()->isDrupalInstalled()) {
-      if (!$this->confirm("Drupal is already installed. Continue?")) {
-        throw  new \Exception("Abort.");
-      }
-    }
+    //if ($this->getInspector()->isDrupalInstalled()) {
+    //  if (!$this->confirm("Drupal is already installed. Continue?")) {
+    //    throw  new \Exception("Abort.");
+    //  }
+    //}
   }
 
 }

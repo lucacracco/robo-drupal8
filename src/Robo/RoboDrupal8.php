@@ -177,7 +177,10 @@ class RoboDrupal8 implements ContainerAwareInterface, LoggerAwareInterface {
       new InputOption('--define', '-D', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Define a configuration item value.', [])
     );
     $app->getDefinition()->addOption(
-      new InputOption('--site', '-s', InputOption::VALUE_OPTIONAL, 'URI of the drupal site to use (only needed in multisite environments).', 'default')
+      new InputOption('--environment', '-e', InputOption::VALUE_REQUIRED, 'Set the environment to load config.', [])
+    );
+    $app->getDefinition()->addOption(
+      new InputOption('--site', '-s', InputOption::VALUE_REQUIRED, 'The multisite to execute this command against.', [])
     );
   }
 

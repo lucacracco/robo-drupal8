@@ -4,12 +4,10 @@ project:
   # Used for enforcing correct git commit msg syntax.
   prefix: 'test_project'
   human_name: 'RooDrupal8 Test Project'
+  docroot: ${project.root}/web
 
 # Override Composer.
 bin.path: vendor/bin
 composer:
   bin: ${project.root}/${bin.path}
   extra: ''
-
-# Override File and Directory locations.
-docroot: ${project.root}/web

@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @package Lucacracco\RoboDrupal8\Robo\Tasks
  */
-class DrushTask extends CommandStack {
+class Drush extends CommandStack {
 
   use CommandArguments {
     option as traitOption;
@@ -105,6 +105,8 @@ class DrushTask extends CommandStack {
    *   The drush command to execute. Do NOT include "drush" prefix.
    *
    * @return $this
+   *
+   * @throws \Robo\Exception\TaskException
    */
   public function drush($command) {
     // Clear out options associated with previous drush command.
@@ -379,6 +381,8 @@ class DrushTask extends CommandStack {
 
   /**
    * Adds drush commands with their corresponding options to stack.
+   *
+   * @throws \Robo\Exception\TaskException
    */
   protected function setupExecution() {
     $this->setOptionsForLastCommand();

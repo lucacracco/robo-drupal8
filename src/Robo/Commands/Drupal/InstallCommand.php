@@ -16,6 +16,7 @@ class InstallCommand extends RoboDrupal8Tasks {
    * Install scratch Drupal.
    *
    * @command drupal:install-scratch
+   * @hidden
    *
    * @interactDrupalIsAlreadyInstalled
    *
@@ -31,6 +32,7 @@ class InstallCommand extends RoboDrupal8Tasks {
    * Install from configuration.
    *
    * @command drupal:install-from-config
+   * @hidden
    *
    * @interactDrupalIsAlreadyInstalled
    *
@@ -46,6 +48,7 @@ class InstallCommand extends RoboDrupal8Tasks {
    * Install from configuration with config_installer.
    *
    * @command drupal:install-with-config-installer
+   * @hidden
    *
    * @interactDrupalIsAlreadyInstalled
    *
@@ -60,13 +63,13 @@ class InstallCommand extends RoboDrupal8Tasks {
   /**
    * Installs Drupal and imports configuration.
    *
-   * @return \Lucacracco\RoboDrupal8\Robo\Tasks\DrushTask
+   * @return \Lucacracco\RoboDrupal8\Robo\Tasks\Drush
    *
    * @throws \Exception
    */
   protected function installWithConfig() {
     $task = $this->install();
-    $config_directories = "../" . $this->getConfigValue("drupal.config_directories.sync");
+    $config_directories = "../" . $this->getConfigValue("drupal.site.directory.config");
     $task->option('config-dir', $config_directories);
     return $task;
   }
@@ -74,13 +77,13 @@ class InstallCommand extends RoboDrupal8Tasks {
   /**
    * Installs Drupal and imports configuration with config_installer.
    *
-   * @return \Lucacracco\RoboDrupal8\Robo\Tasks\DrushTask
+   * @return \Lucacracco\RoboDrupal8\Robo\Tasks\Drush
    *
    * @throws \Exception
    */
   protected function installWithConfigInstaller() {
     $task = $this->install('config_installer');
-    $config_directories_sync = $this->getConfigValue("drupal.config_directories.sync");
+    $config_directories_sync = $this->getConfigValue("drupal.site.directory.config");
     $config_directories_sync = "../" . $config_directories_sync;
     $task->rawArg('config_installer_sync_configure_form.sync_directory=' . $config_directories_sync);
     return $task;
@@ -89,7 +92,7 @@ class InstallCommand extends RoboDrupal8Tasks {
   /**
    * Get base install TaskCommand.
    *
-   * @return \Lucacracco\RoboDrupal8\Robo\Tasks\DrushTask
+   * @return \Lucacracco\RoboDrupal8\Robo\Tasks\Drush
    *
    * @throws \Exception
    */
@@ -107,19 +110,19 @@ class InstallCommand extends RoboDrupal8Tasks {
 
     $db_url = MySqlConnection::convertDatabaseFromDatabaseArray($database_config);
 
-    /** @var \Lucacracco\RoboDrupal8\Robo\Tasks\DrushTask $task */
+    /** @var \Lucacracco\RoboDrupal8\Robo\Tasks\Drush $task */
     $task = $this->taskDrush()
       ->drush("site-install")
       ->arg($profile)
       ->rawArg("install_configure_form.update_status_module='array(FALSE,FALSE)'")
       ->rawArg("install_configure_form.enable_update_status_module=NULL")
-      ->option('site-name', $this->getConfigValue('project.human_name'))
+      ->option('site-name', $this->getConfigValue('drupal.site.name'))
       ->option('site-mail', $this->getConfigValue('drupal.site.mail'))
       ->option('account-name', $username, '=')
       ->option('account-pass', $password, '=')
       ->option('account-mail', $mail)
       ->option('db-url', $db_url)
-      ->option('locale', $this->getConfigValue('drupal.locale'))
+      ->option('locale', $this->getConfigValue('drupal.site.locale'))
       ->printOutput(TRUE);
 
     return $task;

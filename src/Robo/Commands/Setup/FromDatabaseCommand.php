@@ -26,6 +26,7 @@ class FromDatabaseCommand extends RoboDrupal8Tasks {
     $this->invokeCommands([
       'composer:install',
       'drupal:filesystem:clear',
+      'drupal:filesystem:mkdirs',
       'drupal:install-scratch',
     ]);
     $this->invokeCommand('drupal:database:import', [$database_dump]);

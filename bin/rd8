@@ -1,9 +1,11 @@
 #!/usr/bin/env php
 <?php
-
 /**
- * @file This file is a simply shell wrapper for running RoboDrupal8 Robo commands.
+ * @file This file is a simply shell wrapper for running Robo commands.
+ *
+ * Having a wrapper permits other non-shell files to directly require
+ * robo-drupal8.php.
  */
 
-// Shell wrapper for RD8 robo app.
-require_once __DIR__ . '/rd8-robo.php';
+// Shell wrapper for RoboDrupal8 robo app.
+require_once __DIR__ . '/robo-drupal8.php';

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  */
@@ -7,11 +6,11 @@ $repo_root = find_repo_root();
 $autoload = require_once $repo_root . '/vendor/autoload.php';
 
 if (!isset($autoload)) {
-  print "Unable to find autoloader for RD8\n";
+  print "Unable to find autoloader for RoboDrupal8\n";
   exit(1);
 }
 
-require_once __DIR__ . '/rd8-robo-run.php';
+require_once __DIR__ . '/robo-drupal8-run.php';
 
 /**
  * Finds the root directory for the repository.
@@ -50,7 +49,7 @@ function find_repo_root() {
  *   file.
  */
 function find_directory_containing_files($working_directory, $files, $max_height = 10) {
-  // Find the root directory of the git repository containing RD8.
+  // Find the root directory of the git repository containing RoboDrupal8.
   // We traverse the file tree upwards $max_height times until we find
   // vendor/bin/rd8.
   $file_path = $working_directory;
@@ -62,7 +61,6 @@ function find_directory_containing_files($working_directory, $files, $max_height
       $file_path = realpath($file_path . '/..');
     }
   }
-
   return FALSE;
 }
 

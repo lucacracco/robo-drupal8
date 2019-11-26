@@ -13,6 +13,8 @@ use Robo\Contract\VerbosityThresholdInterface;
  */
 class SettingsCommand extends RoboDrupal8Tasks {
 
+  use \Lucacracco\RoboDrupal8\Robo\Tasks\LoadTasks;
+
   /**
    * Generate default settings files for Drupal and drush and generate salt.txt.
    *
@@ -29,85 +31,79 @@ class SettingsCommand extends RoboDrupal8Tasks {
    * Generates default settings files for Drupal.
    *
    * @command drupal:settings:generate
+   * @hidden
    */
   public function generateSiteConfigFiles() {
-
-    // Array of copy files.
-    $copy_map = [];
-    $sites_dir = $this->getConfigValue('docroot') . DIRECTORY_SEPARATOR . 'sites';
+    $sites_dir = $this->getConfigValue('project.docroot') . DIRECTORY_SEPARATOR . 'sites';
     $site_dir = $sites_dir . DIRECTORY_SEPARATOR . $this->getConfigValue('site');
 
-    // TODO: complete implementation for use twig engine.
-    //    // Load filesSystemStack.
-    //    $task_copy_files = $this->taskFilesystemStack()
-    //      ->stopOnFail()
-    //      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-    //      ->chmod($site_dir, 0777);
-    //
-    //    // Load
-    //    $task_create_files =  $this->collectionBuilder();
-    //
-    //    foreach(['default.settings', 'default.services', 'example.settings.local'] as $template){
-    //
-    //      if(!$this->getConfigValueIfNotEmpty($template, FALSE)){
-    //
-    //        // Template not defined, use the default tempalte.
-    //        $to = "";
-    //        if (file_exists($to)) {
-    //          $task_copy_files->remove($to);
-    //        }
-    //        $from = $site_dir . DIRECTORY_SEPARATOR . "{$template}.php";
-    //        $task_copy_files->copy($from, $to);
-    //        continue;
-    //      }
-    //
-    //      $template_file = $this->getConfigValueIfNotEmpty($template);
-    //      $templates_folder = $template_file;
-    //      $template_name = $template_file;
-    //      $twig_loader = new \Twig_Loader_Filesystem($templates_folder);
-    //      $twig = new \Twig_Environment($twig_loader);
-    //      $file_rendered = $twig->render($template_name, $this->getConfig()->export());
-    //      $task_create_files->taskWriteToFile($template_file)
-    //        ->text($file_rendered);
-    //    }
-
-    // TODO: remove after implementation use of twig engine.
-
-    // Generate settings.php.
-    $settings_template_default = $site_dir . DIRECTORY_SEPARATOR . 'default.settings.php';
-    $settings_template = $this->getConfigValueIfNotEmpty('drupal.settings_file', $settings_template_default);
-    $copy_map[$settings_template] = $site_dir . DIRECTORY_SEPARATOR . 'settings.php';
-
-    // Generate local.settings.php.
-    $local_settings_template_default = $sites_dir . DIRECTORY_SEPARATOR . 'example.settings.local.php';
-    $local_settings_template = $this->getConfigValueIfNotEmpty('drupal.local_settings_file', $local_settings_template_default);
-    $copy_map[$local_settings_template] = $site_dir . DIRECTORY_SEPARATOR . 'local.settings.php';
-
-    // Generate services.yml.
-    $services_template_default = $site_dir . DIRECTORY_SEPARATOR . 'default.services.yml';
-    $services_template = $this->getConfigValueIfNotEmpty('drupal.services_file', $services_template_default);
-    $copy_map[$services_template] = $site_dir . DIRECTORY_SEPARATOR . 'services.yml';
-
-    // Generate local.drushrc.php.
-    //$local_drush_file = $this->getConfigValue('drupal.local_drushrc', NULL);
-    //$copy_map[$local_drush_file] = $site_dir . DIRECTORY_SEPARATOR . 'local.drushrc.php';
-
-    $task_copy_files = $this->taskFilesystemStack()
+    // Set permission of directory parents.
+    $task_filesystem = $this->taskFilesystemStack()
       ->stopOnFail()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->chmod($site_dir, 0777);
+      ->chmod($site_dir, 0777, 0000, TRUE);
 
-    // Copy files without overwriting.
-    foreach ($copy_map as $from => $to) {
-      if (!empty($from) && !file_exists($to)) {
-        $task_copy_files->copy($from, $to);
+    // Create task for manage twig files.
+    $task_twig = $this->taskTwigRd8()
+      ->setContext($this->getConfig()->export());
+
+    // Required files.
+    $templates = [
+      'drupal.template_files.services' => $site_dir . DIRECTORY_SEPARATOR . 'services.yml',
+      'drupal.template_files.settings' => $site_dir . DIRECTORY_SEPARATOR . 'settings.php',
+    ];
+    foreach ($templates as $conf_name => $destination) {
+      // Remove old file.
+      if (file_exists($destination)) {
+        $task_filesystem->remove($destination);
       }
+
+      // Load template to use and add in queue for task.
+      $template_file = $this->getConfigValueIfNotEmpty($conf_name, NULL);
+      if (empty($template_file) || !file_exists($template_file)) {
+        throw new \Exception("Template for \"$template_file\" not found");
+      }
+
+      $task_twig
+        ->addTemplatesDirectory(dirname($template_file))
+        ->applyTemplate(basename($template_file), $destination);
     }
-    $task_copy_files_result = $task_copy_files->run();
-    if (!$task_copy_files_result->wasSuccessful()) {
-      throw new \Exception("Unable to copy files settings files: " . $task_copy_files_result->getMessage());
+
+    // Optional files.
+    $templates = [
+      'drupal.template_files.settings_local' => $site_dir . DIRECTORY_SEPARATOR . 'settings.local.php',
+      'drupal.template_files.development_services' => $sites_dir . DIRECTORY_SEPARATOR . 'development.yml',
+      'drupal.template_files.sites' => $sites_dir . DIRECTORY_SEPARATOR . 'sites.php',
+    ];
+    foreach ($templates as $conf_name => $destination) {
+      // Remove old file.
+      if (file_exists($destination)) {
+        $task_filesystem->remove($destination);
+      }
+
+      // Load template to use and add in queue for task.
+      $template_file = $this->getConfigValueIfNotEmpty($conf_name, NULL);
+      if (empty($template_file) || !file_exists($template_file)) {
+        continue;
+      }
+
+      $task_twig
+        ->addTemplatesDirectory(dirname($template_file))
+        ->applyTemplate(basename($template_file), $destination);
     }
-    $this->say("Files copied.");
+
+    // Remove files.
+    $task_filesystem_result = $task_filesystem->run();
+    if (!$task_filesystem_result->wasSuccessful()) {
+      throw new \Exception("Unable to delete files settings: " . $task_filesystem_result->getMessage());
+    }
+
+    // Print files template.
+    $task_twig_result = $task_twig->run();
+    if (!$task_twig_result->wasSuccessful()) {
+      throw new \Exception("Unable to generate files settings: " . $task_twig_result->getMessage());
+    }
+    $this->say("Files generate and copied.");
 
     // Set permission to settings.php.
     $task_permission_files = $this->taskFilesystemStack()
@@ -125,6 +121,7 @@ class SettingsCommand extends RoboDrupal8Tasks {
    * Writes a hash salt to ${project.root}/salt.txt if one does not exist.
    *
    * @command drupal:settings:hash-salt
+   * @hidden
    *
    * @return int
    *   A CLI exit code.
@@ -132,7 +129,8 @@ class SettingsCommand extends RoboDrupal8Tasks {
    * @throws \Exception
    */
   public function hashSalt() {
-    $hash_salt_file = $this->getConfigValue('project.root') . '/salt.txt';
+    $dir_private = $this->getConfigValue('drupal.site.directory.private');
+    $hash_salt_file = $dir_private . DIRECTORY_SEPARATOR . 'salt.txt';
     if (!file_exists($hash_salt_file)) {
       $this->say("Generating hash salt...");
       $result = $this->taskWriteToFile($hash_salt_file)

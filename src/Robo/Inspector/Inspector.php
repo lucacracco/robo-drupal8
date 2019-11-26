@@ -123,7 +123,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if file exists.
    */
   public function isDocrootPresent() {
-    return file_exists($this->getConfigValue('docroot'));
+    return file_exists($this->getConfigValue('project.docroot'));
   }
 
   /**
@@ -133,7 +133,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if directory exists.
    */
   public function isDatabaseExportPresent() {
-    return file_exists($this->getConfigValue('drupal.database.dir_export'));
+    return file_exists($this->getConfigValue('drupal.databases.backup_dir'));
   }
 
   /**
@@ -143,7 +143,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if file exists.
    */
   public function isConfigurationDirectorySyncPresent() {
-    return file_exists($this->getConfigValue('drupal.config_directories.sync'));
+    return file_exists($this->getConfigValue('drupal.site.directory.config'));
   }
 
   /**
@@ -153,7 +153,9 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if file exists.
    */
   public function isDrupalSettingsFilePresent() {
-    return file_exists($this->getConfigValue('drupal.settings_file'));
+    $sites_dir = $this->getConfigValue('project.docroot') . DIRECTORY_SEPARATOR . 'sites';
+    $site_dir = $sites_dir . DIRECTORY_SEPARATOR . $this->getConfigValue('site');
+    return file_exists($site_dir . DIRECTORY_SEPARATOR . 'services.yml');
   }
 
   /**
@@ -163,17 +165,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if file exists.
    */
   public function isHashSaltPresent() {
-    return file_exists($this->getConfigValue('project.root') . '/salt.txt');
-  }
-
-  /**
-   * Determines if Drupal local.settings.php file exists.
-   *
-   * @return bool
-   *   TRUE if file exists.
-   */
-  public function isDrupalLocalSettingsFilePresent() {
-    return file_exists($this->getConfigValue('drupal.local_settings_file'));
+    return file_exists($this->getConfigValue('drupal.site.directory.private') . DIRECTORY_SEPARATOR . 'salt.txt');
   }
 
   /**
@@ -181,17 +173,18 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *
    * This method caches its result in $this->drupalIsInstalled.
    *
+   * TODO: complete. Reload variable when install a new site.
+   *
    * @return bool
    *   TRUE if Drupal is installed.
    */
   public function isDrupalInstalled() {
     // This will only run once per command. If Drupal is installed mid-command,
     // this value needs to be changed.
-    if (is_null($this->isDrupalInstalled)) {
-      $this->isDrupalInstalled = $this->getDrupalInstalled();
-    }
-
-    return $this->isDrupalInstalled;
+    //if (is_null($this->isDrupalInstalled)) {
+    //  $this->isDrupalInstalled = $this->getDrupalInstalled();
+    //}
+    //return $this->isDrupalInstalled;
   }
 
   /**
@@ -361,7 +354,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
 
   /**
    * Determines if Drupal is installed.
-   *${drupal.site.machine_name}
+   *
    * This method does not cache its result.
    *
    * @return bool
@@ -369,11 +362,10 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    */
   protected function getDrupalInstalled() {
     $this->logger->debug("Verifying that Drupal is installed...");
-
-    // TODO: convert to use drush.
-    $result = $this->executor->execute("drush sqlq \"SHOW TABLES LIKE 'config'\"")
+    $result = $this->executor->drush("sqlq \"SHOW TABLES LIKE 'config'\"")
       ->run();
     $output = trim($result->getMessage());
+    print_r("{$result->getMessage()}\n\n");
     $installed = $result->wasSuccessful() && $output == 'config';
 
     return $installed;

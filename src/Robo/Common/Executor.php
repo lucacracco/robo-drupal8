@@ -94,7 +94,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
 
     $process_executor = Robo::process(new Process($command_string));
 
-    return $process_executor->dir($this->getConfigValue('docroot'))
+    return $process_executor->dir($this->getConfigValue('project.docroot'))
       ->interactive(FALSE)
       ->printOutput(TRUE)
       ->printMetadata(TRUE)

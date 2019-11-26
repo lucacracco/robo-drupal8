@@ -35,9 +35,6 @@ class UpdateCommand extends RoboDrupal8Tasks {
   public function updateDatabase($opts = ['entity-updates' => FALSE]) {
     $task = $this->taskDrush()
       ->drush('updatedb');
-    if ($opts['entity-updates']) {
-      $task->option('entity-updates');
-    }
     $task
       ->printOutput(TRUE)
       ->run();
@@ -46,15 +43,17 @@ class UpdateCommand extends RoboDrupal8Tasks {
   /**
    * Drupal update entities command.
    *
+   * TODO: only if drupal version < 8.7.
+   *
    * @command drupal:update:entities
    *
    * @validateDrupalIsInstalled
    */
   public function entityUpdate() {
-    $this->taskDrush()
-      ->drush('entity-updates')
-      ->printOutput(TRUE)
-      ->run();
+    //$this->taskDrush()
+    //  ->drush('entity-updates')
+    //  ->printOutput(TRUE)
+    //  ->run();
   }
 
 }
