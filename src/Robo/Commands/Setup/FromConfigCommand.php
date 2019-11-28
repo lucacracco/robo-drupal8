@@ -25,7 +25,7 @@ class FromConfigCommand extends RoboDrupal8Tasks {
       'composer:install',
       'drupal:filesystem:clear',
       'drupal:filesystem:mkdirs',
-      'drupal:install-with-config-installer',
+      'drupal:install-from-config',
       'drupal:update',
       'drupal:filesystem:protect-site',
       'drupal:core-cron',

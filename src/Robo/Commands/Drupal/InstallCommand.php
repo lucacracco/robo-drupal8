@@ -45,22 +45,6 @@ class InstallCommand extends RoboDrupal8Tasks {
   }
 
   /**
-   * Install from configuration with config_installer.
-   *
-   * @command drupal:install-with-config-installer
-   * @hidden
-   *
-   * @interactDrupalIsAlreadyInstalled
-   *
-   * @validateDocrootIsPresent
-   * @validateDrupalConfigurationDirectorySync
-   */
-  public function drupalInstallWithConfigInstaller() {
-    $this->installWithConfigInstaller()->detectInteractive()->run();
-    $this->getInspector()->clearState();
-  }
-
-  /**
    * Installs Drupal and imports configuration.
    *
    * @return \Lucacracco\RoboDrupal8\Robo\Tasks\Drush
@@ -69,23 +53,8 @@ class InstallCommand extends RoboDrupal8Tasks {
    */
   protected function installWithConfig() {
     $task = $this->install();
-    $config_directories = "../" . $this->getConfigValue("drupal.site.directory.config");
+    $config_directories = $this->getConfigValue("drupal.site.directory.config");
     $task->option('config-dir', $config_directories);
-    return $task;
-  }
-
-  /**
-   * Installs Drupal and imports configuration with config_installer.
-   *
-   * @return \Lucacracco\RoboDrupal8\Robo\Tasks\Drush
-   *
-   * @throws \Exception
-   */
-  protected function installWithConfigInstaller() {
-    $task = $this->install('config_installer');
-    $config_directories_sync = $this->getConfigValue("drupal.site.directory.config");
-    $config_directories_sync = "../" . $config_directories_sync;
-    $task->rawArg('config_installer_sync_configure_form.sync_directory=' . $config_directories_sync);
     return $task;
   }
 
@@ -114,8 +83,8 @@ class InstallCommand extends RoboDrupal8Tasks {
     $task = $this->taskDrush()
       ->drush("site-install")
       ->arg($profile)
-      ->rawArg("install_configure_form.update_status_module='array(FALSE,FALSE)'")
-      ->rawArg("install_configure_form.enable_update_status_module=NULL")
+      //->rawArg("install_configure_form.update_status_module='array(FALSE,FALSE)'")
+      //->rawArg("install_configure_form.enable_update_status_module=NULL")
       ->option('site-name', $this->getConfigValue('drupal.site.name'))
       ->option('site-mail', $this->getConfigValue('drupal.site.mail'))
       ->option('account-name', $username, '=')
