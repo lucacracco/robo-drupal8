@@ -92,9 +92,6 @@ class DefaultConfig extends RoboDrupal8Config {
     'drupal.template_files.dir' => NULL,
     'drupal.template_files.settings' => '${project.docroot}/sites/${site}/default.settings.php.twig',
     'drupal.template_files.services' => '${project.docroot}/sites/${site}/default.services.yml.twig',
-    'drupal.template_files.settings_local' => '${project.docroot}/sites/example.settings.local.php.twig',
-    'drupal.template_files.development_services' => '${project.docroot}/sites/development.services.yml.twig',
-    'drupal.template_files.sites' => '${project.docroot}/sites/example.sites.php.twig',
     // PHPCs.
     'phpcs.bin' => '',
     'phpcs.standard' => 'Drupal,DrupalPractice',

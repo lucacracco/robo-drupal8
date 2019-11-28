@@ -69,29 +69,6 @@ class SettingsCommand extends RoboDrupal8Tasks {
         ->applyTemplate(basename($template_file), $destination);
     }
 
-    // Optional files.
-    $templates = [
-      'drupal.template_files.settings_local' => $site_dir . DIRECTORY_SEPARATOR . 'settings.local.php',
-      'drupal.template_files.development_services' => $sites_dir . DIRECTORY_SEPARATOR . 'development.yml',
-      'drupal.template_files.sites' => $sites_dir . DIRECTORY_SEPARATOR . 'sites.php',
-    ];
-    foreach ($templates as $conf_name => $destination) {
-      // Remove old file.
-      if (file_exists($destination)) {
-        $task_filesystem->remove($destination);
-      }
-
-      // Load template to use and add in queue for task.
-      $template_file = $this->getConfigValueIfNotEmpty($conf_name, NULL);
-      if (empty($template_file) || !file_exists($template_file)) {
-        continue;
-      }
-
-      $task_twig
-        ->addTemplatesDirectory(dirname($template_file))
-        ->applyTemplate(basename($template_file), $destination);
-    }
-
     // Remove files.
     $task_filesystem_result = $task_filesystem->run();
     if (!$task_filesystem_result->wasSuccessful()) {
